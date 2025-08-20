@@ -32,5 +32,49 @@ Guilherme Passos de Borba
 4) Eu como usuario criador de uma sala, gostaria de poder cadastrar uma chave PIX na sala.
 5) Eu como usuario criador de uma sala, gostaria de atualizar os status de pagamento na lista de todos os participantes da sala.
 
+##
+
+```mermaid
+---
+title: Diagrama de Entidades
+---
+classDiagram
+    User "*" --> "*" SoccerMatch
+    namespace entity {
+      class User{
+          -id : Long
+          -nome : String
+          -telefone : String
+          -email : String
+
+          +getId():long
+          +setId(id:long):void
+          +getNome():String
+          +setNome(nome:String):void
+          +getTelefone():String
+          +setTelefone(telefone:String):void
+          +getEmail():String
+          +setEmail(email:String):void
+      }
+      class SoccerMatch{
+          -id : Long
+          -matchId : Long
+          -paymentKey : String
+          -admin : User
+          -players : List<String>
+
+          +getId():Long
+          +setId(id:Long):void
+          +getMatchId():String
+          +setMatchId(matchId:String):void
+          +getPaymentKey():String
+          +setPaymentKey(paymentKey:String):void
+          +getAdmin():String
+          +setAdmin(admin:String):void
+          +getPlayers():String
+          +setPlayers(players:String):void
+
+      }
+    }
    
 
