@@ -17,7 +17,7 @@ Guilherme Passos de Borba
 - JDK - Java Devlopment Kit
     - Ambiente de desenvolvimento (javac.exe - compilador)
 
-- Compilação
+- Compilaçãot
   1) Escreve um programa em java (arquivo.java)
   2) Compilação -> arquivo.java -> javac.exe -> bytecode ou arquivo.class)
 - Execução
