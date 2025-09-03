@@ -1,4 +1,4 @@
-package br.univille.pagfut.model;
+package br.univille.pagfut.domain;
 
 public class SoccerPlayer {
     private String username;

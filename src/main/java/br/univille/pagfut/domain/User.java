@@ -1,4 +1,4 @@
-package br.univille.pagfut.model;
+package br.univille.pagfut.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
