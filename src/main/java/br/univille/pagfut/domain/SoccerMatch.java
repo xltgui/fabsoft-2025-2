@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 @Entity
 @Data
@@ -21,8 +22,10 @@ public class SoccerMatch {
     private LocalTime endTime;
 
 
-    private Long matchCode;
+    private String matchCode;
     private String paymentKey;
-    private User admin;
-    //private List<SoccerPlayer> users;
+
+    @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MatchAssignment> assignments = new ArrayList<>();
+
 }

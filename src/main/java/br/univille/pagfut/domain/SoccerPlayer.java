@@ -1,6 +1,4 @@
 package br.univille.pagfut.domain;
 
-public class SoccerPlayer {
-    private String username;
-    private Boolean paid;
+public record SoccerPlayer (String username, Boolean paid) {
 }
