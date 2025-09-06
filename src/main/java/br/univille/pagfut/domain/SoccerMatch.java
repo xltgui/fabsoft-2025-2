@@ -21,11 +21,17 @@ public class SoccerMatch {
 
     private LocalTime endTime;
 
-
     private String matchCode;
     private String paymentKey;
 
-    @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<MatchAssignment> assignments = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private SoccerPlace place;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id")
+    private UserEntity admin;
+
+    @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SoccerPlayer> soccerPlayers = new ArrayList<>();
 
 }

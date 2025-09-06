@@ -1,17 +1,20 @@
 package br.univille.pagfut.api;
 
+
 import br.univille.pagfut.domain.SoccerPlace;
-import jakarta.validation.constraints.NotNull;
+import br.univille.pagfut.domain.SoccerPlayer;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
-public record MatchCreationRequest(
-        @NotNull(message = "Date is required.")
+public record MatchResponse(
+        Long id,
         LocalDate date,
-        @NotNull(message = "Time is required.")
         LocalTime startTime,
         LocalTime endTime,
-        SoccerPlace place
+        SoccerPlace place,
+        String matchCode,
+        List<SoccerPlayerResponse> soccerPlayers
 ) {
 }

@@ -1,28 +1,28 @@
 package br.univille.pagfut.domain;
 
 import br.univille.pagfut.api.MatchCreationRequest;
-import br.univille.pagfut.repository.MatchAssignmentRepository;
 import br.univille.pagfut.repository.SoccerMatchRepository;
+import br.univille.pagfut.repository.SoccerPlayerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
 public class MatchService {
-    private final MatchAssignmentRepository matchAssignmentRepository;
     private final SoccerMatchRepository soccerMatchRepository;
+    private final SoccerPlayerRepository soccerPlayerRepository;
 
-    public void create(MatchCreationRequest request){
-        SoccerMatch soccerMatch = new SoccerMatch();
+    public SoccerMatch create(SoccerMatch match){
+        match.setMatchCode(generateMatchCode(6));
+        match.getSoccerPlayers().add(new SoccerPlayer());
+        return soccerMatchRepository.save(match);
+    }
 
-        soccerMatch.setDate(request.date());
-        soccerMatch.setStartTime(request.startTime());
-        soccerMatch.setEndTime(request.endTime());
-
-        soccerMatch.setMatchCode(generateMatchCode(6));
-
+    public List<SoccerMatch> listAll(){
+        return soccerMatchRepository.findAll();
     }
 
     public String generateMatchCode(int length){
