@@ -5,7 +5,6 @@ import java.util.Set;
 public record UserResponse(
         Long id,
         String username,
-        String password,
-        Set<String> roles
+        String password
 ) {
 }

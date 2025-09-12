@@ -3,7 +3,11 @@ package br.univille.pagfut.domain;
 import br.univille.pagfut.api.MatchCreationRequest;
 import br.univille.pagfut.repository.SoccerMatchRepository;
 import br.univille.pagfut.repository.SoccerPlayerRepository;
+import br.univille.pagfut.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +18,22 @@ import java.util.Random;
 public class MatchService {
     private final SoccerMatchRepository soccerMatchRepository;
     private final SoccerPlayerRepository soccerPlayerRepository;
+    private final UserRepository userRepository;
 
     public SoccerMatch create(SoccerMatch match){
         match.setMatchCode(generateMatchCode(6));
-        match.getSoccerPlayers().add(new SoccerPlayer());
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        UserEntity admin = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found for this email"));
+
+        SoccerPlayer adminPlayer = new SoccerPlayer();
+        adminPlayer.setUserEntity(admin);
+        adminPlayer.setMatch(match);
+        adminPlayer.setPaid(false);
+
+        match.getSoccerPlayers().add(adminPlayer);
         return soccerMatchRepository.save(match);
     }
 

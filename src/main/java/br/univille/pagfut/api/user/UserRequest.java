@@ -8,8 +8,6 @@ public record   UserRequest(
         @NotBlank
         String username,
         @NotBlank
-        String password,
-        @NotBlank
-        Set<String> roles
+        String password
 ) {
 }
