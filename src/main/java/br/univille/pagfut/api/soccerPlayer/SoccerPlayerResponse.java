@@ -1,4 +1,4 @@
-package br.univille.pagfut.api;
+package br.univille.pagfut.api.soccerPlayer;
 
 public record SoccerPlayerResponse(
         String username,

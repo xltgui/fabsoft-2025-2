@@ -1,5 +1,6 @@
 package br.univille.pagfut.domain;
 
+import br.univille.pagfut.domain.user.UserEntity;
 import br.univille.pagfut.domain.user.UserService;
 import br.univille.pagfut.repository.SoccerMatchRepository;
 import br.univille.pagfut.repository.SoccerPlayerRepository;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 
@@ -87,6 +89,13 @@ public class MatchService {
     private boolean isPlayerAlreadyJoined(SoccerMatch match) {
         return match.getSoccerPlayers().stream()
                 .anyMatch(player -> player.getUserEntity().equals(userService.getLoggedUser()));
+    }
+
+    public String generateBrCode(String pixKey, BigDecimal amount, String matchCode) {
+        SoccerMatch match = soccerMatchRepository.findByMatchCode(matchCode)
+                .orElseThrow(() -> new UsernameNotFoundException("Match not found with this code!"));
+
+        return null;
     }
 
 

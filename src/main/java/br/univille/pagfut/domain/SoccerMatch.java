@@ -1,5 +1,6 @@
 package br.univille.pagfut.domain;
 
+import br.univille.pagfut.domain.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 

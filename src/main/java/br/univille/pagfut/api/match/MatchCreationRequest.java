@@ -1,4 +1,4 @@
-package br.univille.pagfut.api;
+package br.univille.pagfut.api.match;
 
 import br.univille.pagfut.domain.SoccerPlace;
 import jakarta.validation.constraints.NotNull;

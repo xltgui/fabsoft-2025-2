@@ -1,8 +1,8 @@
 package br.univille.pagfut.web;
 
-import br.univille.pagfut.api.MatchCreationRequest;
-import br.univille.pagfut.api.MatchResponse;
-import br.univille.pagfut.api.SoccerPlayerResponse;
+import br.univille.pagfut.api.match.MatchCreationRequest;
+import br.univille.pagfut.api.match.MatchResponse;
+import br.univille.pagfut.api.soccerPlayer.SoccerPlayerResponse;
 import br.univille.pagfut.domain.SoccerMatch;
 import br.univille.pagfut.domain.SoccerPlayer;
 import org.mapstruct.Mapper;

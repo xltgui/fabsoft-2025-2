@@ -1,8 +1,7 @@
 package br.univille.pagfut.web;
 
-import br.univille.pagfut.api.MatchCreationRequest;
+import br.univille.pagfut.api.match.MatchCreationRequest;
 import br.univille.pagfut.domain.MatchService;
-import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

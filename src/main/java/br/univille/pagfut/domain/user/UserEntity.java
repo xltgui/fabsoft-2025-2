@@ -1,9 +1,7 @@
-package br.univille.pagfut.domain;
+package br.univille.pagfut.domain.user;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "users")

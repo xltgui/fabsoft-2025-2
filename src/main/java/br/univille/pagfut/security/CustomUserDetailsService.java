@@ -1,6 +1,6 @@
 package br.univille.pagfut.security;
 
-import br.univille.pagfut.domain.UserEntity;
+import br.univille.pagfut.domain.user.UserEntity;
 import br.univille.pagfut.domain.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
