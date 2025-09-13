@@ -17,7 +17,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         UserEntity userEntity = service.findByUsername(username);
 
-        System.out.println("UserEntity: " + userEntity);
         if (userEntity == null) {
             throw new UsernameNotFoundException("Usuário não encontrado: " + username);
         }

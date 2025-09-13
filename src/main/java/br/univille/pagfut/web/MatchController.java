@@ -19,7 +19,6 @@ public class MatchController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody MatchCreationRequest request) {
-        System.out.println("PLACE=" + request.place());
         var response = mapper.toDto(matchService.create(mapper.toEntity(request)));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -27,6 +26,24 @@ public class MatchController {
     @GetMapping
     public ResponseEntity<List<?>> list() {
         return ResponseEntity.ok(mapper.toDtoList(matchService.listAll()));
+    }
+
+    @GetMapping("/join")
+    public ResponseEntity<?> joinMatch(@RequestParam String matchCode) {
+        matchService.joinMatch(matchCode);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/leave/{matchCode}")
+    public ResponseEntity<?> leaveMatch(@PathVariable String matchCode) {
+        matchService.leaveMatch(matchCode);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/updatePayment/{matchCode}/{playerId}")
+    public ResponseEntity<?> updatePayment(@PathVariable String matchCode, @PathVariable Long playerId) {
+        matchService.updatePayment(matchCode, playerId);
+        return ResponseEntity.ok().build();
     }
 
 }

@@ -1,12 +1,10 @@
 package br.univille.pagfut.domain;
 
-import br.univille.pagfut.api.MatchCreationRequest;
+import br.univille.pagfut.domain.user.UserService;
 import br.univille.pagfut.repository.SoccerMatchRepository;
 import br.univille.pagfut.repository.SoccerPlayerRepository;
 import br.univille.pagfut.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +18,14 @@ public class MatchService {
     private final SoccerPlayerRepository soccerPlayerRepository;
     private final UserRepository userRepository;
 
+    private final UserService userService;
+
     public SoccerMatch create(SoccerMatch match){
         match.setMatchCode(generateMatchCode(6));
 
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserEntity admin = userService.getLoggedUser();
 
-        UserEntity admin = userRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found for this email"));
+        match.setAdmin(admin);
 
         SoccerPlayer adminPlayer = new SoccerPlayer();
         adminPlayer.setUserEntity(admin);
@@ -41,6 +40,56 @@ public class MatchService {
         return soccerMatchRepository.findAll();
     }
 
+
+    public void joinMatch(String matchCode) {
+        SoccerMatch match = soccerMatchRepository.findByMatchCode(matchCode)
+                .orElseThrow(() -> new UsernameNotFoundException("Match not found with this code!"));
+
+
+        if(isPlayerAlreadyJoined(match)){
+            throw new RuntimeException("You are already in this match");
+        }
+
+        SoccerPlayer soccerPlayer = new SoccerPlayer();
+
+        soccerPlayer.setUserEntity(userService.getLoggedUser());
+        soccerPlayer.setMatch(match);
+        soccerPlayer.setPaid(false);
+        match.getSoccerPlayers().add(soccerPlayer);
+        soccerMatchRepository.save(match);
+    }
+
+    public void leaveMatch(String matchCode) {
+        SoccerMatch match = soccerMatchRepository.findByMatchCode(matchCode)
+                .orElseThrow(() -> new UsernameNotFoundException("Match not found with this code!"));
+
+         SoccerPlayer playerToRemove = match.getSoccerPlayers().stream()
+                         .filter(p -> p.getUserEntity().equals(userService.getLoggedUser()))
+                                 .findFirst()
+                                         .orElseThrow(() -> new UsernameNotFoundException("You are not in this match"));
+
+        match.getSoccerPlayers().remove(playerToRemove);
+        soccerMatchRepository.save(match);
+    }
+
+    public void updatePayment(String matchCode, Long playerId){
+        SoccerMatch match = soccerMatchRepository.findByMatchCode(matchCode)
+                .orElseThrow(() -> new UsernameNotFoundException("Match not found with this code!"));
+
+        match.getSoccerPlayers().stream()
+                .filter(p -> p.getUserEntity().getId().equals(playerId))
+                .findFirst()
+                .ifPresent(p -> p.setPaid(true));
+
+        soccerMatchRepository.save(match);
+    }
+
+    private boolean isPlayerAlreadyJoined(SoccerMatch match) {
+        return match.getSoccerPlayers().stream()
+                .anyMatch(player -> player.getUserEntity().equals(userService.getLoggedUser()));
+    }
+
+
     public String generateMatchCode(int length){
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Random random = new Random();
@@ -52,7 +101,6 @@ public class MatchService {
             code.append(chars.charAt(index));
         }
 
-        System.out.println("CODE=" + code);
         return code.toString();
     }
 }
