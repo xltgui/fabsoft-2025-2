@@ -1,6 +1,7 @@
 package br.univille.pagfut.web;
 
 import br.univille.pagfut.api.match.MatchCreationRequest;
+import br.univille.pagfut.api.pix.PixPaymentRequest;
 import br.univille.pagfut.domain.MatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,5 +45,12 @@ public class MatchController {
         matchService.updatePayment(matchCode, playerId);
         return ResponseEntity.ok().build();
     }
+
+
+    @PostMapping("/generateQrCdode/{matchCode}")
+    public ResponseEntity<?> generateQrCode(@PathVariable String matchCode, @RequestBody PixPaymentRequest request) {
+        matchService.generateBrCode()
+    }
+
 
 }
