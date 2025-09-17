@@ -1,14 +1,17 @@
 package br.univille.pagfut.domain;
 
+import br.univille.pagfut.api.pix.PixPaymentRequest;
 import br.univille.pagfut.domain.user.UserEntity;
 import br.univille.pagfut.domain.user.UserService;
 import br.univille.pagfut.repository.SoccerMatchRepository;
 import br.univille.pagfut.repository.SoccerPlayerRepository;
 import br.univille.pagfut.repository.UserRepository;
+import com.google.zxing.WriterException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
@@ -20,6 +23,7 @@ public class MatchService {
     private final SoccerPlayerRepository soccerPlayerRepository;
     private final UserRepository userRepository;
 
+    private final PixQrCodeService qrCodeService;
     private final UserService userService;
 
     public SoccerMatch create(SoccerMatch match){
@@ -44,8 +48,7 @@ public class MatchService {
 
 
     public void joinMatch(String matchCode) {
-        SoccerMatch match = soccerMatchRepository.findByMatchCode(matchCode)
-                .orElseThrow(() -> new UsernameNotFoundException("Match not found with this code!"));
+        SoccerMatch match = findMatch(matchCode);
 
 
         if(isPlayerAlreadyJoined(match)){
@@ -62,8 +65,7 @@ public class MatchService {
     }
 
     public void leaveMatch(String matchCode) {
-        SoccerMatch match = soccerMatchRepository.findByMatchCode(matchCode)
-                .orElseThrow(() -> new UsernameNotFoundException("Match not found with this code!"));
+        SoccerMatch match = findMatch(matchCode);
 
          SoccerPlayer playerToRemove = match.getSoccerPlayers().stream()
                          .filter(p -> p.getUserEntity().equals(userService.getLoggedUser()))
@@ -75,8 +77,7 @@ public class MatchService {
     }
 
     public void updatePayment(String matchCode, Long playerId){
-        SoccerMatch match = soccerMatchRepository.findByMatchCode(matchCode)
-                .orElseThrow(() -> new UsernameNotFoundException("Match not found with this code!"));
+        SoccerMatch match = findMatch(matchCode);
 
         match.getSoccerPlayers().stream()
                 .filter(p -> p.getUserEntity().getId().equals(playerId))
@@ -98,6 +99,14 @@ public class MatchService {
         return null;
     }
 
+    public String setMatchQrCode(PixPaymentRequest request, String matchCode) throws WriterException, IOException {
+        SoccerMatch match = findMatch(matchCode);
+        String brCode = qrCodeService.generatePixQrCode(request);
+        match.setBrCode(brCode);
+        soccerMatchRepository.save(match);
+        return qrCodeService.generatePixQrCode(request);
+    }
+
 
     public String generateMatchCode(int length){
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -111,5 +120,10 @@ public class MatchService {
         }
 
         return code.toString();
+    }
+
+    public SoccerMatch findMatch(String matchCode){
+        return soccerMatchRepository.findByMatchCode(matchCode)
+                .orElseThrow(() -> new UsernameNotFoundException("Match not found with this code!"));
     }
 }

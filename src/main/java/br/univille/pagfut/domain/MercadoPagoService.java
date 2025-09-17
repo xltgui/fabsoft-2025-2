@@ -20,8 +20,4 @@ public class MercadoPagoService {
 
     private final MercadoPagoClient client;
 
-    public PixPaymentResponse createPixPayment(BigDecimal amount, String description) {
-        PixPaymentRequest request = new PixPaymentRequest(amount, description, accessToken);
-        return client.createPayment("Bearer " + accessToken, request);
-    }
 }

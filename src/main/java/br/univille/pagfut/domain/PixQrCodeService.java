@@ -1,4 +1,4 @@
-package br.univille.pagfut.domain.user;
+package br.univille.pagfut.domain;
 
 import br.univille.pagfut.api.pix.PixPaymentRequest;
 import com.google.zxing.BarcodeFormat;

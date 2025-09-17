@@ -3,11 +3,13 @@ package br.univille.pagfut.web;
 import br.univille.pagfut.api.match.MatchCreationRequest;
 import br.univille.pagfut.api.pix.PixPaymentRequest;
 import br.univille.pagfut.domain.MatchService;
+import com.google.zxing.WriterException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -48,8 +50,8 @@ public class MatchController {
 
 
     @PostMapping("/generateQrCdode/{matchCode}")
-    public ResponseEntity<?> generateQrCode(@PathVariable String matchCode, @RequestBody PixPaymentRequest request) {
-        matchService.generateBrCode()
+    public ResponseEntity<?> generateQrCode(@RequestBody PixPaymentRequest request, @PathVariable String matchCode) throws WriterException, IOException {
+        return ResponseEntity.ok().body(matchService.setMatchQrCode(request, matchCode));
     }
 
 
