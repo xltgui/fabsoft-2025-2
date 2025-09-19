@@ -101,10 +101,13 @@ public class MatchService {
 
     public String setMatchQrCode(PixPaymentRequest request, String matchCode) throws WriterException, IOException {
         SoccerMatch match = findMatch(matchCode);
-        String brCode = qrCodeService.generatePixQrCode(request);
-        match.setBrCode(brCode);
+        String payload = qrCodeService.generatePixPayload(request.key(), request.amount(), request.receiver(), request.description());
+
+        match.setBrCode(payload);
+        System.out.println("PAYLOAD=" + payload);
         soccerMatchRepository.save(match);
-        return qrCodeService.generatePixQrCode(request);
+
+        return qrCodeService.generateQrCodeBase64(payload, 300 , 300);
     }
 
 

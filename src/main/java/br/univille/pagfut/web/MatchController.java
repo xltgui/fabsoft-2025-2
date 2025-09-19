@@ -49,7 +49,7 @@ public class MatchController {
     }
 
 
-    @PostMapping("/generateQrCdode/{matchCode}")
+    @PostMapping("/generateQrCode/{matchCode}")
     public ResponseEntity<?> generateQrCode(@RequestBody PixPaymentRequest request, @PathVariable String matchCode) throws WriterException, IOException {
         System.out.println("teste");
         return ResponseEntity.ok().body(matchService.setMatchQrCode(request, matchCode));
