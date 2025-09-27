@@ -20,7 +20,10 @@ public class SoccerMatch {
     private LocalTime endTime;
     private String matchCode;
     private String paymentKey;
-    private String brCode;
+    private String payload;
+
+    @OneToOne(cascade =  CascadeType.ALL)
+    private PixKey pixKey;
 
     @Enumerated(EnumType.STRING)
     private SoccerPlace place;

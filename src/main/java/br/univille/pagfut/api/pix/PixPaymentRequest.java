@@ -1,11 +1,9 @@
 package br.univille.pagfut.api.pix;
 
-import java.math.BigDecimal;
+import jakarta.validation.constraints.NotBlank;
 
 public record PixPaymentRequest(
-        String key,
-        BigDecimal amount,
-        String receiver,
-        String description
+        @NotBlank(message = "Field required!")
+        String amount
 ) {
 }

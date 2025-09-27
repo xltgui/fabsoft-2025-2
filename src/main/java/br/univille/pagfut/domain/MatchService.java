@@ -1,18 +1,19 @@
 package br.univille.pagfut.domain;
 
+import br.univille.pagfut.api.match.MatchCreationRequest;
+import br.univille.pagfut.api.pix.PixKeySetRequest;
 import br.univille.pagfut.api.pix.PixPaymentRequest;
 import br.univille.pagfut.domain.user.UserEntity;
 import br.univille.pagfut.domain.user.UserService;
 import br.univille.pagfut.repository.SoccerMatchRepository;
-import br.univille.pagfut.repository.SoccerPlayerRepository;
-import br.univille.pagfut.repository.UserRepository;
+import br.univille.pagfut.web.exception.DuplicatedRegisterException;
+import br.univille.pagfut.web.exception.InvalidFieldException;
+import br.univille.pagfut.web.exception.NotFoundException;
 import com.google.zxing.WriterException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 
@@ -20,17 +21,21 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class MatchService {
     private final SoccerMatchRepository soccerMatchRepository;
-    private final SoccerPlayerRepository soccerPlayerRepository;
-    private final UserRepository userRepository;
+    private final MatchValidator validator;
 
     private final PixQrCodeService qrCodeService;
     private final UserService userService;
 
     public SoccerMatch create(SoccerMatch match){
+        String matchCode = generateMatchCode(6);
+
+        while(validator.existingMatch(matchCode)){
+            matchCode = generateMatchCode(6);
+        }
+
         match.setMatchCode(generateMatchCode(6));
 
         UserEntity admin = userService.getLoggedUser();
-
         match.setAdmin(admin);
 
         SoccerPlayer adminPlayer = new SoccerPlayer();
@@ -50,9 +55,8 @@ public class MatchService {
     public void joinMatch(String matchCode) {
         SoccerMatch match = findMatch(matchCode);
 
-
         if(isPlayerAlreadyJoined(match)){
-            throw new RuntimeException("You are already in this match");
+            throw new DuplicatedRegisterException("You are already in this match");
         }
 
         SoccerPlayer soccerPlayer = new SoccerPlayer();
@@ -70,14 +74,15 @@ public class MatchService {
          SoccerPlayer playerToRemove = match.getSoccerPlayers().stream()
                          .filter(p -> p.getUserEntity().equals(userService.getLoggedUser()))
                                  .findFirst()
-                                         .orElseThrow(() -> new UsernameNotFoundException("You are not in this match"));
+                                         .orElseThrow(() -> new NotFoundException("You are not in this match"));
 
         match.getSoccerPlayers().remove(playerToRemove);
         soccerMatchRepository.save(match);
     }
 
     public void updatePayment(String matchCode, Long playerId){
-        SoccerMatch match = findMatch(matchCode);
+        SoccerMatch match = validator.validateMatchAndUserOwner(matchCode);
+        validator.isPlayerInTheMatch(match, playerId);
 
         match.getSoccerPlayers().stream()
                 .filter(p -> p.getUserEntity().getId().equals(playerId))
@@ -87,31 +92,45 @@ public class MatchService {
         soccerMatchRepository.save(match);
     }
 
-    private boolean isPlayerAlreadyJoined(SoccerMatch match) {
-        return match.getSoccerPlayers().stream()
-                .anyMatch(player -> player.getUserEntity().equals(userService.getLoggedUser()));
+    public void updateMatchInfo(String matchCode, MatchCreationRequest matchInfo){
+        SoccerMatch match = validator.validateMatchAndUserOwner(matchCode);
+        match.setDate(matchInfo.date());
+        match.setStartTime(matchInfo.startTime());
+        match.setEndTime(matchInfo.endTime());
+        match.setPlace(matchInfo.place());
+        soccerMatchRepository.save(match);
     }
 
-    public String generateBrCode(String pixKey, BigDecimal amount, String matchCode) {
-        SoccerMatch match = soccerMatchRepository.findByMatchCode(matchCode)
-                .orElseThrow(() -> new UsernameNotFoundException("Match not found with this code!"));
+    public void setPixInfo(PixKeySetRequest pixKeySet, String matchCode) {
+        SoccerMatch match = validator.validateMatchAndUserOwner(matchCode);
 
-        return null;
+        PixKey key = new PixKey();
+        key.setKeyValue(pixKeySet.key());
+        key.setKeyType(pixKeySet.keyType());
+        key.setRecipientName(pixKeySet.recipientName());
+        key.setRecipientCity(pixKeySet.recipientCity());
+        match.setPixKey(key);
+        soccerMatchRepository.save(match);
     }
 
-    public String setMatchQrCode(PixPaymentRequest request, String matchCode) throws WriterException, IOException {
-        SoccerMatch match = findMatch(matchCode);
-        String payload = qrCodeService.generatePixPayload(request.key(), request.amount(), request.receiver(), request.description());
+    public byte[] setMatchQrCode(PixPaymentRequest request, String matchCode) throws WriterException, IOException {
+        SoccerMatch match = validator.validateMatchAndUserOwner(matchCode);
 
-        match.setBrCode(payload);
-        System.out.println("PAYLOAD=" + payload);
+        String payload = qrCodeService.generateStaticPayload(
+                match.getPixKey().getKeyValue(),
+                match.getPixKey().getKeyType(),
+                match.getPixKey().getRecipientName(),
+                match.getPixKey().getRecipientCity(),
+                request.amount()
+        );
+
+        match.setPayload(payload);
         soccerMatchRepository.save(match);
 
-        return qrCodeService.generateQrCodeBase64(payload, 300 , 300);
+        return qrCodeService.generateStaticQrCode(payload);
     }
 
-
-    public String generateMatchCode(int length){
+    private String generateMatchCode(int length){
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Random random = new Random();
 
@@ -125,8 +144,15 @@ public class MatchService {
         return code.toString();
     }
 
-    public SoccerMatch findMatch(String matchCode){
+    private SoccerMatch findMatch(String matchCode){
         return soccerMatchRepository.findByMatchCode(matchCode)
-                .orElseThrow(() -> new UsernameNotFoundException("Match not found with this code!"));
+                .orElseThrow(() -> new InvalidFieldException("Match not found with this code!", matchCode));
     }
+
+    private boolean isPlayerAlreadyJoined(SoccerMatch match) {
+        return match.getSoccerPlayers().stream()
+                .anyMatch(player -> player.getUserEntity().equals(userService.getLoggedUser()));
+    }
+
+
 }

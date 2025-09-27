@@ -1,6 +1,5 @@
 package br.univille.pagfut.domain;
 
-import br.univille.pagfut.api.pix.PixPaymentRequest;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -10,99 +9,120 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class PixQrCodeService {
 
-    public String generatePixQrCode(PixPaymentRequest request) throws WriterException, IOException {
-        String payload = generatePixPayload(request.key(), request.amount(), request.receiver(), request.description());
-        return generateQrCodeBase64(payload, 300, 300);
+    private static final String PAYLOAD_INDICATOR = "000201";
+    private static final String MERCHANT_ACCOUNT_INFO_GUI = "26" + "0014br.gov.bcb.pix";
+    private static final String MERCHANT_CATEGORY_CODE = "52040000";
+    private static final String TRANSACTION_CURRENCY = "5303986";
+    private static final String COUNTRY_CODE = "5802BR";
+    private static final String ADDITIONAL_DATA_FIELD = "62070503***";
+    private static final String CRC16_START = "6304";
+
+    public byte[] generateStaticQrCode(String payload) throws IOException, WriterException {
+        //String payload = generateStaticPayload(pixKey, amount, recipientName, recipientCity);
+        return generateQrCodeImage(payload);
     }
 
-    public String generatePixPayload(String pixKey, BigDecimal amount, String receiver, String description) {
-        StringBuilder payload = new StringBuilder();
+    public String generateStaticPayload(String pixKey, KeyType keyType, String recipientName, String recipientCity, String amount) {
+        StringBuilder payloadBuilder = new StringBuilder();
 
-        payload.append("000201"); // Payload Format Indicator (00)
+        pixKey = verifyKeyType(pixKey, keyType);
 
-        // Merchant Account Information (26)
-        //String merchantAccountInformation = "0014br.gov.bcb.pix01" + String.format("%02d", pixKey.length()) + pixKey;
+        // 00 - Payload Format Indicator
+        payloadBuilder.append(PAYLOAD_INDICATOR);
 
-        // Subcampo 00: GUID
-        String guidSubField = "0014br.gov.bcb.pix";
+        String pixKeyField = "01" + String.format("%02d", pixKey.length()) + pixKey;
+        String merchantAccountInfo = "26" + String.format("%02d", ("0014br.gov.bcb.pix" + pixKeyField).length()) + "0014br.gov.bcb.pix" + pixKeyField;
+        payloadBuilder.append(merchantAccountInfo);
 
-        // Subcampo 01: Chave Pix
-        String pixKeySubField = "01" + String.format("%02d", pixKey.length()) + pixKey;
+        // 52 - Merchant Category Code
+        payloadBuilder.append(MERCHANT_CATEGORY_CODE);
 
-        // Combina os subcampos
-        String merchantAccountInformation = guidSubField + pixKeySubField;
+        // 53 - Transaction Currency
+        payloadBuilder.append(TRANSACTION_CURRENCY);
 
-        payload.append("26").append(String.format("%02d", merchantAccountInformation.length())).append(merchantAccountInformation);
-
-        payload.append("52040000"); // Merchant Category Code (52)
-        payload.append("5303986"); // Transaction Currency (53)
-
-        // Transaction Amount (54)
-        if (amount != null && amount.compareTo(BigDecimal.ZERO) > 0) {
-            String amountStr = String.format("%.2f", amount).replace(',', '.');
-            payload.append("54").append(String.format("%02d", amountStr.length())).append(amountStr);
+        if (amount != null && !amount.isEmpty()) {
+            String amountField = "54" + String.format("%02d", amount.length()) + amount;
+            payloadBuilder.append(amountField);
         }
 
-        payload.append("5802BR"); // Country Code (58)
-        payload.append("59").append(String.format("%02d", receiver.length())).append(receiver); // Merchant Name (59)
+        // 58 - Country Code
+        payloadBuilder.append(COUNTRY_CODE);
 
-        // Additional Data Field (62) - TXID
-        // Corrigido para calcular o tamanho corretamente
-        String txid = "PAGFUT17582";
-        String txidSubfield = "05" + String.format("%02d", txid.length()) + txid;
-        payload.append("62").append(String.format("%02d", txidSubfield.length())).append(txidSubfield);
+        // 59 - Merchant Name
+        String nameField = "59" + String.format("%02d", recipientName.length()) + recipientName;
+        payloadBuilder.append(nameField);
 
-        // CRC16 (63)
-        String dataWithoutCrc = payload.toString() + "6304";
-        String crc = calculateCorrectCRC16(dataWithoutCrc.getBytes(StandardCharsets.US_ASCII));
-        payload.append("6304").append(crc);
+        // 60 - Merchant City
+        String cityField = "60" + String.format("%02d", recipientCity.length()) + recipientCity;
+        payloadBuilder.append(cityField);
 
-        return payload.toString();
+        // 62 - Additional Data Field (TXID)
+        payloadBuilder.append(ADDITIONAL_DATA_FIELD);
+
+        // 63 - CRC16
+        String crcPayload = payloadBuilder.toString() + CRC16_START;
+        String crc16 = getCRC16(crcPayload);
+        payloadBuilder.append(CRC16_START).append(crc16);
+
+        return payloadBuilder.toString();
     }
 
-    private String calculateCorrectCRC16(byte[] bytes) {
-        int crc = 0xFFFF;
-        int polynomial = 0x1021;
 
-        for (byte b : bytes) {
-            crc ^= (b & 0xFF) << 8;
+
+    private byte[] generateQrCodeImage(String payload) throws IOException, WriterException {
+        int size = 256;
+        Map<EncodeHintType, Object> hints = new HashMap<>();
+        hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+
+        QRCodeWriter writer = new QRCodeWriter();
+        BitMatrix bitMatrix = writer.encode(payload, BarcodeFormat.QR_CODE, size, size, hints);
+
+        ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
+        MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
+
+        return pngOutputStream.toByteArray();
+    }
+
+    private String getCRC16(String payload) {
+        int crc = 0xFFFF;
+        for (char c : payload.toCharArray()) {
+            crc ^= (int) c << 8;
             for (int i = 0; i < 8; i++) {
-                if ((crc & 0x8000) != 0) {
-                    crc = (crc << 1) ^ polynomial;
+                if ((crc & 0x8000) > 0) {
+                    crc = (crc << 1) ^ 0x1021;
                 } else {
                     crc <<= 1;
                 }
             }
         }
-        crc &= 0xFFFF;
-        return String.format("%04X", crc);
+        return String.format("%04X", crc & 0xFFFF);
     }
 
-    public String generateQrCodeBase64(String text, int width, int height) throws WriterException, IOException {
-        Map<EncodeHintType, Object> hints = new HashMap<>();
-        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
-        hints.put(EncodeHintType.MARGIN, 2);
-
-        QRCodeWriter qrCodeWriter = new QRCodeWriter();
-        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height, hints);
-
-        BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, "PNG", baos);
-
-        return Base64.getEncoder().encodeToString(baos.toByteArray());
+    private String verifyKeyType(String pixKey, KeyType keyType) {
+        switch (keyType) {
+            case PHONE:
+                if (pixKey.startsWith("+")) {
+                    return pixKey.replaceAll("[^0-9]", "");
+                } else {
+                    return "+55" + pixKey.replaceAll("[^0-9]", "");
+                }
+            case CPF:
+                return pixKey;
+            case EMAIL:
+                return pixKey;
+            case RANDOM:
+                return pixKey;
+            default:
+                throw new IllegalArgumentException("Invalid key type");
+        }
     }
 }

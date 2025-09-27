@@ -2,12 +2,10 @@ package br.univille.pagfut.api.user;
 
 import jakarta.validation.constraints.NotBlank;
 
-import java.util.Set;
-
 public record   UserRequest(
-        @NotBlank
+        @NotBlank(message = "Field required!")
         String username,
-        @NotBlank
+        @NotBlank(message = "Field required!")
         String password
 ) {
 }
