@@ -15,15 +15,15 @@ public class SoccerMatch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private LocalDate date;
-
     private LocalTime startTime;
-
     private LocalTime endTime;
-
     private String matchCode;
     private String paymentKey;
+    private String payload;
+
+    @OneToOne(cascade =  CascadeType.ALL)
+    private PixKey pixKey;
 
     @Enumerated(EnumType.STRING)
     private SoccerPlace place;
@@ -34,5 +34,4 @@ public class SoccerMatch {
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SoccerPlayer> soccerPlayers = new ArrayList<>();
-
 }

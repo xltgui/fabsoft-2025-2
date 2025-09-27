@@ -20,7 +20,7 @@ public class UserController {
     private final UserMapper mapper;
 
     @PostMapping
-    public ResponseEntity<UserResponse> save(@RequestBody UserRequest request) {
+    public ResponseEntity<UserResponse> save(@Valid @RequestBody UserRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toDto(userService.save(mapper.toEntity(request))));
 
     }

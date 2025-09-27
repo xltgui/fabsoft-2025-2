@@ -1,6 +1,7 @@
 package br.univille.pagfut.domain.user;
 
 import br.univille.pagfut.repository.UserRepository;
+import br.univille.pagfut.web.exception.DuplicatedRegisterException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,9 @@ public class UserService {
     private final PasswordEncoder encoder;
 
     public UserEntity save(UserEntity userEntity){
+        if(repository.findByUsername(userEntity.getUsername()).isPresent()){
+            throw new DuplicatedRegisterException("User already registred");
+        }
         userEntity.setPassword(encoder.encode(userEntity.getPassword()));
         return repository.save(userEntity);
     }
@@ -30,7 +34,7 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    public  UserEntity getLoggedUser(){
+    public UserEntity getLoggedUser(){
         UserDetails details =  (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return repository.findByUsername(details.getUsername())
                             .orElseThrow(() -> new UsernameNotFoundException("Username not found"));

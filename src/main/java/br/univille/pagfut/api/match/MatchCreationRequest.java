@@ -7,11 +7,16 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public record MatchCreationRequest(
-        @NotNull(message = "Date is required.")
+        @NotNull(message = "Field required!")
         LocalDate date,
-        @NotNull(message = "Time is required.")
+
+        @NotNull(message = "Field required!")
         LocalTime startTime,
+
+        @NotNull(message = "Field required!")
         LocalTime endTime,
+
+        @NotNull(message = "Field required!")
         SoccerPlace place
 ) {
 }
