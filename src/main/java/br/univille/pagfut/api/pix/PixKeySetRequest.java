@@ -1,6 +1,6 @@
 package br.univille.pagfut.api.pix;
 
-import br.univille.pagfut.domain.KeyType;
+import br.univille.pagfut.domain.pix.KeyType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

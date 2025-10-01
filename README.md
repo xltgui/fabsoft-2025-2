@@ -84,6 +84,68 @@ classDiagram
         +userEntity : UserEntity (ManyToOne)
         +match : SoccerMatch (ManyToOne)
     }
+```
+
+### Arquitetura
+
+A arquitetura segue o padrão **Layered Architecture** (Controller -> Service -> Repository)
+```
+br.univille.pagfut
+├── api/                    # 📄 Data Transfer Objects (DTOs)
+│   ├── error/               # DTOs para tratamento de exceções
+│   │   ├── MyFieldError.java
+│   │   └── ResponseError.java
+│   ├── match/               # DTOs relacionados a partidas
+│   │   ├── MatchCreationRequest.java
+│   │   └── MatchResponse.java
+│   ├── pix/                 # DTOs relacionados ao PIX
+│   │   ├── PixKeySetRequest.java
+│   │   └── PixPaymentResponse.java
+│   ├── soccerPlayer/        # DTOs relacionados a jogadores
+│   │   └── SoccerPlayerResponse.java
+│   └── user/                # DTOs relacionados a usuários
+│       ├── UserRequest.java
+│       └── UserResponse.java
+├── config/                 # ⚙️ Configurações da API
+│   └── SecurityConfiguration.java
+├── domain/                 # 🎯 Regra de negócio e entidades
+│   ├── match/               # Componentes de domínio de partidas
+│   │   ├── MatchService.java
+│   │   ├── MatchValidator.java
+│   │   ├── SoccerMatch.java
+│   │   ├── SoccerPlace.java
+│   │   └── SoccerPlayer.java
+│   ├── pix/                 # Componentes de domínio de PIX
+│   │   ├── KeyType.java
+│   │   ├── PixKey.java
+│   │   └── PixQRCodeService.java
+│   └── user/                # Componentes de domínio de usuários
+│       ├── UserEntity.java
+│       └── UserService.java
+├── repository/             # 💾 Interface de acesso a dados (Spring Data Repositories)
+│   ├── SoccerMatchRepository.java
+│   ├── SoccerPlayerRepository.java
+│   └── UserRepository.java
+├── security/               # 🔐 Componentes de segurança (Ex: Spring Security)
+│   └── CustomUserDetailsService.java
+└── web/                    # 🌐 REST Controllers e entry points
+    ├── common/             # Componentes comuns da camada web
+    │   └── GlobalExceptionHandler.java
+    ├── exception/          # ⛔ Exceções customizadas da camada web
+    │   ├── DuplicatedRegisterException.java
+    │   ├── ForbiddenOperationException.java
+    │   ├── InvalidFieldException.java
+    │   └── NotFoundException.java
+    ├── MatchController.java
+    ├── MatchMapper.java
+    ├── UserController.java
+    └── UserMapper.java
+```
+
+
+
+
+
     
     
    

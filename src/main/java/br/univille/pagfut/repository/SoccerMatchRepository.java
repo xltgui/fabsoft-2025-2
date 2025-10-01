@@ -1,6 +1,6 @@
 package br.univille.pagfut.repository;
 
-import br.univille.pagfut.domain.SoccerMatch;
+import br.univille.pagfut.domain.match.SoccerMatch;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

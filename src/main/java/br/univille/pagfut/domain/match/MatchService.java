@@ -1,8 +1,10 @@
-package br.univille.pagfut.domain;
+package br.univille.pagfut.domain.match;
 
 import br.univille.pagfut.api.match.MatchCreationRequest;
 import br.univille.pagfut.api.pix.PixKeySetRequest;
 import br.univille.pagfut.api.pix.PixPaymentRequest;
+import br.univille.pagfut.domain.pix.PixKey;
+import br.univille.pagfut.domain.pix.PixQrCodeService;
 import br.univille.pagfut.domain.user.UserEntity;
 import br.univille.pagfut.domain.user.UserService;
 import br.univille.pagfut.repository.SoccerMatchRepository;

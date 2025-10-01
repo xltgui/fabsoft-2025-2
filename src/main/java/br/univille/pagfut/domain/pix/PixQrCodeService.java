@@ -1,4 +1,4 @@
-package br.univille.pagfut.domain;
+package br.univille.pagfut.domain.pix;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;

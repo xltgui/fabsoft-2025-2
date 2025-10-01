@@ -1,4 +1,4 @@
-package br.univille.pagfut.domain;
+package br.univille.pagfut.domain.match;
 
 import br.univille.pagfut.domain.user.UserEntity;
 import jakarta.persistence.*;

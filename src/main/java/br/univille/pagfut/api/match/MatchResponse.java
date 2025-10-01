@@ -2,7 +2,7 @@ package br.univille.pagfut.api.match;
 
 
 import br.univille.pagfut.api.soccerPlayer.SoccerPlayerResponse;
-import br.univille.pagfut.domain.SoccerPlace;
+import br.univille.pagfut.domain.match.SoccerPlace;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
