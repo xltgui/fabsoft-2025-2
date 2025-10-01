@@ -39,42 +39,52 @@ Guilherme Passos de Borba
 title: Diagrama de Entidades
 ---
 classDiagram
-    User "*" --> "*" SoccerMatch
-    namespace entity {
-      class User{
-          -id : Long
-          -nome : String
-          -telefone : String
-          -email : String
+    direction LR
 
-          +getId():long
-          +setId(id:long):void
-          +getNome():String
-          +setNome(nome:String):void
-          +getTelefone():String
-          +setTelefone(telefone:String):void
-          +getEmail():String
-          +setEmail(email:String):void
-      }
-      class SoccerMatch{
-          -id : Long
-          -matchId : Long
-          -paymentKey : String
-          -admin : User
-          -players : List<String>
+    %% Relacionamentos (Associações)
+    UserEntity "1" --> "*" SoccerMatch : Admin
+    UserEntity "1" --> "*" SoccerPlayer : Jogador
+    SoccerMatch "1" --> "1" PixKey : Chave Pix
+    SoccerMatch "1" --> "*" SoccerPlayer : Participantes
+    SoccerPlayer "*" --> "1" SoccerMatch : Partida
 
-          +getId():Long
-          +setId(id:Long):void
-          +getMatchId():String
-          +setMatchId(matchId:String):void
-          +getPaymentKey():String
-          +setPaymentKey(paymentKey:String):void
-          +getAdmin():String
-          +setAdmin(admin:String):void
-          +getPlayers():String
-          +setPlayers(players:String):void
-
-      }
+    %% Definição das Classes
+    class UserEntity{
+        -id : Long
+        -username : String
+        -email : String
+        -password : String
     }
+
+    class PixKey{
+        -id : Long
+        -keyType : KeyType (Enum)
+        -keyValue : String
+        -recipientName : String
+        -recipientCity : String
+    }
+
+    class SoccerMatch{
+        -id : Long
+        -date : LocalDate
+        -startTime : LocalTime
+        -endTime : LocalTime
+        -matchCode : String
+        -paymentKey : String
+        -payload : String
+        -place : SoccerPlace (Enum)
+        +pixKey : PixKey (OneToOne)
+        +admin : UserEntity (ManyToOne)
+        +soccerPlayers : List<SoccerPlayer> (OneToMany)
+    }
+
+    class SoccerPlayer{
+        -id : Long
+        -paid : Boolean
+        +userEntity : UserEntity (ManyToOne)
+        +match : SoccerMatch (ManyToOne)
+    }
+    
+    
    
 
