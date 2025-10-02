@@ -60,20 +60,36 @@
 				{
 					"name": "Join Match",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "player2",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/match?matchCode",
+							"raw": "{{baseUrl}}/match/join?matchCode={{match_code}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"match"
+								"match",
+								"join"
 							],
 							"query": [
 								{
 									"key": "matchCode",
-									"value": null
+									"value": "{{match_code}}"
 								}
 							]
 						}
@@ -140,17 +156,41 @@
 				{
 					"name": "Set pix key",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "player1",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"key\": \"47984916823\",\r\n    \"keyType\": \"PHONE\",\r\n    \"recipientName\": \"Guilherme Passos\",\r\n    \"recipientCity\": \"Joinville\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseUrl}}/match/generateQrCode/",
+							"raw": "{{baseUrl}}/match/pixkey/{{match_code}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"match",
-								"generateQrCode",
-								""
+								"pixkey",
+								"{{match_code}}"
 							]
 						}
 					},
@@ -159,17 +199,41 @@
 				{
 					"name": "Generate QRCODE",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "player1",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": \"0.05\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseUrl}}/match/generateQrCode/",
+							"raw": "{{baseUrl}}/match/generateQrCode/{{match_code}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"match",
 								"generateQrCode",
-								""
+								"{{match_code}}"
 							]
 						}
 					},
@@ -178,11 +242,26 @@
 				{
 					"name": "Update match info",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "player1",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"date\": \"2025-09-06\",\r\n    \"startTime\": \"19:00\",\r\n    \"endTime\": \"21:00\",\r\n    \"place\": \"EMBRACO\"\r\n}",
+							"raw": "{\r\n\t\"date\": \"2025-09-06\",\r\n    \"startTime\": \"20:00\",\r\n    \"endTime\": \"22:00\",\r\n    \"place\": \"SCHULZ\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -190,13 +269,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/match/IBOJCC",
+							"raw": "{{baseUrl}}/match/{{match_code}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"match",
-								"IBOJCC"
+								"{{match_code}}"
 							]
 						}
 					},
@@ -215,16 +294,32 @@
 									""
 								],
 								"type": "text/javascript",
-								"packages": {}
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "player1",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -232,15 +327,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/match/updatePayment/06DWZS/2",
+							"raw": "{{baseUrl}}/match/updatePayment/{{match_code}}/1",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"match",
 								"updatePayment",
-								"06DWZS",
-								"2"
+								"{{match_code}}",
+								"1"
 							]
 						},
 						"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
@@ -318,7 +413,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"player\",\r\n    \"password\": \"123\"\r\n}",
+							"raw": "{\r\n    \"username\": \"player1\",\r\n    \"password\": \"123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -326,12 +421,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/uers",
+							"raw": "{{baseUrl}}/users",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"uers"
+								"users"
 							]
 						}
 					},
