@@ -10,6 +10,6 @@
     <name>Multi Project: FSO 2025 2</name>
 
     <modules>
-        <module>pagfut</module>
+        <module>fabsoft-backend</module>
     </modules>
 </project>
