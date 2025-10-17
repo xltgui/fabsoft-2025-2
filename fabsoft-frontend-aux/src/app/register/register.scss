@@ -1,0 +1,57 @@
+// Estilos para o Header
+.app-header {
+    // Cores de fundo baseadas na sua paleta (neutral-900 para yellow-900)
+    background: linear-gradient(to right, #262626, #713f12); 
+    color: white;
+    padding: 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+    .title h1 {
+        margin: 0;
+        font-size: 1.8rem;
+    }
+}
+
+// Estilos para o Contêiner e Centralização do Formulário
+.cadastro-container {
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start; // Inicia no topo da área
+    padding: 16px;          
+    margin-top: 40px;      
+    margin-bottom: 40px; // Adiciona margem na parte de baixo para formulários maiores
+}
+
+.cadastro-card {
+    width: 100%;
+    max-width: 420px; // Um pouco mais largo que o login para acomodar mais campos
+    padding: 24px;    
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); 
+
+    mat-card-title {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: #333;
+    }
+}
+
+// Estilos para o Formulário e seus Elementos
+.cadastro-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; // Espaçamento entre os campos e o botão
+    
+    // Força os campos do Material a ocupar 100% da largura
+    mat-form-field {
+        width: 100%; 
+    }
+}
+
+.cadastro-button {
+    margin-top: 10px; // Espaçamento extra acima do botão
+    height: 48px; 
+    font-size: 1.1rem;
+    font-weight: 500;
+}
