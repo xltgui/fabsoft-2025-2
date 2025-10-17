@@ -1,0 +1,35 @@
+/* Você pode adicionar estilos globais a este arquivo, e também importar outros arquivos de estilo */
+@use '@angular/material' as mat;
+
+// Inclua mixins CSS comuns que são usados por muitos componentes.
+@include mat.core();
+
+// 1. Defina as paletas customizadas (você pode escolher a cor que quiser aqui, ex: Indigo)
+$pagfut-primary: mat.define-palette(mat.$indigo-palette, 700);
+$pagfut-accent: mat.define-palette(mat.$yellow-palette, A200, A100, A400);
+
+// 2. Crie o mapa do tema Light (Claro)
+$pagfut-theme: mat.define-light-theme((
+  color: (
+    primary: $pagfut-primary,
+    accent: $pagfut-accent,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+// 3. Inclua o mixin para aplicar o tema em todos os componentes
+@include mat.all-component-themes($pagfut-theme);
+
+
+// Estilos básicos de reset (mantidos do seu arquivo)
+body {
+    // Definindo o esquema de cores
+    color-scheme: light;
+
+    background-color: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
+    font: var(--mat-sys-body-medium);
+
+    margin: 0;
+}
