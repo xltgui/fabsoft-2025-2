@@ -27,5 +27,8 @@ spring:
             trust: smtp.gmail.com
 
 app:
-  base-url: http://localhost:8080/
+  frontend:
+    base-url: http://localhost:4200/
+  backend:
+    base-url: http://localhost:8080/
 
