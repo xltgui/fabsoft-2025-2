@@ -11,3 +11,21 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: pagfutsender@gmail.com
+    password: wevxojycdornesbl
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+
+app:
+  base-url: http://localhost:8080/
+

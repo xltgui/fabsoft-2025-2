@@ -2,10 +2,7 @@ package br.univille.pagfut.web.common;
 
 import br.univille.pagfut.api.error.MyFieldError;
 import br.univille.pagfut.api.error.ResponseError;
-import br.univille.pagfut.web.exception.DuplicatedRegisterException;
-import br.univille.pagfut.web.exception.ForbiddenOperationException;
-import br.univille.pagfut.web.exception.InvalidFieldException;
-import br.univille.pagfut.web.exception.NotFoundException;
+import br.univille.pagfut.web.exception.*;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -81,12 +78,14 @@ public class GlobalExceptionHandler {
         return new ResponseError(HttpStatus.FORBIDDEN.value(), "Access denied", List.of());
     }
 
-    /*@ExceptionHandler(HttpServerErrorException.InternalServerError.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseError handleUnhandledErrorsException(RuntimeException e) {
-        return new ResponseError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Unexpected error found, try contacting the staff team", List.of());
-    }*/
+    @ExceptionHandler(InvalidConfirmationTokenException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseError handleInvalidConfirmationTokenException(InvalidConfirmationTokenException e){
+        return ResponseError.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(e.getMessage())
+                .build();
+    }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

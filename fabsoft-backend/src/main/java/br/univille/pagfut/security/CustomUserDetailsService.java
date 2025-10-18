@@ -14,16 +14,16 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserService service;
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
-        UserEntity userEntity = service.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) {
+        UserEntity userEntity = service.findByEmail(email);
 
         if (userEntity == null) {
-            throw new UsernameNotFoundException("Usuário não encontrado: " + username);
+            throw new UsernameNotFoundException("Usuário não encontrado: " + email);
         }
 
         return User.
                 builder()
-                .username(userEntity.getUsername())
+                .username(userEntity.getEmail())
                 .password(userEntity.getPassword())
                 .build();
     }
