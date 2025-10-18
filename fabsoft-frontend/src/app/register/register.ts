@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { UserService } from '../service/user-service';
+import { MatProgressSpinner, MatSpinner } from '@angular/material/progress-spinner';
 
 
 @Component({
@@ -19,6 +20,7 @@ import { UserService } from '../service/user-service';
     MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
+    MatProgressSpinner,
     ReactiveFormsModule,
     CommonModule
   ],
@@ -33,6 +35,7 @@ export class Register {
   
   hidePassword: boolean = true; 
   hideConfirmPassword: boolean = true;
+  loading: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -40,23 +43,52 @@ export class Register {
   ) { }
 
   onSubmit() {
+    this.snackBar.dismiss();
+
     if (this.password !== this.confirmPassword) {
-      console.error('As senhas não coincidem!');
-      // TODO: Usar MatSnackBar aqui para mostrar o erro
+      this.showSnackbar('As senhas não coincidem!', 'Fechar');
       return;
     }
 
-    if (this.username && this.email && this.password) {
-      console.log('Dados prontos para cadastro:');
-      console.log('Usuário:', this.username);
-      console.log('Email:', this.email);
-      // NÃO FAÇA LOG DA SENHA EM AMBIENTES REAIS!
-      console.log('Senhas válidas. Enviando para o servidor...');
-      
-      // Implemente a chamada ao seu serviço de cadastro (API) aqui.
-    } else {
-      console.warn('Por favor, preencha todos os campos.');
+    if (!this.username || !this.password || !this.email) {
+      this.showSnackbar('Por favor, preencha todos os campos.', 'Fechar');
+      return;
     }
+
+    this.loading = true;
+
+    const request = {
+       username: this.username,
+       email: this.email,
+       password: this.password
+    };
+
+    this.userService.register(request).subscribe({
+      next: (response) => {
+        this.loading = false;
+        this.showSnackbar('Cadastro realizado! Por favor, verifique seu e-mail para confirmar a conta.', 'OK', 8000);
+        this.cleanFields();
+      },
+      error: (errorMessage) => {
+        this.loading = false;
+        this.showSnackbar(errorMessage, 'Fechar');
+      }
+    });
+  }
+
+  showSnackbar(message: string, action: string, duration: number = 4000){
+    this.snackBar.open(message, action, {
+      duration: duration,
+      horizontalPosition: 'center',
+      verticalPosition: 'top'
+    });
+  }
+
+  cleanFields(){
+    this.username = '';
+    this.email = '';
+    this.password = '';
+    this.confirmPassword = '';
   }
 
 }

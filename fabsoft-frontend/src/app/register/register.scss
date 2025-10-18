@@ -1,57 +1,149 @@
-// Estilos para o Header
 .app-header {
-    // Cores de fundo baseadas na sua paleta (neutral-900 para yellow-900)
-    background: linear-gradient(to right, #262626, #713f12); 
-    color: white;
-    padding: 24px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    // Gradiente de verde para dar profundidade (Gramado do campo)
+    background: linear-gradient(to right, var(--color-primary-dark), var(--color-primary));
+    color: var(--color-text-light);
+    padding: 20px 24px;
+    
+    // Sombra com uma leve borda dourada para dar um toque de troféu
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); // Sombra mais proeminente
+    //border-bottom: 4px solid var(--color-accent); // Linha dourada mais grossa e destacada
     
     .title h1 {
         margin: 0;
-        font-size: 1.8rem;
+        font-size: 2.2rem; // Aumentei para mais destaque
+        font-weight: 800; // Mais negrito
+        // Efeito de texto dourado/brilhante
+        text-shadow: 0 0 5px var(--color-accent), 0 0 10px rgba(255, 255, 255, 0.8);
+        letter-spacing: 1px;
     }
 }
 
-// Estilos para o Contêiner e Centralização do Formulário
+// -----------------------------------------------------------
+// 3. Estilos para o Contêiner e Card (Arquibancada/Placar)
+// -----------------------------------------------------------
 .cadastro-container {
     display: flex;
-    justify-content: center; 
-    align-items: flex-start; // Inicia no topo da área
-    padding: 16px;          
-    margin-top: 40px;      
-    margin-bottom: 40px; // Adiciona margem na parte de baixo para formulários maiores
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    background-color: var(--color-background-app); // Dá um fundo sutil à página
 }
 
 .cadastro-card {
     width: 100%;
-    max-width: 420px; // Um pouco mais largo que o login para acomodar mais campos
-    padding: 24px;    
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); 
-
+    max-width: 400px;
+    padding: 30px;
+    background-color: var(--color-text-light); // Fundo branco dentro do card
+    border-radius: 16px; // Cantos mais arredondados
+    // Sombra com um leve toque da cor primária
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15), 0 0 0 4px rgba(76, 175, 80, 0.1); // Sombra e anel verde suave
+    border: none; // Removemos a borda para confiar na sombra
+    
+    mat-card-header {
+        border-bottom: 2px solid var(--color-primary); // Linha separadora verde
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+    
     mat-card-title {
         text-align: center;
-        margin-bottom: 20px;
-        font-size: 1.6rem;
-        font-weight: 600;
-        color: #333;
+        margin-bottom: 0; // Removido o margin-bottom para o header cuidar do espaçamento
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--color-primary-dark); // Título em verde escuro
+        text-transform: uppercase;
     }
 }
 
-// Estilos para o Formulário e seus Elementos
+// -----------------------------------------------------------
+// 4. Estilos para o Formulário e Botão (Os Jogadores)
+// -----------------------------------------------------------
 .cadastro-form {
     display: flex;
     flex-direction: column;
-    gap: 15px; // Espaçamento entre os campos e o botão
+    gap: 24px; // Aumentei o espaçamento para uma UI mais limpa
     
-    // Força os campos do Material a ocupar 100% da largura
     mat-form-field {
-        width: 100%; 
+        width: 100%;
+        // Cor das bordas, texto e ícones no focus em verde
+        --mdc-filled-text-field-focus-active-indicator-color: var(--color-primary);
+        --mdc-filled-text-field-hover-active-indicator-color: var(--color-primary);
+        --mdc-filled-text-field-active-indicator-color: var(--color-primary);
+        --mdc-filled-text-field-focus-label-text-color: var(--color-primary-dark);
+        --mat-form-field-outline-color: var(--color-primary); // Garante a cor verde em todos os estados
+    }
+    
+    // Estilo para os ícones (dar um toque de cor accent)
+    mat-icon[matSuffix] {
+        color: var(--color-primary); // Ícones em verde principal
+    }
+    
+    // Botão de visibilidade da senha (Dourado/Accent)
+    button[mat-icon-button][matSuffix] {
+        color: var(--color-primary);
+        
+        &:hover {
+            background-color: rgba(255, 193, 7, 0.1);
+        }
     }
 }
 
 .cadastro-button {
-    margin-top: 10px; // Espaçamento extra acima do botão
-    height: 48px; 
-    font-size: 1.1rem;
-    font-weight: 500;
+    margin-top: 25px; // Mais espaço antes do botão
+    height: 56px; // Botão mais alto e mais fácil de clicar
+    font-size: 1.2rem;
+    font-weight: 700; // Mais forte
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    
+    // Forçando a cor do botão a ser o verde primário (A Camisa do Time)
+    background-color: var(--color-primary) !important;
+    color: var(--color-text-light) !important;
+    
+    &:hover {
+        background-color: var(--color-primary-dark) !important;
+        // Adiciona um sutil box-shadow dourado no hover
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px var(--color-primary-dark);
+        transform: translateY(-1px);
+    }
+
+    &[disabled] {
+        opacity: 0.6;
+        box-shadow: none !important;
+        transform: none !important;
+        // Garante que a cor primária seja mantida, mas em opacidade
+        background-color: var(--color-primary) !important;
+    }
+    
+    // Estilo para o Spinner
+    .mat-mdc-progress-spinner {
+        margin: 0 auto;
+        
+        // Define a cor do spinner para contrastar com o botão, usando o accent (Troféu)
+        --mdc-circular-progress-active-indicator-color: var(--color-accent) !important;
+    }
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 20px; // Espaçamento após o botão de cadastro
+    padding-top: 15px;
+    border-top: 1px solid #eee; // Linha sutil de separação
+    font-size: 0.95rem;
+    color: var(--color-text-dark); // Cor do texto principal
+
+    a {
+        color: var(--color-primary); // O link usa o verde principal
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: var(--color-primary-dark); // Dourado no hover para destaque
+            text-decoration: underline;
+        }
+    }
 }

@@ -19,4 +19,16 @@ export class UserService {
       })
     );
   }
+
+  confirmRegistration(token: string) {
+    // O endpoint é GET e espera o token como query parameter
+    // O responseType: 'text' é crucial, pois o backend retorna apenas uma string de sucesso
+    return this.http.get(`${this.apiURL}/confirm?token=${token}`, { responseType: 'text' }).pipe(
+      catchError(error => {
+        // O backend retorna 400 Bad Request com a mensagem no corpo
+        const message = error.error || 'Erro desconhecido na confirmação.'; 
+        return throwError(() => message);
+      })
+    );
+  }
 }

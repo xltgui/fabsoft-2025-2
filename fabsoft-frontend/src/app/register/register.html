@@ -11,7 +11,7 @@
     </mat-card-header>
 
     <mat-card-content>
-      <form class="cadastro-form" (ngSubmit)="onSubmit()">
+      <form  #f="ngForm" class="cadastro-form" (ngSubmit)="onSubmit()">
         
         <mat-form-field appearance="outline">
           <mat-label>Nome de Usuário</mat-label>
@@ -88,11 +88,15 @@
           color="primary" 
           type="submit" 
           class="cadastro-button"
+          [disabled]="f.invalid || loading"
         >
-          Cadastrar
+        <span *ngIf="!loading">Cadastrar</span>
+        <mat-spinner *ngIf="loading"  color="primary" diameter="15"></mat-spinner>
         </button>
-
       </form>
+      <div class="login-link">
+            Já tem uma conta? <a>Fazer Login</a>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>

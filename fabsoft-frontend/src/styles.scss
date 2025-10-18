@@ -37,3 +37,18 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+:root {
+    // Cores de Campo de Futebol (Verdes)
+    --color-primary-dark: #004d40; // Verde Escuro (Sombra da Grama) 🌿
+    --color-primary: #4CAF50; // Verde Principal (Gramado)
+    
+    // Cor de Destaque (Dourado/Amarelo do Troféu) 🏆
+    --color-accent: #FFC107; // Amarelo/Dourado Vibrante
+    
+    // Cores Neutras
+    --color-text-dark: #212121;
+    --color-text-light: #ffffff;
+    --color-background-app: #f5f5f5; // Fundo levemente mais claro
+}
