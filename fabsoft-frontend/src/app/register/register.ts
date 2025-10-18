@@ -9,19 +9,15 @@ import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { UserService } from '../service/user-service';
 import { MatProgressSpinner, MatSpinner } from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
+
+import { MaterialSharedModule } from '../material-shared-module';
 
 
 @Component({
   selector: 'app-register',
   imports: [
-    FormsModule,
-    MatCardModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinner,
-    ReactiveFormsModule,
+    MaterialSharedModule,
     CommonModule
   ],
   templateUrl: './register.html',
@@ -38,6 +34,7 @@ export class Register {
   loading: boolean = false;
 
   constructor(
+    private router: Router,
     private userService: UserService,
     private snackBar: MatSnackBar
   ) { }
@@ -74,6 +71,10 @@ export class Register {
         this.showSnackbar(errorMessage, 'Fechar');
       }
     });
+  }
+
+  navigateToLogin(){
+    this.router.navigate(['users/login']);
   }
 
   showSnackbar(message: string, action: string, duration: number = 4000){

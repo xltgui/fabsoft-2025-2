@@ -1,0 +1,54 @@
+<mat-sidenav-container class="lobby-container">
+    
+    <mat-sidenav #sidenav mode="side" opened class="user-sidebar">
+        <mat-toolbar class="user-header">
+            <mat-icon class="profile-icon">account_circle</mat-icon>
+            <h2>Olá, {{ username }}!</h2>
+        </mat-toolbar>
+        
+        <mat-nav-list class="account-menu">
+            <h3 mat-subheader>Minha Conta</h3>
+            <mat-list-item>
+                <mat-icon matListItemIcon>person</mat-icon>
+                <span matListItemTitle>Perfil</span>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-icon matListItemIcon>settings</mat-icon>
+                <span matListItemTitle>Configurações</span>
+            </mat-list-item>
+            <mat-list-item class="logout-item" (click)="logout()">
+                <mat-icon matListItemIcon>exit_to_app</mat-icon>
+                <span matListItemTitle>Sair</span>
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="main-content">
+        
+        <h1 class="lobby-title">Área de Jogo</h1>
+        <p class="lobby-subtitle">Escolha sua próxima jogada em campo.</p>
+
+        <div class="action-buttons">
+            
+            <button 
+                mat-raised-button 
+                color="primary" 
+                class="action-btn create-match-btn"
+                (click)="createMatch()">
+                <mat-icon>add_circle</mat-icon>
+                Criar uma Partida
+            </button>
+
+            <button 
+                mat-raised-button 
+                color="accent" 
+                class="action-btn join-match-btn"
+                (click)="joinMatch()">
+                <mat-icon>group_add</mat-icon>
+                Ingressar em uma Partida
+            </button>
+            
+        </div>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

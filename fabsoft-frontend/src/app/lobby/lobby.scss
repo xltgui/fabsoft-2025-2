@@ -1,0 +1,164 @@
+/* Reutilizando as variáveis globais do seu :root */
+
+.lobby-container {
+    height: 100vh;
+    background-color: var(--color-background-app);
+    // Opcional: Se quiser o fundo de grama em todo o lobby, descomente e ajuste o background-size:
+    // background-image: url(./img/grass-pagfut.jpg);
+    // background-size: cover; 
+}
+
+/* --------------------------------------
+   1. Estilo da Sidenav (Menu Lateral)
+   -------------------------------------- */
+.user-sidebar {
+    width: 250px;
+    background-color: var(--color-primary-dark); // Verde Escuro para destaque
+    color: var(--color-text-light);
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.user-header {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    height: auto !important; // Sobrescreve o height padrão da toolbar
+    
+    h2 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-top: 5px;
+        color: var(--color-text-light);
+
+        white-space: nowrap;       /* 1. Impede que o texto quebre para a próxima linha */
+        overflow: hidden;          /* 2. Esconde o texto que ultrapassa o elemento */
+        text-overflow: ellipsis;
+        
+        max-width: 90%; /* Garante que o texto não ultrapasse a largura da Sidenav */
+        display: block;
+
+    }
+}
+
+.profile-icon {
+    font-size: 60px;
+    height: 60px;
+    width: 60px;
+    color: var(--color-accent); // Ícone Dourado/Troféu
+}
+
+.account-menu {
+    padding: 0 10px;
+    
+    .mat-mdc-subheader {
+        color: var(--color-accent); // Subtítulo Dourado
+        font-weight: 600;
+        margin-top: 10px;
+    }
+    
+    .mat-mdc-list-item {
+        color: var(--color-text-light);
+        margin: 5px 0;
+        border-radius: 4px;
+        
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.1); // Leve destaque no hover
+        }
+        
+        .mat-icon {
+            color: var(--color-primary); // Ícones em Verde Principal
+        }
+    }
+    
+    .logout-item {
+        margin-top: 20px;
+        color: #ff5252; // Vermelho para a ação de Sair
+        
+        .mat-icon {
+            color: #ff5252;
+        }
+    }
+}
+
+/* --------------------------------------
+   2. Estilo do Conteúdo Principal
+   -------------------------------------- */
+.main-content {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; // Alinha ao topo
+    
+    .lobby-title {
+        font-size: 3rem;
+        font-weight: 900;
+        color: var(--color-primary-dark);
+        margin-bottom: 5px;
+    }
+    
+    .lobby-subtitle {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 60px;
+    }
+}
+
+/* --------------------------------------
+   3. Estilo dos Botões de Ação
+   -------------------------------------- */
+.action-buttons {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.action-btn {
+    width: 250px;
+    height: 150px; // Botões grandes para o lobby
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    text-transform: uppercase;
+    
+    .mat-icon {
+        font-size: 40px;
+        height: 40px;
+        width: 40px;
+        margin-bottom: 10px;
+    }
+}
+
+// Criar Partida (Verde Principal, texto claro)
+.create-match-btn {
+    background-color: var(--color-primary) !important;
+    color: var(--color-text-light) !important;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    
+    &:hover {
+        background-color: var(--color-primary-dark) !important;
+        transform: translateY(-2px);
+    }
+}
+
+// Ingressar em Partida (Dourado/Accent, texto escuro)
+.join-match-btn {
+    background-color: var(--color-accent) !important;
+    color: var(--color-text-dark) !important;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    
+    .mat-icon {
+        color: var(--color-primary-dark); // Ícone Escuro
+    }
+    
+    &:hover {
+        background-color: darken($color: #FFC107, $amount: 10%) !important;
+        transform: translateY(-2px);
+    }
+}

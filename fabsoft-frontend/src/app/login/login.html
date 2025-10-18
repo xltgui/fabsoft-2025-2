@@ -1,0 +1,68 @@
+<header class="app-header">
+  <div class="title">
+    <h1>PagFut</h1>
+  </div>
+</header>
+
+<div class="login-container">
+    
+    <mat-card class="login-card">
+        <mat-card-header>
+            <mat-card-title>Bem Vindo</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <form  #f="ngForm" class="login-form" (ngSubmit)="onSubmit()">
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input 
+                        matInput 
+                        type="email" 
+                        placeholder="seu@email.com" 
+                        [(ngModel)]="email" 
+                        name="email"
+                        required
+                    >
+                    <mat-icon matSuffix>mail</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Senha</mat-label>
+                    <input 
+                        matInput 
+                        [type]="hidePassword ? 'password' : 'text'" 
+                        placeholder="Digite sua senha" 
+                        [(ngModel)]="password" 
+                        name="password"
+                        required
+                    >
+                    <button 
+                        mat-icon-button 
+                        matSuffix 
+                        (click)="hidePassword = !hidePassword" 
+                        type="button" 
+                        [attr.aria-label]="'Alternar visibilidade'" 
+                        [attr.aria-pressed]="hidePassword"
+                    >
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <button 
+                mat-raised-button 
+                color="primary" 
+                type="submit" 
+                class="login-button"
+                [disabled]="f.invalid || loading"
+                >
+                <span *ngIf="!loading">Login</span>
+                <mat-spinner *ngIf="loading"  color="primary" diameter="15"></mat-spinner>
+                </button>
+            </form>
+            <div class="register-link">
+                    Não tem uma conta? <a (click)="navigateToRegister()">Registre-se</a>
+            </div>
+        </mat-card-content>
+  </mat-card>
+</div>

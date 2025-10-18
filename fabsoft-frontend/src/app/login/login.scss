@@ -1,3 +1,4 @@
+
 .app-header {
     // Gradiente de verde para dar profundidade (Gramado do campo)
     background: linear-gradient(to right, var(--color-primary-dark), var(--color-primary));
@@ -20,22 +21,42 @@
     }
 }
 
-// -----------------------------------------------------------
-// 3. Estilos para o Contêiner e Card (Arquibancada/Placar)
-// -----------------------------------------------------------
-.cadastro-container {
-    min-height: calc(100vh - 100px);
+.title-login-card {
+    background-color: transparent !important; /* Torna o fundo transparente */
+    box-shadow: none !important; /* Remove qualquer sombra */
+    max-width: 400px; /* Garante que ele tenha a mesma largura máxima do login-card */
+    width: 100%;
+    
+    // Novo: Garante que o título interno seja um bloco para centralização
+    display: block; 
+    
+    mat-card-title {
+        text-align: center;
+        margin: 0;
+        font-size: 3rem; 
+        font-weight: 900;
+        color: var(--color-accent); 
+        text-shadow: 2px 2px 5px var(--color-primary-dark); 
+    }
+}
+
+.login-container {
+    min-height: calc(100vh - 40px);
+    background-image: url(./img/grass-texture.jpg);
+
+    background-size: auto, cover;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
-    background-image: url(../login/img/grass-texture.jpg);
 
-    background-size: auto, cover;
+    flex-direction: column;
+    gap: 50px;
+    padding: 20px;
+    margin-bottom: 40px;
     background-color: var(--color-background-app); // Dá um fundo sutil à página
 }
 
-.cadastro-card {
+.login-card {
     width: 100%;
     max-width: 400px;
     padding: 30px;
@@ -64,7 +85,7 @@
 // -----------------------------------------------------------
 // 4. Estilos para o Formulário e Botão (Os Jogadores)
 // -----------------------------------------------------------
-.cadastro-form {
+.login-form {
     display: flex;
     flex-direction: column;
     gap: 24px; // Aumentei o espaçamento para uma UI mais limpa
@@ -94,7 +115,7 @@
     }
 }
 
-.cadastro-button {
+.login-button {
     margin-top: 25px; // Mais espaço antes do botão
     height: 56px; // Botão mais alto e mais fácil de clicar
     font-size: 1.2rem;
@@ -130,7 +151,7 @@
     }
 }
 
-.login-link {
+.register-link {
     text-align: center;
     margin-top: 20px; // Espaçamento após o botão de cadastro
     padding-top: 15px;
