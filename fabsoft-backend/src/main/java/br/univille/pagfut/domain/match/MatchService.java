@@ -53,6 +53,11 @@ public class MatchService {
         return soccerMatchRepository.findAll();
     }
 
+    public SoccerMatch findByMatchCode(String matchCode) {
+        return soccerMatchRepository.findByMatchCode(matchCode)
+                .orElseThrow( () -> new NotFoundException("Match not found with this code!", matchCode));
+    }
+
 
     public void joinMatch(String matchCode) {
         SoccerMatch match = findMatch(matchCode);
@@ -155,6 +160,7 @@ public class MatchService {
         return match.getSoccerPlayers().stream()
                 .anyMatch(player -> player.getUserEntity().equals(userService.getLoggedUser()));
     }
+
 
 
 }

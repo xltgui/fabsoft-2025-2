@@ -1,9 +1,11 @@
 package br.univille.pagfut.web;
 
 import br.univille.pagfut.api.match.MatchCreationRequest;
+import br.univille.pagfut.api.match.MatchResponse;
 import br.univille.pagfut.api.pix.PixKeySetRequest;
 import br.univille.pagfut.api.pix.PixPaymentRequest;
 import br.univille.pagfut.domain.match.MatchService;
+import br.univille.pagfut.domain.match.SoccerMatch;
 import com.google.zxing.WriterException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("match")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class MatchController {
     private final MatchMapper mapper;
     private final MatchService matchService;
@@ -32,6 +35,11 @@ public class MatchController {
     @GetMapping
     public ResponseEntity<List<?>> list() {
         return ResponseEntity.ok(mapper.toDtoList(matchService.listAll()));
+    }
+
+    @GetMapping("/show/{matchCode}")
+    public ResponseEntity<MatchResponse> listByMatchCode(@PathVariable String matchCode) {
+        return ResponseEntity.ok(mapper.toDto(matchService.findByMatchCode(matchCode)));
     }
 
     @GetMapping("/join")

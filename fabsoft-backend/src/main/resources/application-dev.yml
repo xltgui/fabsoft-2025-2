@@ -26,6 +26,11 @@ spring:
           ssl:
             trust: smtp.gmail.com
 
+api:
+  security:
+    token:
+      secret: mysecret
+
 app:
   frontend:
     base-url: http://localhost:4200/

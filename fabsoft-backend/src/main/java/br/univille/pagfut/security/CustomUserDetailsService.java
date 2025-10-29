@@ -21,10 +21,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Usuário não encontrado: " + email);
         }
 
-        return User.
-                builder()
-                .username(userEntity.getEmail())
-                .password(userEntity.getPassword())
-                .build();
+        return userEntity;
     }
 }
