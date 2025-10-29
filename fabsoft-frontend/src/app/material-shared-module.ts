@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
 import { MatSidenav, MatSidenavContainer, MatSidenavContent, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
 import { MatListItem, MatListModule, MatNavList } from '@angular/material/list';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatTimepickerModule } from '@angular/material/timepicker';
 
 // Crie um array para facilitar a organização
 const materialImports = [
@@ -25,7 +27,9 @@ const materialImports = [
   MatProgressSpinnerModule,
   MatSidenavModule,     
   MatToolbarModule, 
-  MatListModule
+  MatListModule,
+  MatDatepickerModule,
+  MatTimepickerModule
   // Adicione todos os outros módulos do Material aqui
 ];
 

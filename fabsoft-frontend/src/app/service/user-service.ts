@@ -2,12 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserModel } from '../model/user-model';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { C } from '@angular/cdk/keycodes';
+
+const TOKEN_KEY = 'jwtToken';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  apiURL = 'http://localhost:8080/users'
+  usersUrl = 'http://localhost:8080/users'
+  authUrl = 'http://localhost:8080/auth'
+
+  
   
   private currentUserSubject = new BehaviorSubject<UserModel | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
@@ -19,12 +25,11 @@ export class UserService {
     }
   }
 
-  login(credentials: any): Observable<any>{
-    return this.http.post<UserModel>(this.apiURL + '/login', credentials).pipe(
+  login(credentials:any): Observable<any>{
+    return this.http.post<any>(this.authUrl + '/login', credentials)
+    .pipe(
       tap((response) => {
-        this.currentUserSubject.next(response);
-
-        localStorage.setItem('currentUser', JSON.stringify(response));
+        localStorage.setItem(TOKEN_KEY, response.token)
       }),
       catchError(error => {
         const message = error.error?.message || 'Validation Error';
@@ -33,8 +38,12 @@ export class UserService {
     );
   }
 
+  public getToken(): string | null {
+    return localStorage.getItem(TOKEN_KEY);
+  }
+
   register(request: any){
-    return this.http.post<UserModel>(this.apiURL + '/register', request).pipe(
+    return this.http.post<UserModel>(this.usersUrl + '/register', request).pipe(
       catchError(error => {
         const message = error.error?.message || 'Validation Error';
         return throwError( () => message);
@@ -45,7 +54,7 @@ export class UserService {
   confirmRegistration(token: string) {
     // O endpoint é GET e espera o token como query parameter
     // O responseType: 'text' é crucial, pois o backend retorna apenas uma string de sucesso
-    return this.http.get(`${this.apiURL}/confirm?token=${token}`, { responseType: 'text' }).pipe(
+    return this.http.get(`${this.usersUrl}/confirm?token=${token}`, { responseType: 'text' }).pipe(
       catchError(error => {
         // O backend retorna 400 Bad Request com a mensagem no corpo
         const message = error.error || 'Erro desconhecido na confirmação.'; 
@@ -59,8 +68,11 @@ export class UserService {
     return this.currentUserSubject.value?.username || 'Jogador Desconhecido'
   }
 
+  public cleanUpAuth(): void {
+    localStorage.removeItem(TOKEN_KEY); 
+  }
+
   logout(): void {
-    this.currentUserSubject.next(null);
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem(TOKEN_KEY);
   }
 }

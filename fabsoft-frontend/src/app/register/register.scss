@@ -8,7 +8,6 @@
     
     // Sombra com uma leve borda dourada para dar um toque de troféu
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); // Sombra mais proeminente
-    //border-bottom: 4px solid var(--color-accent); // Linha dourada mais grossa e destacada
     
     .title h1 {
         margin: 0;
@@ -20,9 +19,6 @@
     }
 }
 
-// -----------------------------------------------------------
-// 3. Estilos para o Contêiner e Card (Arquibancada/Placar)
-// -----------------------------------------------------------
 .cadastro-container {
     min-height: calc(100vh - 100px);
     display: flex;
@@ -39,6 +35,7 @@
     width: 100%;
     max-width: 400px;
     padding: 30px;
+
     background-color: var(--color-text-light); // Fundo branco dentro do card
     border-radius: 16px; // Cantos mais arredondados
     // Sombra com um leve toque da cor primária
@@ -67,7 +64,7 @@
 .cadastro-form {
     display: flex;
     flex-direction: column;
-    gap: 24px; // Aumentei o espaçamento para uma UI mais limpa
+    gap: 10px;
     
     mat-form-field {
         width: 100%;
@@ -99,7 +96,6 @@
     height: 56px; // Botão mais alto e mais fácil de clicar
     font-size: 1.2rem;
     font-weight: 700; // Mais forte
-    text-transform: uppercase;
     transition: all 0.3s ease;
     
     // Forçando a cor do botão a ser o verde primário (A Camisa do Time)

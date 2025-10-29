@@ -1,0 +1,91 @@
+<header class="app-header">
+    <div class="title">
+        <h1>PagFut</h1>
+    </div>
+</header>
+
+<div class="match-creation-container">
+    
+    <mat-card class="match-creation-card">
+        
+        <mat-card-header>
+            <mat-card-title class="card-title">
+                <mat-icon class="card-icon" color="primary">sports_soccer</mat-icon>
+                Criar Nova Partida
+            </mat-card-title>
+            </mat-card-header>
+
+        <mat-card-content>
+            <form #f="ngForm" class="match-creation-form" (ngSubmit)="onSubmit()">
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Local da Partida</mat-label>
+                    <input 
+                        matInput
+                        type="text" 
+                        placeholder="Ex: SCHULZ" 
+                        [(ngModel)]="soccerPlace"
+                        name="soccerPlace"
+                        required
+                    >
+                    <mat-icon matSuffix>place</mat-icon>
+                </mat-form-field>
+
+                <div class="datetime-group">
+                    <mat-form-field appearance="outline" class="date-input">
+                        <mat-label>Data do Jogo</mat-label>
+                        <input
+                            matInput [matDatepicker]="datepicker"
+                            [(ngModel)]="date"
+                            name="date"
+                            required
+                        >
+                        <mat-datepicker #datepicker></mat-datepicker>
+                        <mat-datepicker-toggle matSuffix [for]="datepicker"/>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="time-input">
+                        <mat-label>Início (HH:MM)</mat-label>
+                        <input 
+                            matInput [matTimepicker]="startTimePicker"
+                            [(ngModel)]="startTime"
+                            name="startTime"
+                            required
+                        >
+                        <mat-timepicker #startTimePicker/>
+                        <mat-icon matSuffix>access_time</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="time-input">
+                        <mat-label>Término (HH:MM)</mat-label>
+                        <input 
+                            matInput [matTimepicker]="endTimePicker" 
+                            [(ngModel)]="endTime"
+                            name="endTime"
+                            required
+                        >
+                        <mat-timepicker #endTimePicker/>
+                        <mat-icon matSuffix>timer_off</mat-icon>
+
+                    </mat-form-field>
+                </div>
+
+                <button 
+                    mat-raised-button 
+                    color="primary" 
+                    type="submit" 
+                    class="create-match-button"
+                    [disabled]="f.invalid || loading">
+                    <span *ngIf="!loading">Criar Partida</span>
+                    <mat-spinner *ngIf="loading" color="primary" diameter="15"></mat-spinner>
+                </button>
+            </form>
+            
+            <div class="lobby-link login-link">
+                Não quer jogar agora? <a (click)="onCancel()">Voltar ao Lobby</a>
+            </div>
+            
+        </mat-card-content>
+        
+    </mat-card>
+</div>

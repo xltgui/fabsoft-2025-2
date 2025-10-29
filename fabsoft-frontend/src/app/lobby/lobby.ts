@@ -24,7 +24,7 @@ export class Lobby implements OnInit {
 
   createMatch() {
     console.log('Navegando para Criar Partida');
-    // this.router.navigate(['/criar-partida']);
+    this.router.navigate(['match/create']);
   }
 
   joinMatch() {
