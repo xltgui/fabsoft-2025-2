@@ -1,0 +1,139 @@
+<div class="match-detail-container mat-app-background">
+  <mat-card class="match-card" *ngIf="matchData">
+    <mat-card-header class="match-header">
+      <div mat-card-avatar class="owner-avatar"></div>
+      <mat-card-title class="match-title">Partida de Futebol</mat-card-title>
+      <mat-card-subtitle>Organizador: {{ matchData.ownerName }}</mat-card-subtitle>
+      
+      <div class="header-actions">
+        <span class="match-code-display">
+          Código: <strong>{{  matchData.matchCode }}</strong>
+          <button mat-icon-button color="accent" (click)="copyCode()">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </span>
+        
+        <button mat-button color="warn" class="action-button" (click)="leaveMatch()">
+          <mat-icon>exit_to_app</mat-icon>
+          Sair da Partida
+        </button>
+        <button mat-button class="action-button" (click)="goToLobby()">
+          <mat-icon>arrow_back</mat-icon>
+          Voltar ao Lobby
+        </button>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content class="match-content">
+      
+      <div class="main-layout">
+        
+        <div class="qr-code-section">
+          <div class="qr-code-form">
+            <form #pixForm="ngForm" class="pix-details-form" (ngSubmit)="setPixDetails(pixForm)">
+              <div class="form-fields-flex">
+                <mat-form-field appearance="outline">
+                    <mat-label>Tipo de chave</mat-label>
+                    <input 
+                        matInput
+                        type="text" 
+                        placeholder="Ex: CPF, Telefone" 
+                        name="keyType"
+                        ngModel
+                        required
+                    >
+                    <mat-icon matSuffix>place</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Chave Pix</mat-label>
+                    <input 
+                        matInput
+                        type="text" 
+                        placeholder="Ex: 47984916823" 
+                        name="key"
+                        ngModel
+                        required
+                    >
+                    <mat-icon matSuffix>place</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Destinatário</mat-label>
+                    <input 
+                        matInput
+                        type="text" 
+                        placeholder="Ex: Erick Barbosa" 
+                        name="recipientName"
+                        ngModel
+                        required
+                    >
+                    <mat-icon matSuffix>place</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Cidade</mat-label>
+                    <input 
+                        matInput
+                        type="text" 
+                        placeholder="Ex: Joinville" 
+                        name="recipientCity"
+                        ngModel
+                        required
+                    >
+                    <mat-icon matSuffix>place</mat-icon>
+                </mat-form-field>
+              </div>
+
+                <button 
+                  mat-raised-button 
+                  color="primary" 
+                  type="submit" 
+                  class="pix-button"
+                  [disabled]="pixForm.invalid || loading"
+                >
+                <span *ngIf="!loading">Gerar QR Code</span>
+                <mat-spinner *ngIf="loading"  color="primary" diameter="15"></mat-spinner>
+                </button>
+            </form>
+          </div>
+
+          <h2>Pagamento da Partida (PIX)</h2>
+          <div class="qrcode-wrapper">
+            <img 
+              [src]="matchData.qrCodeUrl || 'assets/default-qrcode.png'" 
+              alt="QR Code PIX" 
+              class="qr-code-image"
+            >
+            <div *ngIf="!matchData.qrCodeUrl" class="qr-placeholder">
+              [QR Code PIX Aqui]
+            </div>
+          </div>
+          <p class="pix-info mat-caption">Chave PIX do Organizador: {{ matchData.ownerName }}</p>
+        </div>
+
+        <div class="players-section">
+          <h2>Jogadores ({{ matchData.soccerPlayers.length }})</h2>
+
+          <mat-list role="list" class="player-list">
+            <mat-list-item *ngFor="let player of matchData?.soccerPlayers" role="listitem" class="player-item">
+              <mat-icon matListItemIcon>person</mat-icon>
+              
+              <div matListItemTitle class="player-name">{{ player.nickname }}</div>
+
+              <button 
+                mat-raised-button 
+                [color]="player.paid ? 'accent' : 'warn'" 
+                matListItemMeta 
+                (click)="togglePaymentStatus(player.id)"
+                [disabled]="!matchData.isOwner" >
+                {{ player.paid ? 'PAGO' : 'PENDENTE' }}
+              </button>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+    </mat-card-content>
+
+  </mat-card>
+</div>

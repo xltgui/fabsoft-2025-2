@@ -23,7 +23,6 @@ export class Lobby implements OnInit {
   }
 
   createMatch() {
-    console.log('Navegando para Criar Partida');
     this.router.navigate(['match/create']);
   }
 
@@ -33,9 +32,8 @@ export class Lobby implements OnInit {
   }
 
   logout() {
-    console.log('Fazendo Logout');
-    // Lógica de logout (ex: limpar token)
-    // this.router.navigate(['/login']);
+    this.userService.cleanUpAuth();
+    this.router.navigate(['users/login']);
   }
 
 }

@@ -5,6 +5,7 @@ import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { C } from '@angular/cdk/keycodes';
 
 const TOKEN_KEY = 'jwtToken';
+const CURRENT_USER_KEY = "currentUser";
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,14 @@ export class UserService {
     return this.http.post<any>(this.authUrl + '/login', credentials)
     .pipe(
       tap((response) => {
-        localStorage.setItem(TOKEN_KEY, response.token)
+        localStorage.setItem(TOKEN_KEY, response.token);
+
+        if (response.user) {
+          localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(response.user));
+          
+          // 3. Atualiza o BehaviorSubject para notificar o app
+          this.currentUserSubject.next(response.user);
+        }
       }),
       catchError(error => {
         const message = error.error?.message || 'Validation Error';
@@ -65,14 +73,16 @@ export class UserService {
 
 
   getUsername(): string {
-    return this.currentUserSubject.value?.username || 'Jogador Desconhecido'
+    return this.currentUserSubject.value?.nickname || 'Jogador Desconhecido'
   }
 
   public cleanUpAuth(): void {
     localStorage.removeItem(TOKEN_KEY); 
+    localStorage.removeItem(CURRENT_USER_KEY); 
+    this.currentUserSubject.next(null);
   }
 
   logout(): void {
-    localStorage.removeItem(TOKEN_KEY);
+    this.cleanUpAuth();
   }
 }

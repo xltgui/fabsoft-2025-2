@@ -24,7 +24,7 @@ import { MaterialSharedModule } from '../material-shared-module';
   styleUrl: './register.scss'
 })
 export class Register {
-  username: string = '';
+  nickname: string = '';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
@@ -47,7 +47,7 @@ export class Register {
       return;
     }
 
-    if (!this.username || !this.password || !this.email) {
+    if (!this.nickname || !this.password || !this.email) {
       this.showSnackbar('Por favor, preencha todos os campos.', 'Fechar');
       return;
     }
@@ -55,7 +55,7 @@ export class Register {
     this.loading = true;
 
     const request = {
-       username: this.username,
+       nickname: this.nickname,
        email: this.email,
        password: this.password
     };
@@ -86,7 +86,7 @@ export class Register {
   }
 
   cleanFields(){
-    this.username = '';
+    this.nickname = '';
     this.email = '';
     this.password = '';
     this.confirmPassword = '';

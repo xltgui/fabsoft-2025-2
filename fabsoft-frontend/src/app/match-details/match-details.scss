@@ -1,0 +1,174 @@
+.match-detail-container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f4f4f4; /* Cor de fundo leve */
+}
+
+.match-card {
+  width: 100%;
+  max-width: 1200px; /* Limite a largura para melhor leitura */
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.match-header {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+
+  .match-title {
+    font-size: 1.8em;
+    font-weight: 600;
+  }
+}
+
+.owner-avatar {
+  background-color: var(--mat-primary-color);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  margin-right: 16px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-left: auto; /* Empurra os botões para a direita */
+
+  .match-code-display {
+    font-size: 1.1em;
+    color: #555;
+    display: flex;
+    align-items: center;
+  }
+  
+  .action-button {
+    font-weight: 500;
+  }
+}
+
+/* =========== BODY LAYOUT (Flex) =========== */
+.main-layout {
+  display: flex;
+  gap: 40px;
+  padding: 20px 0;
+
+  @media (max-width: 900px) {
+    flex-direction: column; /* Colunas empilhadas em telas menores */
+  }
+}
+
+.qr-code-section {
+  flex: 1; /* Ocupa 1 parte do espaço */
+  padding: 15px;
+  border-right: 2px solid #eee;
+
+  @media (max-width: 900px) {
+    border-right: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  h2 {
+    color: var(--mat-primary-color);
+    font-size: 1.3em;
+    margin-bottom: 15px;
+  }
+}
+
+.pix-details-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaço entre os grupos de campo e o botão */
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fcfcfc;
+}
+
+// Estilo para o grupo de campos (2 colunas)
+.form-fields-flex {
+    display: flex;
+    flex-wrap: wrap; /* Permite quebrar linha no mobile */
+    gap: 10px;
+    
+    // Força cada campo a ocupar metade do espaço disponível
+    mat-form-field {
+        flex: 1 1 calc(50% - 5px); /* 1 1: flex-grow, flex-shrink */
+        min-width: 150px; /* Garante que não fique muito estreito */
+    }
+
+    @media (max-width: 600px) {
+        // No mobile, os campos ocupam 100%
+        mat-form-field {
+            flex: 1 1 100%;
+        }
+    }
+}
+
+.pix-button {
+    height: 48px;
+    font-weight: 600;
+}
+
+
+
+
+
+.players-section {
+  flex: 2; /* Ocupa 2 partes do espaço (mais largo) */
+  padding: 15px;
+
+  h2 {
+    color: #555;
+    font-size: 1.3em;
+    margin-bottom: 15px;
+  }
+}
+
+/* =========== QR Code Estilo =========== */
+.qrcode-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+  width: 250px;
+  margin: 0 auto 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.qr-code-image {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.qr-placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* =========== Lista de Jogadores Estilo =========== */
+.player-list {
+  padding: 0;
+}
+
+.player-item {
+  border-bottom: 1px dashed #ddd;
+  padding: 10px 0;
+  
+  // Estilo para o botão PAGO/PENDENTE
+  .mat-raised-button {
+    min-width: 100px;
+    font-weight: 700;
+    margin-left: 10px;
+  }
+  
+  .player-name {
+    font-weight: 600;
+  }
+}

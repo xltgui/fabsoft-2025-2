@@ -22,39 +22,46 @@ providers: [
   styleUrl: './match.scss'
 })
 export class Match {
-  date: string = '';
-  startTime: string = '';
-  endTime: string = '';
-  soccerPlace: string = '';
+  date: any = '';
+  startTime: any = '';
+  endTime: any = '';
+  place: string = '';
 
   loading: boolean = false;
 
   constructor(
     private router: Router,
     private matchService: MatchService,
+    private datePipe: DatePipe,
     private snackBar: MatSnackBar
   ){}
 
   onSubmit(){
     this.snackBar.dismiss();
+
+    const datePart = this.datePipe.transform(this.date, 'yyyy-MM-dd');
+    const timePartStart = this.datePipe.transform(this.startTime, 'HH:mm'); 
+    const timePartEnd = this.datePipe.transform(this.endTime, 'HH:mm');
     
-    if (!this.date || !this.startTime || !this.endTime || !this.soccerPlace) {
+    if (!datePart || !timePartStart || !timePartEnd || !this.place) {
       this.showSnackbar('Por favor, preencha todos os campos.', 'Fechar');
+      this.loading = false;
       return;
     }
 
     this.loading = true;
 
     const request = {
-      date: this.date,
-      startTime: this.startTime,
-      endTime: this.endTime,
-      soccerPlace: this.soccerPlace
+      date: datePart,
+      startTime: `${datePart}T${timePartStart}:00`,
+      endTime: `${datePart}T${timePartEnd}:00`,
+      place: this.place
     };
 
     this.matchService.create(request).subscribe({
       next: (response) => {
         this.loading = false;
+        this.router.navigate(['match', response.matchCode]);
       },
       error: (errorMessage) => {
         this.loading = false;
@@ -63,7 +70,9 @@ export class Match {
     });  
   }
 
-  onCancel(){}
+  onCancel(){
+    this.router.navigate(['lobby'])
+  }
 
 
   showSnackbar(message: string, action: string, duration: number = 4000){
@@ -72,6 +81,13 @@ export class Match {
       horizontalPosition: 'center',
       verticalPosition: 'top'
     });
+  }
+
+
+  private formatLocalDateTime(dateString: string, timeString: string): string {
+    // 1. Combine a data e a hora no formato ISO 8601 local (ex: 2025-10-31T18:00:00)
+    const combinedString = `${dateString}T${timeString}:00`;
+    return combinedString;
   }
 
 }

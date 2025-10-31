@@ -1,7 +1,8 @@
 
 export class MatchModel {
-    date?: string;
-    startTime?: string;
-    endTime?: string;
-    soccerPlace?: string;
+    date?: any;
+    startTime?: any;
+    endTime?: any;
+    place?: string;
+    matchCode?: string;
 }

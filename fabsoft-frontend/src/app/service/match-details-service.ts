@@ -1,0 +1,21 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { MatchDetailsInterface } from '../match-details/matchDetailsInterface';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MatchDetailsService {
+  private apiUrl = 'http://localhost:8080/match'
+
+  constructor(private http: HttpClient){}
+
+  getMatchDetails(matchCode: string): Observable<MatchDetailsInterface>{
+    return this.http.get<MatchDetailsInterface>(`${this.apiUrl}/show/${matchCode}`);
+  }
+
+  updatePaymentStatus(matchCode: string, playerId: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/updatePayment/${matchCode}/${playerId}`, null);
+  }
+}
