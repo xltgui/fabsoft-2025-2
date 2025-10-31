@@ -5,6 +5,7 @@ import br.univille.pagfut.domain.user.UserService;
 import br.univille.pagfut.security.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -36,8 +37,15 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers("/auth/**").permitAll();
-                    authorize.requestMatchers("/users/**").permitAll();
+					authorize.requestMatchers("/auth/**").permitAll();
+					authorize.requestMatchers("/h2-console").permitAll();
+
+					// 2. Permite caminhos de registro específicos
+					authorize.requestMatchers("/users/register").permitAll();
+					authorize.requestMatchers("/users/confirm").permitAll();
+
+					// 3. Permite OPTIONS (CORS pre-flight) em todos os lugares
+					authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 
                     authorize.anyRequest().authenticated();
                 })

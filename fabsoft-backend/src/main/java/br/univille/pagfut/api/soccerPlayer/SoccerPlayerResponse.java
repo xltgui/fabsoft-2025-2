@@ -1,7 +1,8 @@
 package br.univille.pagfut.api.soccerPlayer;
 
 public record SoccerPlayerResponse(
-        String username,
+		Long id,
+        String nickname,
         Boolean paid
 ) {
 }

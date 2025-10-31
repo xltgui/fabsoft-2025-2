@@ -38,7 +38,7 @@ public class UserService {
         if(repository.findByEmail(userEntity.getEmail()).isPresent()){
             throw new DuplicatedRegisterException("User already registred");
         }
-        userEntity.setUsername(userEntity.getUsername());
+		userEntity.setNickname(userEntity.getNickname());
         userEntity.setPassword(encoder.encode(userEntity.getPassword()));
 
         String token = UUID.randomUUID().toString();

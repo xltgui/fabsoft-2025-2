@@ -20,7 +20,7 @@ public interface MatchMapper {
 
     List<MatchResponse> toDtoList(List<SoccerMatch> entityList);
 
-    @Mapping(source = "userEntity.username", target = "username")
+    @Mapping(source = "userEntity.nickname", target = "nickname")
     SoccerPlayerResponse toSoccerPlayerDto(SoccerPlayer soccerPlayer);
 
 }

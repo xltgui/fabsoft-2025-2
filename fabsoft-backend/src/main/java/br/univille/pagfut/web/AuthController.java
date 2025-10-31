@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
+	private final UserMapper userMapper;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserLoginRequest request) {
@@ -37,6 +38,6 @@ public class AuthController {
         String token = tokenService.generateToken(user);
 
         // 5. Retorna o Token JWT encapsulado no DTO de resposta.
-        return ResponseEntity.ok(new LoginResponse(token));
+        return ResponseEntity.ok(new LoginResponse(token, userMapper.toDto(user)));
     }
 }

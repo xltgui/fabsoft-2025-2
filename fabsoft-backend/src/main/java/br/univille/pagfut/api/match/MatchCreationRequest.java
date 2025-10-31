@@ -4,17 +4,18 @@ import br.univille.pagfut.domain.match.SoccerPlace;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public record MatchCreationRequest(
         @NotNull(message = "Field required!")
-        LocalDate date,
+		LocalDate date,
 
         @NotNull(message = "Field required!")
-        LocalTime startTime,
+        LocalDateTime startTime,
 
         @NotNull(message = "Field required!")
-        LocalTime endTime,
+		LocalDateTime endTime,
 
         @NotNull(message = "Field required!")
         SoccerPlace place
