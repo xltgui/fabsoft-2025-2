@@ -11,7 +11,7 @@ import { UserService } from '../service/user-service';
 })
 
 export class Lobby implements OnInit {
-  username: string= 'Carregando...';
+  nickname: string= 'Carregando...';
 
   constructor(
     private router: Router,
@@ -19,7 +19,7 @@ export class Lobby implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.username = this.userService.getUsername();
+    this.nickname = this.userService.getNickname();
   }
 
   createMatch() {
@@ -27,8 +27,7 @@ export class Lobby implements OnInit {
   }
 
   joinMatch() {
-    console.log('Navegando para Ingressar em Partida');
-    // this.router.navigate(['/ingressar-partida']);
+    this.router.navigate(['match/join']);
   }
 
   logout() {

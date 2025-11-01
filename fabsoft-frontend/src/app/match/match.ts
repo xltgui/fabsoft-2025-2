@@ -83,11 +83,4 @@ export class Match {
     });
   }
 
-
-  private formatLocalDateTime(dateString: string, timeString: string): string {
-    // 1. Combine a data e a hora no formato ISO 8601 local (ex: 2025-10-31T18:00:00)
-    const combinedString = `${dateString}T${timeString}:00`;
-    return combinedString;
-  }
-
 }

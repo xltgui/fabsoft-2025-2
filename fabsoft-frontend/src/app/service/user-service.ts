@@ -72,7 +72,7 @@ export class UserService {
   }
 
 
-  getUsername(): string {
+  getNickname(): string {
     return this.currentUserSubject.value?.nickname || 'Jogador Desconhecido'
   }
 

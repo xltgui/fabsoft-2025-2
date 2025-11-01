@@ -1,0 +1,50 @@
+<header class="app-header">
+    <div class="title">
+        <h1>PagFut</h1>
+    </div>
+</header>
+
+<div class="match-join-container">
+    
+    <mat-card class="match-join-card">
+        <mat-card-header>
+            <mat-card-title class="card-title">
+                <mat-icon class="card-icon" color="primary">sports_soccer</mat-icon>
+                Ingressar em uma partida
+            </mat-card-title>
+            </mat-card-header>
+
+        <mat-card-content>
+            <form #f="ngForm" class="match-join-form" (ngSubmit)="onSubmit()">
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Código da Partida</mat-label>
+                    <input 
+                        matInput
+                        type="text" 
+                        placeholder="Ex: HND2KC" 
+                        [(ngModel)]="matchCode"
+                        name="matchCode"
+                        required
+                    >
+                    <mat-icon matSuffix>place</mat-icon>
+                </mat-form-field>
+
+                <button 
+                    mat-raised-button 
+                    color="primary" 
+                    type="submit" 
+                    class="join-match-button"
+                    [disabled]="f.invalid || loading">
+                    <span *ngIf="!loading">Ingressar</span>
+                    <mat-spinner *ngIf="loading" color="primary" diameter="15"></mat-spinner>
+                </button>
+            </form>
+            
+            <div class="lobby-link login-link">
+                Não quer jogar agora? <a (click)="onCancel()">Voltar ao Lobby</a>
+            </div>
+        </mat-card-content>
+        
+    </mat-card>
+</div>
