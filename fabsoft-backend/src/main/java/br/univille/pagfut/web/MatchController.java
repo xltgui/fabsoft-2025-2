@@ -32,9 +32,9 @@ public class MatchController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping
-    public ResponseEntity<List<?>> list() {
-        return ResponseEntity.ok(mapper.toDtoList(matchService.listAll()));
+    @GetMapping("/byUser")
+    public ResponseEntity<List<?>> listByLoggedUser() {
+        return ResponseEntity.ok(mapper.toDtoList(matchService.listByLoggedUser()));
     }
 
     @GetMapping("/show/{matchCode}")
@@ -77,6 +77,14 @@ public class MatchController {
     public ResponseEntity<?> generateQrCode(@Valid @RequestBody PixPaymentRequest request, @PathVariable String matchCode) throws WriterException, IOException {
         return ResponseEntity.ok().body(matchService.setMatchQrCode(request, matchCode));
     }
+
+
+    @DeleteMapping("/removePlayer/{matchCode}/{playerId}")
+    public ResponseEntity<?> removePlayer(@PathVariable String matchCode, @PathVariable Long playerId) {
+        matchService.removePlayer(matchCode, playerId);
+        return ResponseEntity.ok().build();
+    }
+
 
 
 }

@@ -45,7 +45,6 @@ public class SecurityConfiguration {
 					authorize.requestMatchers("/users/confirm").permitAll();
 
 					// 3. Permite OPTIONS (CORS pre-flight) em todos os lugares
-					authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 
                     authorize.anyRequest().authenticated();
                 })
@@ -79,7 +78,7 @@ public class SecurityConfiguration {
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
 
         // 2. Permite os métodos HTTP que você usará. OPTIONS é essencial para o CORS.
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 
         // 3. **CRUCIAL para HTTP Basic/Credenciais:** Permite que o cabeçalho Authorization seja enviado.
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));

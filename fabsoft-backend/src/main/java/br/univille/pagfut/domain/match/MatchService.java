@@ -8,6 +8,7 @@ import br.univille.pagfut.domain.pix.PixQrCodeService;
 import br.univille.pagfut.domain.user.UserEntity;
 import br.univille.pagfut.domain.user.UserService;
 import br.univille.pagfut.repository.SoccerMatchRepository;
+import br.univille.pagfut.web.MatchMapper;
 import br.univille.pagfut.web.exception.DuplicatedRegisterException;
 import br.univille.pagfut.web.exception.InvalidFieldException;
 import br.univille.pagfut.web.exception.NotFoundException;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +29,7 @@ public class MatchService {
 
     private final PixQrCodeService qrCodeService;
     private final UserService userService;
+    private final MatchMapper matchMapper;
 
     public SoccerMatch create(SoccerMatch match){
         String matchCode = generateMatchCode(6);
@@ -49,8 +52,9 @@ public class MatchService {
         return soccerMatchRepository.save(match);
     }
 
-    public List<SoccerMatch> listAll(){
-        return soccerMatchRepository.findAll();
+    public List<SoccerMatch> listByLoggedUser(){
+        UserEntity loggedUser = userService.getLoggedUser();
+        return soccerMatchRepository.findMatchesByPlayerId(loggedUser.getId());
     }
 
     public SoccerMatch findByMatchCode(String matchCode) {
@@ -94,7 +98,7 @@ public class MatchService {
         match.getSoccerPlayers().stream()
                 .filter(p -> p.getUserEntity().getId().equals(playerId))
                 .findFirst()
-                .ifPresent(p -> p.setPaid(true));
+                .ifPresent(p -> p.setPaid(p.getPaid() == false));
 
         soccerMatchRepository.save(match);
     }
@@ -162,5 +166,13 @@ public class MatchService {
     }
 
 
+    public void removePlayer(String matchCode, Long playerIdToRemove) {
+        SoccerMatch match = validator.validateMatchAndUserOwner(matchCode);
+        validator.isPlayerInTheMatch(match, playerIdToRemove);
 
+        match.getSoccerPlayers().removeIf(player ->
+                player.getUserEntity().getId().equals(playerIdToRemove));
+
+        soccerMatchRepository.save(match);
+    }
 }

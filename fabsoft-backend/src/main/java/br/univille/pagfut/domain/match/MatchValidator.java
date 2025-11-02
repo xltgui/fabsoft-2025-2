@@ -14,6 +14,7 @@ public class MatchValidator {
     private final UserService userService;
 
     public SoccerMatch validateMatchAndUserOwner(String matchCode) {
+        System.out.println("VALIDATING 1");
         SoccerMatch match = repository.findByMatchCode(matchCode)
                 .orElseThrow(() -> new NotFoundException("Match not found with this code!", matchCode));
         System.out.println("VALIDANTING");
@@ -30,7 +31,7 @@ public class MatchValidator {
     }
 
     public void isPlayerInTheMatch(SoccerMatch match, Long playerId) {
-        if(match.getSoccerPlayers().stream().noneMatch(p -> p.getId().equals(playerId))){
+        if(match.getSoccerPlayers().stream().noneMatch(p -> p.getUserEntity().getId().equals(playerId))){
             throw new NotFoundException("Player not in the match", null);
         }
     }

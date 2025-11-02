@@ -12,6 +12,8 @@ import java.util.List;
 
 public record MatchResponse(
         Long id,
+		Long adminId,
+		String adminNickname,
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 		LocalDate date,
