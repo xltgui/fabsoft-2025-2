@@ -76,6 +76,10 @@ export class UserService {
     return this.currentUserSubject.value?.nickname || 'Jogador Desconhecido'
   }
 
+  getCurrentUserId(): number{
+    return this.currentUserSubject.value?.id || 0
+  }
+
   public cleanUpAuth(): void {
     localStorage.removeItem(TOKEN_KEY); 
     localStorage.removeItem(CURRENT_USER_KEY); 

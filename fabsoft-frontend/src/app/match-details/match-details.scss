@@ -158,17 +158,82 @@
 }
 
 .player-item {
-  border-bottom: 1px dashed #ddd;
-  padding: 10px 0;
+    // Garante que o conteúdo do item se estique
+    .mat-list-item-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+}
+
+.payment-actions-group {
+    display: flex;
+    align-items: center; /* ESSENCIAL: Garante o alinhamento central */
+    gap: 8px; /* Espaço entre os itens */
+    margin-left: auto;
+    
+    // Alinhamento fino para compensar a altura do toggle
+    // Aplicamos uma pequena margem superior no botão toggle para compensar
+    .payment-toggle-btn {
+        margin-top: 0; 
+        margin-bottom: 0;
+    }
+
+    // Estilo para o botão de ícone de remover
+    .remove-player-btn {
+        // Redefine qualquer margem que possa estar empurrando o ícone para baixo
+        padding: 0; 
+        width: 32px;
+        height: 32px;
+        
+        // NOVO: Adicione alinhamento vertical explícito
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+// NOVO: Estilo para o grupo de ações (Toggle + Botão de Expulsar)
+.payment-actions-group {
+  display: flex;
+  align-items: center; /* ESSENCIAL: Garante o alinhamento central */
+  gap: 8px; /* Espaço entre os itens */
+  margin-left: auto;
   
-  // Estilo para o botão PAGO/PENDENTE
-  .mat-raised-button {
-    min-width: 100px;
-    font-weight: 700;
-    margin-left: 10px;
+}
+
+// Estilo para o botão de ícone de remover
+.remove-player-btn {
+  margin-right: 8px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 0;
+
+  transform: translateY(-1px);
+  mat-icon {
+      font-size: 20px; 
+      width: 20px;
+      height: 20px;
   }
-  
-  .player-name {
-    font-weight: 600;
-  }
+}
+
+.payment-toggle-btn {
+    min-width: 110px;
+    height: 40px; 
+    border-radius: 20px !important; 
+    font-size: 14px; /* Garante que o texto não seja muito grande */
+    font-weight: 500;
+    
+    // Adicionar margem vertical negativa para puxar para cima e alinhar melhor
+    
+    &.mat-button-toggle-checked {
+        // Cor para PAGO (usando ACCENT, que é a cor primária)
+        background-color: var(--color-primary-dark);
+        color: white !important
+    }
+    
+    &:not(.mat-button-toggle-checked) {
+        color: white !important; /* Texto vermelho */
+        background-color: #990c21; /* Fundo bem claro para destacar a pendência */
+    }
 }

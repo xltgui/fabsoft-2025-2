@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatchModel } from '../model/match-model';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
+import { MatchItem } from '../lobby/MatchItem';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class MatchService {
         return throwError( () => message);
       })
     );
+  }
+
+  getMatchList(): Observable<MatchItem[]>{
+    return this.http.get<MatchItem[]>(`${this.apiURL}/byUser`);
   }
 
   join(matchCode: string){

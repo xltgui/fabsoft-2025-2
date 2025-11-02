@@ -120,15 +120,29 @@
               <mat-icon matListItemIcon>person</mat-icon>
               
               <div matListItemTitle class="player-name">{{ player.nickname }}</div>
-
-              <button 
-                mat-raised-button 
-                [color]="player.paid ? 'accent' : 'warn'" 
-                matListItemMeta 
-                (click)="togglePaymentStatus(player.id)"
-                [disabled]="!matchData.isOwner" >
-                {{ player.paid ? 'PAGO' : 'PENDENTE' }}
-              </button>
+              
+              <div matListItemMeta class="payment-actions-group"> 
+                
+                <button 
+                    mat-icon-button 
+                    color="warn" 
+                    *ngIf="matchData.isOwner && player.id !== getCurrentUserId()"
+                    (click)="removePlayer(player.id)"
+                    class="remove-player-btn"
+                    title="Expulsar Jogador"
+                >
+                    <mat-icon>delete</mat-icon> 
+                </button>
+                
+                <mat-button-toggle 
+                    class="payment-toggle-btn"
+                    [checked]="player.paid" 
+                    (change)="togglePaymentStatus(player.id)" 
+                    [disabled]="!matchData.isOwner"
+                > 
+                    {{ player.paid ? 'PAGO' : 'PENDENTE' }} 
+                </mat-button-toggle>
+              </div>
             </mat-list-item>
           </mat-list>
         </div>

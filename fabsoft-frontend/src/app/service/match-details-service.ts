@@ -18,4 +18,8 @@ export class MatchDetailsService {
   updatePaymentStatus(matchCode: string, playerId: number): Observable<any> {
     return this.http.patch(`${this.apiUrl}/updatePayment/${matchCode}/${playerId}`, null);
   }
+
+  removePlayer(matchCode: string, playerId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/removePlayer/${matchCode}/${playerId}`);
+  }
 }

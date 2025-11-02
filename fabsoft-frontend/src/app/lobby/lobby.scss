@@ -113,6 +113,7 @@
     display: flex;
     gap: 40px;
     margin-top: 20px;
+    margin-bottom: 60px;
 }
 
 .action-btn {
@@ -162,3 +163,116 @@
         transform: translateY(-2px);
     }
 }
+
+
+
+.list-title {
+    font-size: 1.4em;
+    font-weight: 600;
+    color: var(--mat-primary-color); /* Usa a cor de destaque (verde escuro) */
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--color-primary); 
+    /* A linha verde que você tinha */
+    margin-bottom: 14px;
+}
+
+.match-list-container {
+    width: 100%;
+    max-width: 1000px; /* Limite a largura para ficar centralizado abaixo dos botões */
+    margin: 30px auto 0; /* Centraliza horizontalmente e dá margem acima */
+    padding: 20px; /* Espaçamento interno */
+    
+    // **ESTILOS PARA TORNAR TRANSPARENTE:**
+    background-color: transparent !important; /* Fundo transparente */
+    box-shadow: none !important;            /* Remove a sombra de flutuação */
+}
+
+.match-list {
+    background-color: transparent !important;
+}
+
+.match-list-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+    
+    // Sobrescrever o alinhamento padrão para que as linhas funcionem como colunas
+    .mat-list-item-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* Espaço entre o conteúdo principal e a seta */
+        height: auto !important; /* Permite que o conteúdo defina a altura */
+    }
+}
+
+
+.match-info-group {
+    // Estilo para o título principal (Data e Local)
+    font-weight: 600;
+    font-size: 1.1em;
+    flex-grow: 1; 
+    margin-right: 20px;
+}
+
+match-text-content {
+    display: flex;
+    flex-direction: column; /* FORÇA O LAYOUT VERTICAL */
+    flex-grow: 1; /* Permite que este bloco use o espaço */
+    margin-right: 15px; /* Espaço para o botão de seta */
+}
+
+.match-title-line {
+    font-weight: 600;
+    font-size: 1.1em;
+    color: var(--color-primary-dark);
+}
+
+.match-title-line > span {
+    display: inline-block;
+}
+
+// 1. Destaque para a palavra "Local"
+.match-location {
+    font-weight: 700;
+    color: var(--color-primary-dark); /* Destaque com cor (ex: dourado) */
+    padding-left: 10px; /* Adiciona o espaçamento pedido (coluna virtual) */
+
+    strong{
+        color: var(--color-primary)
+    }
+}
+
+.match-location-divider {
+    color: #ccc;
+    font-weight: 300;
+    margin: 0 5px;
+}
+
+.match-details-line {
+    color: #666;
+    font-size: 0.9em;
+    margin-right: 15px; /* Espaçamento antes do ícone/botão */
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    max-width: 300px;
+    
+    strong {
+        font-weight: 700;
+        color: var(--mat-accent-color);
+    }
+}
+
+.mat-list-item-content {
+    cursor: pointer; /* Indica que a linha é clicável */
+    transition: background-color 0.2s;
+    
+    &:hover {
+        background-color: #f0f0f0; /* Feedback visual ao passar o mouse */
+    }
+}
+
+
+
