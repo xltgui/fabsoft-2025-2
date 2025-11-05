@@ -25,6 +25,7 @@ export class MatchDetails implements OnInit{
   pixDetails: PixSetDetails | null = null
   matchCode: string = '';
   loading = true;
+  loadingPix = false;
 
   constructor(
     private router: Router,
@@ -49,7 +50,6 @@ export class MatchDetails implements OnInit{
             // 2. Mapeia a resposta do backend para o modelo do componente
             this.matchData = {
                 ...data,
-                ownerName: 'Dono Fictício', // Você deve obter este nome do backend
                 isOwner: this.checkIfOwner(data)
             };
             this.loading = false;
@@ -91,9 +91,7 @@ export class MatchDetails implements OnInit{
 
   removePlayer(playerId: number) {
     if (confirm('Tem certeza que deseja expulsar este jogador?')) {
-        // TODO: Implementar a chamada ao MatchService.removePlayer(matchCode, playerId)
         console.log(`Expulsando o jogador ID: ${playerId} da partida ${this.matchCode}`);
-        // Exemplo de chamada:
         this.matchService.removePlayer(this.matchCode, playerId).subscribe(() => {
             this.loadMatchDetails(); // Recarrega a lista após a remoção
         });
@@ -104,7 +102,23 @@ export class MatchDetails implements OnInit{
       return player.id; 
   }
 
-  setPixDetails(form: NgForm){}
+  setPixDetails(form: NgForm){
+    if(form.invalid || !this.matchCode) return;
+
+    this.loadingPix = true;
+
+    const request: PixSetDetails = form.value
+
+    this.matchService.setPixDetails(request, this.matchCode).subscribe({
+      next: () => {
+          this.loadingPix = false;
+      },
+      error: (err) => {
+          this.loadingPix = false;
+          console.error('Erro ao salvar chave PIX', err);
+      }
+  });
+  }
 
   copyCode() {
       alert('Código da sala copiado!');

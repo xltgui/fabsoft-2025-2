@@ -3,9 +3,16 @@
     <mat-card-header class="match-header">
       <div mat-card-avatar class="owner-avatar"></div>
       <mat-card-title class="match-title">Partida de Futebol</mat-card-title>
-      <mat-card-subtitle>Organizador: {{ matchData.ownerName }}</mat-card-subtitle>
+      <mat-card-subtitle>Organizador: {{ matchData.adminNickname }}</mat-card-subtitle>
       
       <div class="header-actions">
+        <div class="header-match-info">
+          <span class="match-date">{{ matchData.date| date: 'dd/MM/yyyy' }}</span>
+          <span class="match-location-divider"> | </span> 
+          <span class="match-time"> {{ matchData.startTime }} - {{matchData.endTime}} </span>
+          <span class="match-location-divider"> | </span> 
+          <span class="match-location">Local: <strong>{{ matchData.place }}</strong></span>
+        </div>
         <span class="match-code-display">
           Código: <strong>{{  matchData.matchCode }}</strong>
           <button mat-icon-button color="accent" (click)="copyCode()">
@@ -29,7 +36,7 @@
       <div class="main-layout">
         
         <div class="qr-code-section">
-          <div class="qr-code-form">
+          <div class="qr-code-form" *ngIf="matchData.isOwner">
             <form #pixForm="ngForm" class="pix-details-form" (ngSubmit)="setPixDetails(pixForm)">
               <div class="form-fields-flex">
                 <mat-form-field appearance="outline">
@@ -42,7 +49,6 @@
                         ngModel
                         required
                     >
-                    <mat-icon matSuffix>place</mat-icon>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
@@ -55,7 +61,7 @@
                         ngModel
                         required
                     >
-                    <mat-icon matSuffix>place</mat-icon>
+                    <mat-icon matSuffix>key</mat-icon>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
@@ -68,7 +74,7 @@
                         ngModel
                         required
                     >
-                    <mat-icon matSuffix>place</mat-icon>
+                    <mat-icon matSuffix>inbox_text_person</mat-icon>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
@@ -81,7 +87,7 @@
                         ngModel
                         required
                     >
-                    <mat-icon matSuffix>place</mat-icon>
+                    <mat-icon matSuffix>location_city</mat-icon>
                 </mat-form-field>
               </div>
 
@@ -92,13 +98,37 @@
                   class="pix-button"
                   [disabled]="pixForm.invalid || loading"
                 >
-                <span *ngIf="!loading">Gerar QR Code</span>
+                <span *ngIf="!loading">Salvar</span>
                 <mat-spinner *ngIf="loading"  color="primary" diameter="15"></mat-spinner>
                 </button>
             </form>
           </div>
 
           <h2>Pagamento da Partida (PIX)</h2>
+          <div class="qrcode-pre-generation" *ngIf="matchData.isOwner">
+            <mat-form-field appearance="outline">
+              <mat-label>Valor</mat-label>
+              <input 
+                  matInput
+                  type="number" 
+                  placeholder="Ex: 15,00" 
+                  name="amount"
+                  ngModel
+                  required
+              >
+              <mat-icon matSuffix>attach_money</mat-icon>
+            </mat-form-field>
+
+            <button 
+              mat-raised-button 
+              color="primary" 
+              type="submit" 
+              class="qrcode-button"
+            >
+            <span *ngIf="!loading">Gerar QR Code</span>
+            <mat-spinner *ngIf="loading"  color="primary" diameter="15"></mat-spinner>
+            </button>
+          </div>
           <div class="qrcode-wrapper">
             <img 
               [src]="matchData.qrCodeUrl || 'assets/default-qrcode.png'" 
@@ -109,7 +139,7 @@
               [QR Code PIX Aqui]
             </div>
           </div>
-          <p class="pix-info mat-caption">Chave PIX do Organizador: {{ matchData.ownerName }}</p>
+          <p class="pix-info mat-caption">Chave PIX do Organizador: {{ pixDetails?.key }}</p>
         </div>
 
         <div class="players-section">

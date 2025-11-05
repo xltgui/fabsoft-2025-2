@@ -43,11 +43,17 @@
     color: #555;
     display: flex;
     align-items: center;
+    gap: 3px;
   }
   
   .action-button {
     font-weight: 500;
   }
+}
+
+
+.header-match-info{
+  
 }
 
 /* =========== BODY LAYOUT (Flex) =========== */
@@ -104,14 +110,89 @@
     @media (max-width: 600px) {
         // No mobile, os campos ocupam 100%
         mat-form-field {
-            flex: 1 1 100%;
+          flex: 1 1 100%;
         }
     }
 }
 
+.qrcode-pre-generation{
+  display: flex;
+  gap: 10px;
+    // Força cada campo a ocupar metade do espaço disponível
+    mat-form-field {
+        flex: 1 1 calc(50% - 5px); /* 1 1: flex-grow, flex-shrink */
+        min-width: 150px; /* Garante que não fique muito estreito */
+    }
+}
+
+
+
 .pix-button {
     height: 48px;
     font-weight: 600;
+    font-size: 1.1rem;
+
+    transition: all 0.3s ease;
+    
+    // Forçando a cor do botão a ser o verde primário (A Camisa do Time)
+    background-color: var(--color-primary) !important;
+    color: var(--color-text-light) !important;
+    
+    &:hover {
+        background-color: var(--color-primary-dark) !important;
+        // Adiciona um sutil box-shadow dourado no hover
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px var(--color-primary-dark);
+        transform: translateY(-1px);
+    }
+
+    &[disabled] {
+        opacity: 0.6;
+        box-shadow: none !important;
+        transform: none !important;
+        // Garante que a cor primária seja mantida, mas em opacidade
+        background-color: var(--color-primary) !important;
+    }
+
+    .mat-mdc-progress-spinner {
+        margin: 0 auto;
+        
+        // Define a cor do spinner para contrastar com o botão, usando o accent (Troféu)
+        --mdc-circular-progress-active-indicator-color: var(--color-accent) !important;
+    }
+}
+
+.qrcode-button {
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 25px; // Mais espaço antes do botão
+  height: 52px; // Botão mais alto e mais fácil de clicar
+  font-size: 1.2rem;
+  font-weight: 700; // Mais forte
+  transition: all 0.3s ease;
+  
+  // Forçando a cor do botão a ser o verde primário (A Camisa do Time)
+  background-color: var(--color-primary) !important;
+  color: var(--color-text-light) !important;
+  
+  &:hover {
+      background-color: var(--color-primary-dark) !important;
+      // Adiciona um sutil box-shadow dourado no hover
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px var(--color-primary-dark);
+      transform: translateY(-1px);
+  }
+
+  &[disabled] {
+      opacity: 0.6;
+      box-shadow: none !important;
+      transform: none !important;
+      // Garante que a cor primária seja mantida, mas em opacidade
+      background-color: var(--color-primary) !important;
+  }
+
+  .mat-mdc-progress-spinner {
+        margin: 0 auto;
+        --mdc-circular-progress-active-indicator-color: var(--color-accent) !important;
+    }
 }
 
 
@@ -223,17 +304,15 @@
     border-radius: 20px !important; 
     font-size: 14px; /* Garante que o texto não seja muito grande */
     font-weight: 500;
-    
     // Adicionar margem vertical negativa para puxar para cima e alinhar melhor
     
     &.mat-button-toggle-checked {
-        // Cor para PAGO (usando ACCENT, que é a cor primária)
         background-color: var(--color-primary-dark);
         color: white !important
     }
     
     &:not(.mat-button-toggle-checked) {
-        color: white !important; /* Texto vermelho */
-        background-color: #990c21; /* Fundo bem claro para destacar a pendência */
+        color: white !important;
+        background-color: #990c21;
     }
 }

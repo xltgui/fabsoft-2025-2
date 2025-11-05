@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatchDetailsInterface } from '../match-details/matchDetailsInterface';
+import { PixSetDetails } from '../match-details/pixSetInterface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,10 @@ export class MatchDetailsService {
 
   getMatchDetails(matchCode: string): Observable<MatchDetailsInterface>{
     return this.http.get<MatchDetailsInterface>(`${this.apiUrl}/show/${matchCode}`);
+  }
+
+  setPixDetails(request: PixSetDetails, matchCode: string) {
+    return this.http.post(`${this.apiUrl}/pixkey/${matchCode}`, request);
   }
 
   updatePaymentStatus(matchCode: string, playerId: number): Observable<any> {
