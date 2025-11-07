@@ -16,6 +16,7 @@ public interface MatchMapper {
     @Mapping(target = "id", ignore = true)
     SoccerMatch toEntity(MatchCreationRequest dto);
 
+    @Mapping(source = "pixKey", target = "pixKeyDetails") // pixKey é o campo do DTO, source é a entity buscando o atributo pixKey da pixKey
     @Mapping(source = "admin.nickname", target = "adminNickname") // adminNickname é o campo do DTO, source é a entity buscando o atributo nickname do admin
     @Mapping(source = "admin.id", target = "adminId")
     MatchResponse toDto(SoccerMatch match);

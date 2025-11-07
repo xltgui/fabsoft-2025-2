@@ -15,6 +15,7 @@ public class PixKey {
     @Enumerated(EnumType.STRING)
     KeyType keyType;
 
+    @Column(unique = true)
     String keyValue;
     String recipientName;
     String recipientCity;

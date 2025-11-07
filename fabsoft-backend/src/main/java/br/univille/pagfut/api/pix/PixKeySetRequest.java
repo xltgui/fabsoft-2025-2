@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record PixKeySetRequest (
     @NotBlank(message = "Field required!")
-    String key,
+    String keyValue,
 
     @NotNull(message = "Field required!")
     KeyType keyType,

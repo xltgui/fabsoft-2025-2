@@ -73,9 +73,10 @@ public class MatchController {
     }
 
 
-    @PostMapping(value = "/generateQrCode/{matchCode}", produces = MediaType.IMAGE_PNG_VALUE)
+    @PostMapping(value = "/generateQrCode/{matchCode}")
     public ResponseEntity<?> generateQrCode(@Valid @RequestBody PixPaymentRequest request, @PathVariable String matchCode) throws WriterException, IOException {
-        return ResponseEntity.ok().body(matchService.setMatchQrCode(request, matchCode));
+        matchService.setMatchQrCode(request, matchCode);
+        return ResponseEntity.noContent().build();
     }
 
 

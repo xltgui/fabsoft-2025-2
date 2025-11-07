@@ -24,7 +24,11 @@ public class SoccerMatch {
     private String paymentKey;
     private String payload;
 
-    @OneToOne(cascade =  CascadeType.ALL)
+    @Column(columnDefinition = "TEXT") // Use TEXT se a string for muito longa
+    private String qrCodeUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "pix_key_id")
     private PixKey pixKey;
 
     @Enumerated(EnumType.STRING)

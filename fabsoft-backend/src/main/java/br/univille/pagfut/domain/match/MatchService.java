@@ -7,6 +7,7 @@ import br.univille.pagfut.domain.pix.PixKey;
 import br.univille.pagfut.domain.pix.PixQrCodeService;
 import br.univille.pagfut.domain.user.UserEntity;
 import br.univille.pagfut.domain.user.UserService;
+import br.univille.pagfut.repository.PixKeyRepository;
 import br.univille.pagfut.repository.SoccerMatchRepository;
 import br.univille.pagfut.web.MatchMapper;
 import br.univille.pagfut.web.exception.DuplicatedRegisterException;
@@ -17,9 +18,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Base64;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class MatchService {
     private final PixQrCodeService qrCodeService;
     private final UserService userService;
     private final MatchMapper matchMapper;
+    private final PixKeyRepository pixKeyRepository;
 
     public SoccerMatch create(SoccerMatch match){
         String matchCode = generateMatchCode(6);
@@ -58,8 +61,16 @@ public class MatchService {
     }
 
     public SoccerMatch findByMatchCode(String matchCode) {
-        return soccerMatchRepository.findByMatchCode(matchCode)
+        SoccerMatch match =  soccerMatchRepository.findByMatchCode(matchCode)
                 .orElseThrow( () -> new NotFoundException("Match not found with this code!", matchCode));
+
+        UserEntity admin = match.getAdmin();
+        match.getSoccerPlayers().sort(
+                Comparator
+                        .comparing((SoccerPlayer p) -> p.getUserEntity().equals(admin), Comparator.reverseOrder())
+                        .thenComparing((SoccerPlayer p) -> p.getUserEntity().getNickname())
+        );
+        return match;
     }
 
 
@@ -115,16 +126,31 @@ public class MatchService {
     public void setPixInfo(PixKeySetRequest pixKeySet, String matchCode) {
         SoccerMatch match = validator.validateMatchAndUserOwner(matchCode);
 
-        PixKey key = new PixKey();
-        key.setKeyValue(pixKeySet.key());
-        key.setKeyType(pixKeySet.keyType());
-        key.setRecipientName(pixKeySet.recipientName());
-        key.setRecipientCity(pixKeySet.recipientCity());
-        match.setPixKey(key);
+        PixKey existingKey = pixKeyRepository.findByKeyValueAndKeyType(
+                pixKeySet.keyValue(), pixKeySet.keyType()).orElse(null);
+
+        if(existingKey != null){
+            existingKey.setKeyValue(pixKeySet.keyValue());
+            existingKey.setKeyType(pixKeySet.keyType());
+            existingKey.setRecipientName(pixKeySet.recipientName());
+            existingKey.setRecipientCity(pixKeySet.recipientCity());
+
+            match.setPixKey(existingKey);
+
+        } else {
+            PixKey newKey = new PixKey();
+            newKey.setKeyValue(pixKeySet.keyValue());
+            newKey.setKeyType(pixKeySet.keyType());
+            newKey.setRecipientName(pixKeySet.recipientName());
+            newKey.setRecipientCity(pixKeySet.recipientCity());
+
+            match.setPixKey(newKey);
+        }
+
         soccerMatchRepository.save(match);
     }
 
-    public byte[] setMatchQrCode(PixPaymentRequest request, String matchCode) throws WriterException, IOException {
+    public SoccerMatch setMatchQrCode(PixPaymentRequest request, String matchCode) throws WriterException, IOException {
         SoccerMatch match = validator.validateMatchAndUserOwner(matchCode);
 
         String payload = qrCodeService.generateStaticPayload(
@@ -135,10 +161,15 @@ public class MatchService {
                 request.amount()
         );
 
-        match.setPayload(payload);
-        soccerMatchRepository.save(match);
+        byte[] qrCodeBytes = qrCodeService.generateStaticQrCode(payload);
 
-        return qrCodeService.generateStaticQrCode(payload);
+        String qrCodeBase64 = Base64.getEncoder().encodeToString(qrCodeBytes);
+
+        match.setPayload(payload);
+
+        match.setQrCodeUrl(qrCodeBase64);
+
+        return soccerMatchRepository.save(match);
     }
 
     private String generateMatchCode(int length){
