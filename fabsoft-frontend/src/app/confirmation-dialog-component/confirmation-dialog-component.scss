@@ -1,0 +1,67 @@
+// Estilo para o título do diálogo
+.confirmation-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary-dark) !important; // Título em verde escuro
+    padding: 20px 24px 10px; // Padding superior/lateral
+    
+    // Ícone de Aviso/Alerta
+    mat-icon {
+        color: #ffc107 !important; // Amarelo/Dourado ou Laranja (cor de aviso)
+    }
+}
+
+// Estilo para o conteúdo (mensagem)
+.confirmation-content {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    padding: 10px 24px 20px; 
+    color: #444 !important;
+    //text-align: center;
+    
+    // Destaque para a ação e o jogador
+    strong {
+        font-weight: 600;
+        //color: var(--color-primary-dark) !important; 
+    }
+}
+
+.mat-dialog-actions {
+    border-top: 1px solid #eee;
+    padding: 10px 24px 10px;
+}
+
+.confirm-action-btn {
+    // Garante que o botão principal de ação seja o verde escuro forte
+    background-color: var(--color-primary-dark) !important;
+    color: white !important;
+    font-weight: 600;
+    
+    &:hover {
+        background-color: var(--color-primary-dark) !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px var(--color-primary-dark);
+        transform: translateY(-1px);
+    }
+}
+
+.cancel-action-btn {
+    // Garante que o botão principal de ação seja o verde escuro forte
+    background-color: #a81128  !important;
+    color: white !important;
+    font-weight: 600;
+    
+    &:hover {
+        background-color: #990c21 !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px #990c21;
+        transform: translateY(-1px);
+    }
+}
+
+// Botão Cancelar (discreto)
+.mat-dialog-actions button:not(.confirm-action-btn) {
+    color: #666;
+    font-weight: 500;
+}

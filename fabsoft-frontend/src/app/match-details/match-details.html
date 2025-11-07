@@ -1,33 +1,38 @@
 <div class="match-detail-container mat-app-background">
   <mat-card class="match-card" *ngIf="matchData">
     <mat-card-header class="match-header">
-      <div mat-card-avatar class="owner-avatar"></div>
-      <mat-card-title class="match-title">Partida de Futebol</mat-card-title>
-      <mat-card-subtitle>Organizador: {{ matchData.adminNickname }}</mat-card-subtitle>
+      <div class="header-main-info">
+        <mat-card-title class="match-title">Partida de Futebol</mat-card-title>
+        <mat-card-subtitle class="match-subtitle">Organizador: {{ matchData.adminNickname }}</mat-card-subtitle>
+      </div>
       
       <div class="header-actions">
-        <div class="header-match-info">
-          <span class="match-date">{{ matchData.date| date: 'dd/MM/yyyy' }}</span>
-          <span class="match-location-divider"> | </span> 
-          <span class="match-time"> {{ matchData.startTime }} - {{matchData.endTime}} </span>
-          <span class="match-location-divider"> | </span> 
-          <span class="match-location">Local: <strong>{{ matchData.place }}</strong></span>
-        </div>
-        <span class="match-code-display">
-          Código: <strong>{{  matchData.matchCode }}</strong>
-          <button mat-icon-button color="accent" (click)="copyCode()">
-            <mat-icon>content_copy</mat-icon>
+        <div class="header-action-row">
+          <span class="match-code-display">
+            Código: <strong>{{  matchData.matchCode }}</strong>
+            <button mat-icon-button color="accent" (click)="copyCode()">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </span>
+          
+          <button mat-button color="warn" class="action-button leave-button" (click)="leaveMatch()">
+            <mat-icon>exit_to_app</mat-icon>
+            Sair da Partida
           </button>
-        </span>
-        
-        <button mat-button color="warn" class="action-button" (click)="leaveMatch()">
-          <mat-icon>exit_to_app</mat-icon>
-          Sair da Partida
-        </button>
-        <button mat-button class="action-button" (click)="goToLobby()">
-          <mat-icon>arrow_back</mat-icon>
-          Voltar ao Lobby
-        </button>
+          <button mat-button class="action-button back-button" (click)="goToLobby()">
+            <mat-icon>arrow_back</mat-icon>
+            Voltar ao Lobby
+          </button>
+        </div>
+
+        <div class="header-match-info">
+          <span class="match-date"> <strong> Data: </strong>{{ matchData.date| date: 'dd/MM/yyyy' }}</span>
+          <span class="match-location-divider"> | </span> 
+          <span class="match-time"> <strong> Horário: </strong>{{ matchData.startTime }} - {{matchData.endTime}} </span>
+          <span class="match-location-divider"> | </span> 
+          <span class="match-location"> <strong>Local: </strong>{{ matchData.place }}</span>
+        </div>
+
       </div>
     </mat-card-header>
 
@@ -39,16 +44,24 @@
           <div class="qr-code-form" *ngIf="matchData.isOwner">
             <form #pixForm="ngForm" class="pix-details-form" (ngSubmit)="setPixDetails(pixForm)">
               <div class="form-fields-flex">
+                
+                <mat-card-header>
+                  <mat-card-title>Informações Pix</mat-card-title>
+                </mat-card-header>
+
                 <mat-form-field appearance="outline">
                     <mat-label>Tipo de chave</mat-label>
-                    <input 
-                        matInput
-                        type="text" 
-                        placeholder="Ex: CPF, Telefone" 
+                    <mat-select
                         name="keyType"
                         ngModel
                         required
+                        [ngModel]="matchData.pixKeyDetails?.keyType"
+                        [disabled]="!isEditingPixDetails"
                     >
+                      <mat-option *ngFor="let option of keyTypesOptions" [value]="option.value">
+                        {{ option.label }}
+                      </mat-option>
+                    </mat-select>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
@@ -57,9 +70,10 @@
                         matInput
                         type="text" 
                         placeholder="Ex: 47984916823" 
-                        name="key"
-                        ngModel
+                        name="keyValue"
                         required
+                        [ngModel]="matchData.pixKeyDetails?.keyValue"
+                        [disabled]="!isEditingPixDetails"
                     >
                     <mat-icon matSuffix>key</mat-icon>
                 </mat-form-field>
@@ -73,6 +87,8 @@
                         name="recipientName"
                         ngModel
                         required
+                        [ngModel]="matchData.pixKeyDetails?.recipientName"
+                        [disabled]="!isEditingPixDetails"
                     >
                     <mat-icon matSuffix>inbox_text_person</mat-icon>
                 </mat-form-field>
@@ -86,21 +102,43 @@
                         name="recipientCity"
                         ngModel
                         required
+                        [ngModel]="matchData.pixKeyDetails?.recipientCity"
+                        [disabled]="!isEditingPixDetails"
                     >
                     <mat-icon matSuffix>location_city</mat-icon>
                 </mat-form-field>
               </div>
-
+              <div class="pix-form-buttons">
                 <button 
                   mat-raised-button 
                   color="primary" 
                   type="submit" 
-                  class="pix-button"
+                  class="btn-save-pixDetails"
+                  *ngIf="isEditingPixDetails"
                   [disabled]="pixForm.invalid || loading"
                 >
-                <span *ngIf="!loading">Salvar</span>
-                <mat-spinner *ngIf="loading"  color="primary" diameter="15"></mat-spinner>
+                  <span *ngIf="!loadingPix">Salvar</span>
+                  <mat-spinner *ngIf="loadingPix"  color="primary" diameter="15"></mat-spinner>
                 </button>
+                <button class="btn-edit-pixDetails"
+                  mat-raised-button 
+                  color="accent" 
+                  type="button" 
+                  *ngIf="!isEditingPixDetails && matchData.pixKeyDetails"
+                  (click)="enablePixEditing()"
+                > 
+                  Editar
+                </button>
+              
+                <button class="btn-cancel-pixDetails"
+                  mat-button 
+                  type="button" 
+                  *ngIf="isEditingPixDetails && matchData.pixKeyDetails"
+                  (click)="cancelPixEditing()"
+                >
+                  Cancelar
+                </button>
+              </div>
             </form>
           </div>
 
@@ -110,10 +148,10 @@
               <mat-label>Valor</mat-label>
               <input 
                   matInput
-                  type="number" 
-                  placeholder="Ex: 15,00" 
+                  type="string" 
+                  placeholder="Ex: 15.50" 
                   name="amount"
-                  ngModel
+                  [(ngModel)]="amount"
                   required
               >
               <mat-icon matSuffix>attach_money</mat-icon>
@@ -124,29 +162,30 @@
               color="primary" 
               type="submit" 
               class="qrcode-button"
+              (click)="generateQrCode()"
             >
-            <span *ngIf="!loading">Gerar QR Code</span>
-            <mat-spinner *ngIf="loading"  color="primary" diameter="15"></mat-spinner>
+            <span *ngIf="!loadingQrCode">Gerar QR Code</span>
+            <mat-spinner *ngIf="loadingQrCode"  color="primary" diameter="15"></mat-spinner>
             </button>
           </div>
           <div class="qrcode-wrapper">
             <img 
-              [src]="matchData.qrCodeUrl || 'assets/default-qrcode.png'" 
+              [src]="displayQrCodeUrl || 'assets/default-qrcode.png'" 
               alt="QR Code PIX" 
               class="qr-code-image"
             >
-            <div *ngIf="!matchData.qrCodeUrl" class="qr-placeholder">
+            <div *ngIf="!displayQrCodeUrl" class="qr-placeholder">
               [QR Code PIX Aqui]
             </div>
           </div>
-          <p class="pix-info mat-caption">Chave PIX do Organizador: {{ pixDetails?.key }}</p>
+          <p class="pix-info mat-caption">Chave PIX do Organizador: {{ matchData.pixKeyDetails?.keyValue }}</p>
         </div>
 
         <div class="players-section">
           <h2>Jogadores ({{ matchData.soccerPlayers.length }})</h2>
 
           <mat-list role="list" class="player-list">
-            <mat-list-item *ngFor="let player of matchData?.soccerPlayers" role="listitem" class="player-item">
+            <mat-list-item *ngFor="let player of matchData.soccerPlayers" role="listitem" class="player-item">
               <mat-icon matListItemIcon>person</mat-icon>
               
               <div matListItemTitle class="player-name">{{ player.nickname }}</div>
@@ -157,7 +196,7 @@
                     mat-icon-button 
                     color="warn" 
                     *ngIf="matchData.isOwner && player.id !== getCurrentUserId()"
-                    (click)="removePlayer(player.id)"
+                    (click)="removePlayer(player.id, player.nickname)"
                     class="remove-player-btn"
                     title="Expulsar Jogador"
                 >

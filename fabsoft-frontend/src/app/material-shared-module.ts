@@ -17,6 +17,8 @@ import { MatListItem, MatListModule, MatNavList } from '@angular/material/list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
 
 // Crie um array para facilitar a organização
 const materialImports = [
@@ -31,7 +33,9 @@ const materialImports = [
   MatListModule,
   MatDatepickerModule,
   MatTimepickerModule,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  MatSelectModule,
+  MatDialogModule
   // Adicione todos os outros módulos do Material aqui
 ];
 

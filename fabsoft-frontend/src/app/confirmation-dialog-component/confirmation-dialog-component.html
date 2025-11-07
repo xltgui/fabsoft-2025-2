@@ -1,0 +1,28 @@
+<h2 mat-dialog-title class="confirmation-title">
+  <mat-icon color="warn">warning</mat-icon> 
+  Confirmação
+</h2>
+
+<mat-dialog-content class="confirmation-content">
+  Tem certeza que deseja <strong>{{data.action}}</strong> o jogador <strong>{{ data.playerNickname }}</strong> da partida?
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button 
+  [mat-dialog-close]="false"
+  class="cancel-action-btn"
+  >
+  Cancelar
+
+  </button>
+  
+  <button 
+    mat-raised-button 
+    color="primary" 
+    [mat-dialog-close]="true" 
+    cdkFocusInitial
+    class="confirm-action-btn"
+  >
+    Sim
+  </button>
+</mat-dialog-actions>

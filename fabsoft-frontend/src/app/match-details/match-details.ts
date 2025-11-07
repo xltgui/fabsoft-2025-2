@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { MatchDetailsInterface } from './matchDetailsInterface';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatchDetailsInterface } from './MatchDetailsInterface';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Player } from './playerInterface';
-import { MatchService } from '../service/match-service';
+import { Player } from './PlayerInterface';
 import { MatchDetailsService } from '../service/match-details-service';
 import { UserService } from '../service/user-service';
 import { MaterialSharedModule } from '../material-shared-module';
-import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { PixSetDetails } from './pixSetInterface';
+import { PixSetDetails } from './PixSetInterface';
 import { NgForm } from '@angular/forms';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { KeyTypeOption } from './KeyTypeOption';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../confirmation-dialog-component/confirmation-dialog-component';
 
 @Component({
   selector: 'app-match-details',
@@ -20,16 +23,31 @@ import { NgForm } from '@angular/forms';
   templateUrl: './match-details.html',
   styleUrl: './match-details.scss'
 })
-export class MatchDetails implements OnInit{
+export class MatchDetails implements OnInit, OnDestroy{
   matchData: MatchDetailsInterface | null = null;
-  pixDetails: PixSetDetails | null = null
+  displayQrCodeUrl: string | null = null;
+
+  amount: string = '';
+  qrCodeUrl: string | null = null;
   matchCode: string = '';
   loading = true;
   loadingPix = false;
+  loadingQrCode = false;
+  isEditingPixDetails = false;
+
+  keyTypesOptions: KeyTypeOption[] = [
+  { value: 'PHONE', label: 'Telefone' },
+  { value: 'CPF', label: 'CPF' },
+  { value: 'EMAIL', label: 'Email' },
+  { value: 'RANDOM', label: 'Aleatório' }
+  ];
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private clipboard: Clipboard,
+    private snackbar: MatSnackBar,
+    private dialog: MatDialog,
     private matchService: MatchDetailsService,
     private userService: UserService
   ){}
@@ -44,6 +62,12 @@ export class MatchDetails implements OnInit{
     }
   }
 
+  ngOnDestroy() {
+        if (this.qrCodeUrl) {
+            URL.revokeObjectURL(this.qrCodeUrl);
+        }
+    }
+
   loadMatchDetails() {
     this.matchService.getMatchDetails(this.matchCode).subscribe({
         next: (data) => {
@@ -52,6 +76,15 @@ export class MatchDetails implements OnInit{
                 ...data,
                 isOwner: this.checkIfOwner(data)
             };
+
+            this.isEditingPixDetails = !data.pixKeyDetails;
+
+            if(this.matchData.qrCodeUrl){
+              this.displayQrCodeUrl = 'data:image/png;base64,' + this.matchData.qrCodeUrl;
+            } else {
+              this.displayQrCodeUrl = null;
+            }
+
             this.loading = false;
         },
         error: (err) => {
@@ -89,13 +122,24 @@ export class MatchDetails implements OnInit{
     return this.userService.getCurrentUserId(); 
   }
 
-  removePlayer(playerId: number) {
-    if (confirm('Tem certeza que deseja expulsar este jogador?')) {
-        console.log(`Expulsando o jogador ID: ${playerId} da partida ${this.matchCode}`);
+  removePlayer(playerId: number, playerNickname: string) {
+    const action = 'expulsar';
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: {
+        action: action,
+        playerNickname: playerNickname
+      }
+    });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
         this.matchService.removePlayer(this.matchCode, playerId).subscribe(() => {
-            this.loadMatchDetails(); // Recarrega a lista após a remoção
+            this.loadMatchDetails();
         });
-    }
+      }
+    });
   }
 
   trackByPlayerId(index: number, player: Player): number {
@@ -111,17 +155,64 @@ export class MatchDetails implements OnInit{
 
     this.matchService.setPixDetails(request, this.matchCode).subscribe({
       next: () => {
-          this.loadingPix = false;
+
+        if(this.matchData){
+          this.matchData = {
+            ...this.matchData,
+            pixKeyDetails: request,
+          } as MatchDetailsInterface
+        }
+
+        this.isEditingPixDetails = false;
+        this.loadingPix = false;
       },
       error: (err) => {
           this.loadingPix = false;
           console.error('Erro ao salvar chave PIX', err);
       }
-  });
+    });
+  }
+
+  enablePixEditing() {
+        this.isEditingPixDetails = true;
+    }
+    
+    // NOVO MÉTODO: Cancela a edição (volta ao modo visualização)
+    cancelPixEditing() {
+        this.loadMatchDetails(); 
+        this.isEditingPixDetails = false;
+    }
+
+  generateQrCode(){
+    if(!this.amount) return;
+
+    this.loadingQrCode = true;
+
+
+    this.matchService.generateQrCode(this.amount, this.matchCode).subscribe({
+      next: () => {
+        this.loadMatchDetails();
+        this.loadingQrCode = false;
+      },
+      error: (err) => {
+        this.loadingQrCode = false;
+        console.error('Falha ao gerar QR Code', err);
+      }
+    });
   }
 
   copyCode() {
-      alert('Código da sala copiado!');
+      if(this.matchData && this.matchData.matchCode){
+        const success = this.clipboard.copy(this.matchData.matchCode);
+
+        if(success){
+          this.showSnackbar(`Código ${this.matchData.matchCode} copiado!`, 'Fechar', 3000);
+        } else {
+          // Opcional: Lidar com falha na cópia (embora raro em navegadores modernos)
+          console.error('Falha ao copiar o código para o clipboard.');
+          this.showSnackbar('Falha ao copiar o código. Tente manualmente', 'Fechar', 3000);
+        }
+      }
   }
 
   leaveMatch() {
@@ -130,6 +221,15 @@ export class MatchDetails implements OnInit{
 
   goToLobby() {
       this.router.navigate(['/lobby']);
+  }
+
+
+  showSnackbar(message: string, action: string, duration: number = 4000){
+    this.snackbar.open(message, action, {
+      duration: duration,
+      horizontalPosition: 'center',
+      verticalPosition: 'top'
+    });
   }
 
 }

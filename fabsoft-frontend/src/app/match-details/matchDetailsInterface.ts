@@ -1,4 +1,5 @@
-import { Player } from "./playerInterface";
+import { PixSetDetails } from "./PixSetInterface";
+import { Player } from "./PlayerInterface";
 
 export interface MatchDetailsInterface {
   id: number;
@@ -10,6 +11,7 @@ export interface MatchDetailsInterface {
   matchCode: string;
   adminNickname: string;
   soccerPlayers: Player[];
+  pixKeyDetails: PixSetDetails | null;
     
   // Adicione campos que você precisará na tela, mas que não estão no DTO
   // Ex: dono da sala, pixKey. Você deve obter isso no backend ou através de outra chamada.

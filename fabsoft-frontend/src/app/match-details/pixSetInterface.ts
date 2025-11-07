@@ -1,5 +1,5 @@
 export interface PixSetDetails {
-    key: string;
+    keyValue: string;
     keyType: string;
     recipientName: string;
     recipientCity: string;

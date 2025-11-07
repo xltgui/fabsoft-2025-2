@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MatchDetailsInterface } from '../match-details/matchDetailsInterface';
-import { PixSetDetails } from '../match-details/pixSetInterface';
+import { MatchDetailsInterface } from '../match-details/MatchDetailsInterface';
+import { PixSetDetails } from '../match-details/PixSetInterface';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,11 @@ export class MatchDetailsService {
 
   setPixDetails(request: PixSetDetails, matchCode: string) {
     return this.http.post(`${this.apiUrl}/pixkey/${matchCode}`, request);
+  }
+
+  generateQrCode(amount: string, matchCode: string): Observable<any>{
+    const requestBody = { amount: amount };
+    return this.http.post(`${this.apiUrl}/generateQrCode/${matchCode}`, requestBody);
   }
 
   updatePaymentStatus(matchCode: string, playerId: number): Observable<any> {

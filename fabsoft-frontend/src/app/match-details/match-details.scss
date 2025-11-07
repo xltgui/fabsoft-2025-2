@@ -1,9 +1,9 @@
 .match-detail-container {
+  background-image: url(../login/img/grass-texture.jpg);
   padding: 20px;
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  background-color: #f4f4f4; /* Cor de fundo leve */
 }
 
 .match-card {
@@ -16,51 +16,141 @@
 .match-header {
   padding: 24px;
   display: flex;
-  align-items: center;
-
-  .match-title {
-    font-size: 1.8em;
-    font-weight: 600;
-  }
+  justify-content: space-between; /* Espaça o bloco principal e o bloco de ações */
+  align-items: flex-start; /* Alinha o topo */
+  border-bottom: 1px solid #eee;
 }
 
-.owner-avatar {
-  background-color: var(--mat-primary-color);
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  margin-right: 16px;
+.header-main-info {
+  display: flex;
+  flex-direction: column;
+  
+  // Margem para separar do bloco de ações no mobile, se for o caso
+  margin-right: 20px; 
 }
 
+.match-title {
+  font-size: 1.5em !important; /* Tamanho médio/grande */
+  font-weight: 700 !important;
+  color: var(--color-primary-dark) !important; /* Cor forte para o título */
+  margin-bottom: 0px !important; // Remove margem padrão do título
+}
+
+.match-subtitle {
+  font-size: 1em !important; /* Tamanho menor, alinhado com o título */
+  font-weight: 500;
+  color: #555 !important;
+  margin-top: 5px !important;
+}
+
+// Contêiner de ações e detalhes da partida (Lado direito)
 .header-actions {
   display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-left: auto; /* Empurra os botões para a direita */
+  flex-direction: column; /* Coloca detalhes e ações em linhas separadas */
+  align-items: flex-end; /* Alinha o conteúdo à direita */
+  gap: 8px; /* Espaço entre a linha de detalhes e a linha de ações */
+  margin-left: auto; 
+  font-size: 1.2em !important; /* Tamanho médio/grande */
+  font-weight: 700 !important;
+}
 
-  .match-code-display {
-    font-size: 1.1em;
-    color: #555;
+// Informações de Data/Local/Hora
+.header-match-info {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.95em; /* Tamanho menor para a info, similar ao subtítulo */
+  font-weight: 500;
+  color: #555; /* Cor cinza sutil para o texto base */
+  
+  span:not(.match-location-divider) {
+    color: var(--color-primary-dark) !important; /* Detalhes em VERDE ESCURO */
+  }
+  
+  strong {
+    font-weight: 700;
+    color: var(--color-primary-dark) !important; /* Destaca o Local em verde escuro */
+  }
+  
+  .match-location-divider {
+    color: var(--color-primary); /* Separador em verde principal */
+    font-weight: 400;
+  }
+}
+
+// Código e Botões de Ação (Parte inferior direita)
+.header-action-row {
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 15px;
+    margin-bottom: 12px;
+}
+
+// Código da Partida
+.match-code-display {
+  font-size: 1.0em; /* Alinhado ao tamanho dos botões */
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: #555;
+
+  strong {
+    color: var(--color-primary-dark) !important; /* Código em verde escuro */
+    font-weight: 700;
   }
   
-  .action-button {
+  button {
+    color: var(--color-primary-dark) !important; /* Ícone de cópia em verde escuro */
+    // Ajusta o tamanho do botão do ícone
+    width: 30px; 
+    height: 30px;
+    mat-icon {
+        font-size: 18px;
+    }
+  }
+}
+
+// Botões de Ação (Sair/Voltar)
+.action-button {
+    font-size: 0.95em;
+    font-weight: 600;
+    padding: 0 8px !important; /* Padding menor */
+    height: 30px !important; /* Altura menor */
+    
+    mat-icon {
+        font-size: 18px !important;
+        margin-right: 4px;
+    }
+}
+
+// Botão Sair da Partida
+.leave-button {
+    color: var(--color-primary) !important; /* Texto em verde principal */
     font-weight: 500;
-  }
+    // Mantenha o `color="warn"` no HTML para o ícone, se quiser (vermelho) ou force aqui:
+    mat-icon {
+        color: var(--color-primary) !important; 
+    }
+}
+
+// Botão Voltar ao Lobby
+.back-button {
+    color: var(--color-primary) !important;
+    font-weight: 500; 
+    mat-icon {
+        color: var(--color-primary) !important; 
+    }
 }
 
 
-.header-match-info{
-  
-}
+
 
 /* =========== BODY LAYOUT (Flex) =========== */
 .main-layout {
   display: flex;
   gap: 40px;
   padding: 20px 0;
+  min-width: 0;
 
   @media (max-width: 900px) {
     flex-direction: column; /* Colunas empilhadas em telas menores */
@@ -88,7 +178,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px; /* Espaço entre os grupos de campo e o botão */
-    margin-bottom: 25px;
+    margin-bottom: 45px;
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -100,6 +190,22 @@
     display: flex;
     flex-wrap: wrap; /* Permite quebrar linha no mobile */
     gap: 10px;
+
+    mat-card-header {
+        border-bottom: 2px solid var(--color-primary);
+        width: 100%; // Linha separadora verde
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+    
+    mat-card-title {
+        text-align: center;
+        margin-bottom: 0; // Removido o margin-bottom para o header cuidar do espaçamento
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--color-primary-dark); // Título em verde escuro
+  
+    }
     
     // Força cada campo a ocupar metade do espaço disponível
     mat-form-field {
@@ -127,9 +233,152 @@
 
 
 
-.pix-button {
-    height: 48px;
-    font-weight: 600;
+
+
+
+.btn-cancel-pixDetails{
+  margin-left: 10px;
+    height: 40px;
+    font-weight: 500;
+    font-size: 1.1rem;
+
+    transition: all 0.3s ease;
+    
+    // Forçando a cor do botão a ser o verde primário (A Camisa do Time)
+    background-color: #a81128 !important;
+    color: var(--color-text-light) !important;
+    
+    &:hover {
+        background-color: #990c21 !important;
+        // Adiciona um sutil box-shadow dourado no hover
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px #990c21;
+        transform: translateY(-1px);
+    }
+
+    &[disabled] {
+        opacity: 0.6;
+        box-shadow: none !important;
+        transform: none !important;
+        // Garante que a cor primária seja mantida, mas em opacidade
+        background-color: var(--color-primary) !important;
+    }
+
+    .mat-mdc-progress-spinner {
+        margin: 0 auto;
+        
+        // Define a cor do spinner para contrastar com o botão, usando o accent (Troféu)
+        --mdc-circular-progress-active-indicator-color: var(--color-accent) !important;
+    }
+}
+
+.qrcode-button {
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 25px; // Mais espaço antes do botão
+  height: 52px; // Botão mais alto e mais fácil de clicar
+  font-size: 1.2rem;
+  font-weight: 500; // Mais forte
+  transition: all 0.3s ease;
+  
+  // Forçando a cor do botão a ser o verde primário (A Camisa do Time)
+  background-color: var(--color-primary) !important;
+  color: var(--color-text-light) !important;
+  
+  &:hover {
+      background-color: var(--color-primary-dark) !important;
+      // Adiciona um sutil box-shadow dourado no hover
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px var(--color-primary-dark);
+      transform: translateY(-1px);
+  }
+
+  &[disabled] {
+      opacity: 0.6;
+      box-shadow: none !important;
+      transform: none !important;
+      // Garante que a cor primária seja mantida, mas em opacidade
+      background-color: var(--color-primary) !important;
+  }
+
+  .mat-mdc-progress-spinner {
+        margin: 0 auto;
+        --mdc-circular-progress-active-indicator-color: var(--color-accent) !important;
+    }
+}
+
+
+.pix-form-buttons{
+  .btn-edit-pixDetails{
+    margin-left: 10px;
+    height: 40px;
+    font-weight: 500;
+    font-size: 1.1rem;
+
+    transition: all 0.3s ease;
+    
+    background-color: var(--color-accent) !important;
+    color: var(--color-text-dark) !important;
+    
+    &:hover {
+        background-color:  #dfa803 !important;
+        // Adiciona um sutil box-shadow dourado no hover
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px #dfa803;
+        transform: translateY(-1px);
+    }
+
+    &[disabled] {
+        opacity: 0.6;
+        box-shadow: none !important;
+        transform: none !important;
+        // Garante que a cor primária seja mantida, mas em opacidade
+        background-color: var(--color-primary) !important;
+    }
+
+    .mat-mdc-progress-spinner {
+        margin: 0 auto;
+        
+        // Define a cor do spinner para contrastar com o botão, usando o accent (Troféu)
+        --mdc-circular-progress-active-indicator-color: var(--color-accent) !important;
+    }
+  }
+
+  .btn-cancel-pixDetails{
+    margin-left: 10px;
+    height: 40px;
+    font-weight: 500;
+    font-size: 1.1rem;
+
+    transition: all 0.3s ease;
+    
+    // Forçando a cor do botão a ser o verde primário (A Camisa do Time)
+    background-color: #a81128 !important;
+    color: var(--color-text-light) !important;
+    
+    &:hover {
+        background-color: #990c21 !important;
+        // Adiciona um sutil box-shadow dourado no hover
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px #990c21;
+        transform: translateY(-1px);
+    }
+
+    &[disabled] {
+        opacity: 0.6;
+        box-shadow: none !important;
+        transform: none !important;
+        // Garante que a cor primária seja mantida, mas em opacidade
+        background-color: var(--color-primary) !important;
+    }
+
+    .mat-mdc-progress-spinner {
+        margin: 0 auto;
+        
+        // Define a cor do spinner para contrastar com o botão, usando o accent (Troféu)
+        --mdc-circular-progress-active-indicator-color: var(--color-accent) !important;
+    }
+}
+
+.btn-save-pixDetails {
+    height: 40px;
+    font-weight: 500;
     font-size: 1.1rem;
 
     transition: all 0.3s ease;
@@ -161,40 +410,7 @@
     }
 }
 
-.qrcode-button {
-  margin-left: 20px;
-  margin-top: 10px;
-  margin-bottom: 25px; // Mais espaço antes do botão
-  height: 52px; // Botão mais alto e mais fácil de clicar
-  font-size: 1.2rem;
-  font-weight: 700; // Mais forte
-  transition: all 0.3s ease;
-  
-  // Forçando a cor do botão a ser o verde primário (A Camisa do Time)
-  background-color: var(--color-primary) !important;
-  color: var(--color-text-light) !important;
-  
-  &:hover {
-      background-color: var(--color-primary-dark) !important;
-      // Adiciona um sutil box-shadow dourado no hover
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px var(--color-primary-dark);
-      transform: translateY(-1px);
-  }
-
-  &[disabled] {
-      opacity: 0.6;
-      box-shadow: none !important;
-      transform: none !important;
-      // Garante que a cor primária seja mantida, mas em opacidade
-      background-color: var(--color-primary) !important;
-  }
-
-  .mat-mdc-progress-spinner {
-        margin: 0 auto;
-        --mdc-circular-progress-active-indicator-color: var(--color-accent) !important;
-    }
 }
-
 
 
 
@@ -218,6 +434,7 @@
   height: 250px;
   width: 250px;
   margin: 0 auto 15px;
+  margin-bottom: 18px;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: white;
@@ -314,5 +531,23 @@
     &:not(.mat-button-toggle-checked) {
         color: white !important;
         background-color: #990c21;
+    }
+
+    &.mat-button-toggle-checked.mat-button-toggle-disabled {
+        // Força o fundo a permanecer verde escuro (PAGO)
+        background-color: var(--color-primary-dark) !important;
+        // Força a opacidade para parecer desabilitado, mas a cor se mantém
+        opacity: 0.7; 
+        // Força a cor do texto
+        color: white !important;
+    }
+
+    // PENDENTE e DESABILITADO (Organizador ainda não marcou PAGO, mas o player não pode mudar)
+    &:not(.mat-button-toggle-checked).mat-button-toggle-disabled {
+        // Força a cor do PENDENTE (Vermelho/Cinza escuro, dependendo do seu tema)
+        // Ou, se quiser manter o vermelho pendente, mas com opacidade:
+        background-color: #990c21 !important;
+        opacity: 0.5; // Opacidade para parecer "travado"
+        color: white !important;
     }
 }
