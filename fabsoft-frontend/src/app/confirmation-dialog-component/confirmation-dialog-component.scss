@@ -5,7 +5,7 @@
     gap: 10px;
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--color-primary-dark) !important; // Título em verde escuro
+    color: #333 !important; // Título em verde escuro
     padding: 20px 24px 10px; // Padding superior/lateral
     
     // Ícone de Aviso/Alerta
@@ -19,7 +19,7 @@
     font-size: 1.1rem;
     line-height: 1.5;
     padding: 10px 24px 20px; 
-    color: #444 !important;
+    color: #333 !important;
     //text-align: center;
     
     // Destaque para a ação e o jogador
@@ -38,7 +38,7 @@
     // Garante que o botão principal de ação seja o verde escuro forte
     background-color: var(--color-primary-dark) !important;
     color: white !important;
-    font-weight: 600;
+    font-weight: 500;
     
     &:hover {
         background-color: var(--color-primary-dark) !important;
@@ -51,7 +51,7 @@
     // Garante que o botão principal de ação seja o verde escuro forte
     background-color: #a81128  !important;
     color: white !important;
-    font-weight: 600;
+    font-weight: 500;
     
     &:hover {
         background-color: #990c21 !important;
@@ -64,4 +64,13 @@
 .mat-dialog-actions button:not(.confirm-action-btn) {
     color: #666;
     font-weight: 500;
+}
+
+
+
+
+.highlight-text {
+    color: #333;
+    padding: 4px;
+    font-weight: 600;
 }

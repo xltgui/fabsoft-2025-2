@@ -1,17 +1,20 @@
 import { Component, Inject } from '@angular/core';
 import { MaterialSharedModule } from '../material-shared-module';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
 
 export interface ConfirmationDialogData {
-  playerNickname: string;
   action: string;
+  message: string;
+  highlight: string;
 }
 
 @Component({
   selector: 'app-confirmation-dialog-component',
   imports: [
-    MaterialSharedModule
-  ],
+    MaterialSharedModule,
+    CommonModule
+],
   templateUrl: './confirmation-dialog-component.html',
   styleUrl: './confirmation-dialog-component.scss'
 })

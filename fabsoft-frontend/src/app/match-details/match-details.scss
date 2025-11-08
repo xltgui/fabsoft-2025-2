@@ -1,328 +1,316 @@
-.match-detail-container {
-  background-image: url(../login/img/grass-texture.jpg);
+.match-container {
+  max-width: 800px;
+  margin: 0 auto;
   padding: 20px;
-  display: flex;
-  justify-content: center;
+  background-color: #f5f5f5;
   min-height: 100vh;
-
 }
 
-.match-card {
-  width: 100%;
-  max-width: 960px; /* Limite a largura para melhor leitura */
-  margin-top: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
 
-.match-header {
-  padding: 24px;
-  display: flex;
-  justify-content: space-between; /* Espaça o bloco principal e o bloco de ações */
-  align-items: flex-start; /* Alinha o topo */
-  border-bottom: 1px solid #eee;
-}
-
-.header-main-info {
-  display: flex;
-  flex-direction: column;
+.top-navigation {
+  margin-bottom: 20px;
   
-  // Margem para separar do bloco de ações no mobile, se for o caso
-  margin-right: 20px; 
-}
-
-.match-title {
-  font-size: 1.5em !important; /* Tamanho médio/grande */
-  font-weight: 700 !important;
-  color: var(--color-primary-dark) !important; /* Cor forte para o título */
-  margin-bottom: 0px !important; // Remove margem padrão do título
-}
-
-.match-subtitle {
-  font-size: 1em !important; /* Tamanho menor, alinhado com o título */
-  font-weight: 500;
-  color: #555 !important;
-  margin-top: 5px !important;
-}
-
-// Contêiner de ações e detalhes da partida (Lado direito)
-.header-actions {
-  display: flex;
-  flex-direction: column; /* Coloca detalhes e ações em linhas separadas */
-  align-items: flex-end; /* Alinha o conteúdo à direita */
-  gap: 8px; /* Espaço entre a linha de detalhes e a linha de ações */
-  margin-left: auto; 
-  font-size: 1.2em !important; /* Tamanho médio/grande */
-  font-weight: 700 !important;
-}
-
-// Informações de Data/Local/Hora
-.header-match-info {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 0.95em; /* Tamanho menor para a info, similar ao subtítulo */
-  font-weight: 500;
-  color: #555; /* Cor cinza sutil para o texto base */
   
-  span:not(.match-location-divider) {
-    color: var(--color-primary-dark) !important; /* Detalhes em VERDE ESCURO */
-  }
-  
-  strong {
-    font-weight: 700;
-    color: var(--color-primary-dark) !important; /* Destaca o Local em verde escuro */
-  }
-  
-  .match-location-divider {
-    color: var(--color-primary); /* Separador em verde principal */
-    font-weight: 400;
-  }
-}
-
-// Código e Botões de Ação (Parte inferior direita)
-.header-action-row {
+  .back-to-lobby-btn {
     display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 12px;
-}
-
-// Código da Partida
-.match-code-display {
-  font-size: 1.0em; /* Alinhado ao tamanho dos botões */
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  color: #555;
-
-  strong {
-    color: var(--color-primary-dark) !important; /* Código em verde escuro */
-    font-weight: 700;
-  }
-  
-  button {
-    color: var(--color-primary-dark) !important; /* Ícone de cópia em verde escuro */
-    // Ajusta o tamanho do botão do ícone
-    width: 30px; 
-    height: 30px;
-    mat-icon {
-        font-size: 18px;
-    }
-  }
-}
-
-// Botões de Ação (Sair/Voltar)
-.action-button {
-    font-size: 0.95em;
+    font-size: 15px;
     font-weight: 600;
-    padding: 0 8px !important; /* Padding menor */
-    height: 30px !important; /* Altura menor */
-    
-    mat-icon {
-        font-size: 18px !important;
-        margin-right: 4px;
-    }
-}
-
-// Botão Sair da Partida
-.leave-button {
-    color: var(--color-primary) !important; /* Texto em verde principal */
-    font-weight: 500;
-    // Mantenha o `color="warn"` no HTML para o ícone, se quiser (vermelho) ou force aqui:
-    mat-icon {
-        color: var(--color-primary) !important; 
-    }
-}
-
-// Botão Voltar ao Lobby
-.back-button {
-    color: var(--color-primary) !important;
-    font-weight: 500; 
-    mat-icon {
-        color: var(--color-primary) !important; 
-    }
-}
-
-
-
-
-/* =========== BODY LAYOUT (Flex) =========== */
-.main-layout {
-  display: flex;
-  gap: 40px;
-  padding: 20px 0;
-  min-width: 0;
-
-  @media (max-width: 900px) {
-    flex-direction: column; /* Colunas empilhadas em telas menores */
-  }
-}
-
-.qr-code-section {
-  flex: 1; /* Ocupa 1 parte do espaço */
-  padding: 15px;
-  border-right: 2px solid #eee;
-
-  @media (max-width: 900px) {
-    border-right: none;
-    border-bottom: 1px solid #eee;
-  }
-
-  h2 {
-    color: var(--mat-primary-color);
-    font-size: 1.3em;
-    margin-bottom: 15px;
-  }
-}
-
-.pix-details-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Espaço entre os grupos de campo e o botão */
-    margin-bottom: 45px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fcfcfc;
-}
-
-// Estilo para o grupo de campos (2 colunas)
-.form-fields-flex {
-    display: flex;
-    flex-wrap: wrap; /* Permite quebrar linha no mobile */
-    gap: 10px;
-
-    mat-card-header {
-        border-bottom: 2px solid var(--color-primary);
-        width: 100%; // Linha separadora verde
-        padding-bottom: 15px;
-        margin-bottom: 20px;
-    }
-    
-    mat-card-title {
-        text-align: center;
-        margin-bottom: 0; // Removido o margin-bottom para o header cuidar do espaçamento
-        font-size: 1.4rem;
-        font-weight: 600;
-        color: var(--color-primary-dark); // Título em verde escuro
-  
-    }
-    
-    // Força cada campo a ocupar metade do espaço disponível
-    mat-form-field {
-        flex: 1 1 calc(50% - 5px); /* 1 1: flex-grow, flex-shrink */
-        min-width: 150px; /* Garante que não fique muito estreito */
-    }
-
-    @media (max-width: 600px) {
-        // No mobile, os campos ocupam 100%
-        mat-form-field {
-          flex: 1 1 100%;
-        }
-    }
-}
-
-.qrcode-pre-generation{
-  display: flex;
-  gap: 10px;
-    // Força cada campo a ocupar metade do espaço disponível
-    mat-form-field {
-        flex: 1 1 calc(50% - 5px); /* 1 1: flex-grow, flex-shrink */
-        min-width: 150px; /* Garante que não fique muito estreito */
-    }
-}
-
-
-
-
-
-
-.btn-cancel-pixDetails{
-  margin-left: 10px;
-    height: 40px;
-    font-weight: 500;
-    font-size: 1.1rem;
-
+    color: #333;
+    gap: 8px;
     transition: all 0.3s ease;
-    
-    // Forçando a cor do botão a ser o verde primário (A Camisa do Time)
-    background-color: #a81128 !important;
-    color: var(--color-text-light) !important;
-    
+
     &:hover {
-        background-color: #990c21 !important;
+        background-color: #d4d0d0 !important;
         // Adiciona um sutil box-shadow dourado no hover
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px #990c21;
+        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2), 0 0 0 2px #d4d0d0;
         transform: translateY(-1px);
     }
-
-    &[disabled] {
-        opacity: 0.6;
-        box-shadow: none !important;
-        transform: none !important;
-        // Garante que a cor primária seja mantida, mas em opacidade
-        background-color: var(--color-primary) !important;
-    }
-
-    .mat-mdc-progress-spinner {
-        margin: 0 auto;
-        
-        // Define a cor do spinner para contrastar com o botão, usando o accent (Troféu)
-        --mdc-circular-progress-active-indicator-color: var(--color-accent) !important;
-    }
+    
+  }
 }
 
-.qrcode-button {
-  margin-left: 20px;
-  margin-top: 10px;
-  margin-bottom: 25px; // Mais espaço antes do botão
-  height: 52px; // Botão mais alto e mais fácil de clicar
-  font-size: 1.2rem;
-  font-weight: 500; // Mais forte
-  transition: all 0.3s ease;
-  
-  // Forçando a cor do botão a ser o verde primário (A Camisa do Time)
-  background-color: var(--color-primary) !important;
-  color: var(--color-text-light) !important;
+// Cards gerais
+.header-card,
+.info-card,
+.players-card,
+.payment-card {
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.custom-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  text-align: center;
+
+  .match-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--color-primary-dark);
+    margin: 0;
+  }
+
+  .card-icon {
+    font-size: 28px;
+    height: 28px;
+    width: 28px;
+    margin-right: 10px;
+
+
+    color: var(--color-primary);
+  }
+}
+
+
+
+
+.card-icon {
+    font-size: 28px;
+    height: 28px;
+    width: 28px;
+    margin-right: 10px;
+}
+
+
+
+
+.section-title {
+    display: flex;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    margin-bottom: 15px;
+
+    .card-icon{
+        color: #333
+    }
+
+}
+
+// Informações da Partida
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.info-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #e4eee6;
+  border-radius: 50%;
+  color: var(--color-primary);
+}
+
+.copy-icon-wrapper {
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
   
   &:hover {
-      background-color: var(--color-primary-dark) !important;
-      // Adiciona um sutil box-shadow dourado no hover
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px var(--color-primary-dark);
-      transform: translateY(-1px);
+    background-color: var(--color-primary) !important;
+    color: white !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
   }
-
-  &[disabled] {
-      opacity: 0.6;
-      box-shadow: none !important;
-      transform: none !important;
-      // Garante que a cor primária seja mantida, mas em opacidade
-      background-color: var(--color-primary) !important;
+  
+  &:active {
+    transform: scale(0.95) !important;
   }
-
-  .mat-mdc-progress-spinner {
-        margin: 0 auto;
-        --mdc-circular-progress-active-indicator-color: var(--color-accent) !important;
-    }
 }
+
+
+.info-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+
+  //flex: 1;
+}
+
+.match-code-display {
+    display: flex;
+    align-items: center;
+    //justify-content: space-between;
+    gap: 0px;
+}
+
+
+.info-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  //flex: 1; // Faz o texto ocupar o espaço disponível
+  line-height: 1.2;
+}
+
+.info-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// Lista de Jogadores
+.players-list {
+  padding: 0;
+}
+
+.player-item {
+  height: 50px !important;
+  //min-height: 48px !important;
+  display: flex;
+  align-items: center;
+  padding: 2px 0;
+  border-bottom: 1px solid #e0dbdb;
+  margin-bottom: 10px;
+  margin-top: 10px;
+
+  .payment-actions-group{
+    display: flex;
+    gap: 15px;
+  }
+}
+
+.player-number {
+  font-weight: bold;
+  color: #1976d2;
+  margin-right: 12px;
+  min-width: 24px;
+}
+
+.player-info {
+  display: flex;
+  gap: 10px;
+  //flex-direction: column;
+  flex: 1;
+  margin-top: 10px;
+
+  .mat-icon{
+    color: var(--color-primary-dark);
+  }
+}
+
+.player-name {
+  font-weight: 500;
+  color: #333;
+}
+
+
+
+.admin-badge {
+  font-size: 13px;
+  color: white;
+  font-style: italic;
+  background-color: rgba(248, 53, 4, 0.986);
+  padding: 2px 11px;
+  border-radius: 10px;
+  margin-left: 5px;
+}
+
+.me-badge {
+  font-size: 13px;
+  color: white;
+  font-style: italic;
+  background-color: var(--color-primary-dark);
+  padding: 2px 9px;
+  border-radius: 10px;
+  margin-left: 5px;
+}
+
+.player-position {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+}
+
+.pix-section{
+  padding: 16px 0;
+}
+
+.pix-key-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  
+  gap: 20px;                   
+  margin-bottom: 20px;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;                       // Espaço entre os campos dentro da coluna
+}
+
+.key-type-label,
+.pix-key-label,
+.recipient-name-label,
+.recipient-city-label,
+.amount-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 0px;
+}
+
+.pix-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.full-width {
+  width: 100%;
+}
+
 
 
 .pix-form-buttons{
-  .btn-edit-pixDetails{
+  .btn-edit-pixDetails, .btn-cancel-pixDetails{
     margin-left: 10px;
     height: 40px;
-    font-weight: 500;
-    font-size: 1.1rem;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    gap: 8px;
 
     transition: all 0.3s ease;
     
-    background-color: var(--color-accent) !important;
-    color: var(--color-text-dark) !important;
+    background-color:  #d4d0d0 !important;
+    color: #292828 !important;
     
     &:hover {
-        background-color:  #dfa803 !important;
+        background-color:  #d4d0d0 !important;
         // Adiciona um sutil box-shadow dourado no hover
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px #dfa803;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px  #d4d0d0 !important;
         transform: translateY(-1px);
     }
 
@@ -341,56 +329,18 @@
         --mdc-circular-progress-active-indicator-color: var(--color-accent) !important;
     }
   }
-
-  .btn-cancel-pixDetails{
-    margin-left: 10px;
-    height: 40px;
-    font-weight: 500;
-    font-size: 1.1rem;
-
-    transition: all 0.3s ease;
-    
-    // Forçando a cor do botão a ser o verde primário (A Camisa do Time)
-    background-color: #a81128 !important;
-    color: var(--color-text-light) !important;
-    
-    &:hover {
-        background-color: #990c21 !important;
-        // Adiciona um sutil box-shadow dourado no hover
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px #990c21;
-        transform: translateY(-1px);
-    }
-
-    &[disabled] {
-        opacity: 0.6;
-        box-shadow: none !important;
-        transform: none !important;
-        // Garante que a cor primária seja mantida, mas em opacidade
-        background-color: var(--color-primary) !important;
-    }
-
-    .mat-mdc-progress-spinner {
-        margin: 0 auto;
-        
-        // Define a cor do spinner para contrastar com o botão, usando o accent (Troféu)
-        --mdc-circular-progress-active-indicator-color: var(--color-accent) !important;
-    }
-}
 
 .btn-save-pixDetails {
     height: 40px;
     font-weight: 500;
-    font-size: 1.1rem;
-
+    font-size: 16px;
     transition: all 0.3s ease;
-    
-    // Forçando a cor do botão a ser o verde primário (A Camisa do Time)
+  
     background-color: var(--color-primary) !important;
     color: var(--color-text-light) !important;
     
     &:hover {
         background-color: var(--color-primary-dark) !important;
-        // Adiciona um sutil box-shadow dourado no hover
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px var(--color-primary-dark);
         transform: translateY(-1px);
     }
@@ -414,114 +364,13 @@
 }
 
 
-
-
-.players-section {
-  flex: 2; /* Ocupa 2 partes do espaço (mais largo) */
-  padding: 15px;
-
-  h2 {
-    color: #555;
-    font-size: 1.3em;
-    margin-bottom: 15px;
-  }
-}
-
-/* =========== QR Code Estilo =========== */
-.qrcode-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 250px;
-  width: 250px;
-  margin: 0 auto 15px;
-  margin-bottom: 18px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: white;
-}
-
-.qr-code-image {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.qr-placeholder {
-  color: #aaa;
-  font-style: italic;
-}
-
-/* =========== Lista de Jogadores Estilo =========== */
-.player-list {
-  padding: 0;
-}
-
-.player-item {
-    // Garante que o conteúdo do item se estique
-    .mat-list-item-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-}
-
-.payment-actions-group {
-    display: flex;
-    align-items: center; /* ESSENCIAL: Garante o alinhamento central */
-    gap: 8px; /* Espaço entre os itens */
-    margin-left: auto;
-    
-    // Alinhamento fino para compensar a altura do toggle
-    // Aplicamos uma pequena margem superior no botão toggle para compensar
-    .payment-toggle-btn {
-        margin-top: 0; 
-        margin-bottom: 0;
-    }
-
-    // Estilo para o botão de ícone de remover
-    .remove-player-btn {
-        // Redefine qualquer margem que possa estar empurrando o ícone para baixo
-        padding: 0; 
-        width: 32px;
-        height: 32px;
-        
-        // NOVO: Adicione alinhamento vertical explícito
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-}
-
-// NOVO: Estilo para o grupo de ações (Toggle + Botão de Expulsar)
-.payment-actions-group {
-  display: flex;
-  align-items: center; /* ESSENCIAL: Garante o alinhamento central */
-  gap: 8px; /* Espaço entre os itens */
-  margin-left: auto;
-  
-}
-
-// Estilo para o botão de ícone de remover
-.remove-player-btn {
-  margin-right: 8px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding: 0;
-
-  transform: translateY(-1px);
-  mat-icon {
-      font-size: 20px; 
-      width: 20px;
-      height: 20px;
-  }
-}
-
 .payment-toggle-btn {
-    min-width: 110px;
+    min-width: 90px;
     height: 40px; 
     border-radius: 20px !important; 
     font-size: 14px; /* Garante que o texto não seja muito grande */
     font-weight: 500;
+    margin-bottom: 3px;
     // Adicionar margem vertical negativa para puxar para cima e alinhar melhor
     
     &.mat-button-toggle-checked {
@@ -552,3 +401,145 @@
         color: white !important;
     }
 }
+
+.amount-section {
+  //border: 2px solid red;
+  margin-top: 15px;
+  margin-bottom: 8px;
+  padding-left: 16px;
+}
+
+.amount-label{
+  margin-bottom: 3px;
+}
+
+.qr-btn-section{
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.generate-qr-btn {
+  width: 75%;
+  margin-bottom: 8px;
+  height: 48px;
+
+  font-weight: 500;
+  font-size: 16px;
+  transition: all 0.3s ease;
+
+  background-color: var(--color-primary) !important;
+    color: var(--color-text-light) !important;
+    
+    &:hover {
+        background-color: var(--color-primary-dark) !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 3px var(--color-primary-dark);
+        transform: translateY(-1px);
+    }
+}
+
+.qr-code-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 2px;
+}
+
+.qr-code-placeholder {
+  width: 200px;
+  height: 200px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+  color: #666;
+  font-size: 14px;
+  text-align: center;
+  padding: 16px;
+}
+
+.qr-note {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+  margin-top: 16px;
+  padding: 8px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .match-container {
+    padding: 16px;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .qr-code-placeholder {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .match-title {
+    font-size: 20px;
+  }
+  
+  .section-title {
+    font-size: 16px;
+  }
+  
+  .qr-code-placeholder {
+    width: 160px;
+    height: 160px;
+    font-size: 12px;
+  }
+}
+
+
+.bottom-actions {
+  margin-top: 32px;
+  text-align: center;
+  
+  
+  .leave-match-btn {
+    min-width: 200px;
+    height: 48px;
+    font-weight: 600;
+    color: #333;
+    //border: none;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-color: #d4d0d0 !important;
+        // Adiciona um sutil box-shadow dourado no hover
+        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2), 0 0 0 2px #d4d0d0;
+        transform: translateY(-1px);
+    }
+    
+    .mat-icon {
+      margin-right: 8px;
+      color: #df2b2b;
+    }
+  }
+}
+
+.pix-info-mat-caption{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+

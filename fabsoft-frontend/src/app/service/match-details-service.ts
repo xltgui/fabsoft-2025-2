@@ -32,4 +32,8 @@ export class MatchDetailsService {
   removePlayer(matchCode: string, playerId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/removePlayer/${matchCode}/${playerId}`);
   }
+
+  leaveMatch(matchCode: string){
+    return this.http.delete(`${this.apiUrl}/leave/${matchCode}`);
+  }
 }

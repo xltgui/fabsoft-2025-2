@@ -1,13 +1,19 @@
 <div class="match-container">
+  <!-- Botão Voltar no Topo -->
+  <div class="top-navigation">
+    <button mat-button color="primary" class="back-to-lobby-btn">
+      <mat-icon>arrow_back</mat-icon>
+      Voltar ao Lobby
+    </button>
+  </div>
+
+
   <!-- Cabeçalho -->
   <mat-card class="header-card">
-    <mat-card-header> 
-        
-      <mat-card-title class="match-title">
-        <mat-icon class="card-icon" color="primary">sports_soccer</mat-icon>
-        Partida de Futebol
-      </mat-card-title>
-    </mat-card-header>
+    <div class="custom-header">
+      <mat-icon class="card-icon" color="primary">sports_soccer</mat-icon>
+      <h1 class="match-title">Partida de Futebol</h1>
+    </div>
   </mat-card>
 
   <!-- Informações da Partida -->
@@ -36,7 +42,7 @@
             </div>
             <div class="info-content">
                 <span class="info-label">HORÁRIO</span>
-                <span class="info-value">16h30</span>
+                <span class="info-value">16:30h</span>
             </div>
         </div>
         
@@ -90,6 +96,23 @@
           <div class="player-info">
             <span class="player-name">Carlos Silva</span>
           </div>
+          <div matListItemMeta class="payment-actions-group">   
+            <mat-button-toggle 
+                class="payment-toggle-btn"
+
+            > 
+                PAGO
+            </mat-button-toggle>
+
+            <button 
+                mat-icon-button 
+                color="warn" 
+                class="remove-player-btn"
+                title="Expulsar Jogador"
+            >
+                <mat-icon>delete</mat-icon> 
+            </button>
+          </div>
         </mat-list-item>
         
         <mat-divider></mat-divider>
@@ -109,51 +132,55 @@
     <mat-card-content>
       <div class="pix-section">
         <div class="pix-key-section">
-          <span class="key-type-label">TIPO DE CHAVE</span>
-          <mat-form-field appearance="outline" class="full-width">
-            <input matInput placeholder="Tipo de chave">
-          </mat-form-field>
-        
-          <span class="pix-key-label">CHAVE PIX</span>
-          <mat-form-field appearance="outline" class="full-width">
-            <input matInput placeholder="Ex: 47984916823">
-          </mat-form-field>
-        
-          <span class="recipient-name-label">DESTINATÁRIO</span>
-          <mat-form-field appearance="outline" class="full-width">
-            <input matInput placeholder="Nome do destinatário">
-          </mat-form-field>
-        
-          <span class="recipient-city-label">CIDADE</span>
-          <mat-form-field appearance="outline" class="full-width">
-            <input matInput placeholder="">
-          </mat-form-field>
+          <div class="form-column">
+            <span class="key-type-label">TIPO DE CHAVE</span>
+            <mat-form-field appearance="outline" class="full-width">
+              <input matInput placeholder="Tipo de chave">
+            </mat-form-field>
+          
+            <span class="pix-key-label">CHAVE PIX</span>
+            <mat-form-field appearance="outline" class="full-width">
+              <input matInput placeholder="Ex: 47984916823">
+            </mat-form-field>
+          </div>
+          
+          <div class="form-column">
+            <span class="recipient-name-label">DESTINATÁRIO</span>
+            <mat-form-field appearance="outline" class="full-width">
+              <input matInput placeholder="Nome do destinatário">
+            </mat-form-field>
+          
+            <span class="recipient-city-label">CIDADE</span>
+            <mat-form-field appearance="outline" class="full-width">
+              <input matInput placeholder="">
+            </mat-form-field>
+          </div>
+        </div>
 
-          <div class="pix-form-buttons">
-                <button 
-                  mat-raised-button 
-                  color="primary" 
-                  type="submit" 
-                  class="btn-save-pixDetails"
-                >
-                  <span>Salvar</span>
-                  <mat-spinner color="primary" diameter="15"></mat-spinner>
-                </button>
-                <button class="btn-edit-pixDetails"
-                  mat-raised-button 
-                  color="accent" 
-                  type="button" 
-                > 
-                  Editar
-                </button>
-              
-                <button class="btn-cancel-pixDetails"
-                  mat-button 
-                  type="button" 
-                >
-                  Cancelar
-                </button>
-              </div>
+        <div class="pix-form-buttons">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit" 
+            class="btn-save-pixDetails"
+          >
+            <span>Salvar</span>
+            <mat-spinner color="primary" diameter="15"></mat-spinner>
+          </button>
+          <button class="btn-edit-pixDetails"
+            mat-raised-button 
+            color="accent" 
+            type="button" 
+          > 
+            Editar
+          </button>
+        
+          <button class="btn-cancel-pixDetails"
+            mat-button 
+            type="button" 
+          >
+            Cancelar
+          </button>
         </div>
       </div>
     </mat-card-content>
@@ -166,10 +193,19 @@
         <mat-icon class="card-icon" color="primary">qr_code_scanner</mat-icon>
         Pagamento - QR Code</mat-card-title>
     </mat-card-header>
+    <div class="amount-section">
+      <span class="amount-label">Valor</span>
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Ex: 15.50">
+      </mat-form-field>
+    </div>
 
-    <button mat-raised-button color="primary" class="generate-qr-btn">
+    <div class="qr-btn-section">
+      <button mat-raised-button color="primary" class="generate-qr-btn">
           Gerar QR Code
-        </button>
+      </button>
+    </div>
+    
         
         <div class="qr-code-container">
           <div class="qr-code-placeholder">
@@ -177,4 +213,11 @@
           </div>
         </div>
   </mat-card>
+
+  <div class="bottom-actions">
+    <button mat-stroked-button color="warn" class="leave-match-btn">
+      <mat-icon>exit_to_app</mat-icon>
+      Sair da Partida
+    </button>
+  </div>
 </div>

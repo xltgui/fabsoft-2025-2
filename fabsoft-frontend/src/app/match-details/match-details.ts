@@ -13,12 +13,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { KeyTypeOption } from './KeyTypeOption';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog-component/confirmation-dialog-component';
+import { AuxMatchDetails } from '../aux-match-details/aux-match-details';
 
 @Component({
   selector: 'app-match-details',
   imports: [
     MaterialSharedModule,
-    CommonModule
+    CommonModule,
+    AuxMatchDetails
   ],
   templateUrl: './match-details.html',
   styleUrl: './match-details.scss'
@@ -124,11 +126,14 @@ export class MatchDetails implements OnInit, OnDestroy{
 
   removePlayer(playerId: number, playerNickname: string) {
     const action = 'expulsar';
+    const message = 'o jogador';
+    const highlight = playerNickname;
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',
       data: {
         action: action,
-        playerNickname: playerNickname
+        message: message,
+        highlight: highlight
       }
     });
 
@@ -206,7 +211,7 @@ export class MatchDetails implements OnInit, OnDestroy{
         const success = this.clipboard.copy(this.matchData.matchCode);
 
         if(success){
-          this.showSnackbar(`Código ${this.matchData.matchCode} copiado!`, 'Fechar', 3000);
+          this.showSnackbar(`Código copiado!`, 'Fechar', 3000);
         } else {
           // Opcional: Lidar com falha na cópia (embora raro em navegadores modernos)
           console.error('Falha ao copiar o código para o clipboard.');
@@ -215,8 +220,43 @@ export class MatchDetails implements OnInit, OnDestroy{
       }
   }
 
+  copyPixKeyValue() {
+      if(this.matchData && this.matchData.pixKeyDetails?.keyValue){
+        const success = this.clipboard.copy(this.matchData.pixKeyDetails.keyValue);
+
+        if(success){
+          this.showSnackbar(`Chave copiada!`, 'Fechar', 3000);
+        } else {
+          // Opcional: Lidar com falha na cópia (embora raro em navegadores modernos)
+          console.error('Falha ao copiar a chave para o clipboard.');
+          this.showSnackbar('Falha ao copiar a chave. Tente manualmente', 'Fechar', 3000);
+        }
+      }
+  }
+
   leaveMatch() {
-      // Lógica para sair da partida (chamar MatchService.leaveMatch)
+    const action = 'sair';
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: {
+        action: action
+      }
+    });
+
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.matchService.leaveMatch(this.matchCode).subscribe({
+          next: () => {
+            this.goToLobby();
+          },
+          error: (err) => {
+            this.loadingQrCode = false;
+            console.error('Falha ao sair da partida', err);
+          }
+        });
+      }
+    });    
   }
 
   goToLobby() {
