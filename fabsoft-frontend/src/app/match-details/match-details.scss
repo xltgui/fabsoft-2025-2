@@ -4,11 +4,12 @@
   display: flex;
   justify-content: center;
   min-height: 100vh;
+
 }
 
 .match-card {
   width: 100%;
-  max-width: 1200px; /* Limite a largura para melhor leitura */
+  max-width: 960px; /* Limite a largura para melhor leitura */
   margin-top: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
