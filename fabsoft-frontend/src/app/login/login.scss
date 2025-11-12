@@ -1,50 +1,59 @@
 
 .app-header {
     // Gradiente de verde para dar profundidade (Gramado do campo)
-    background: linear-gradient(to right, var(--color-primary-dark), var(--color-primary));
-    color: var(--color-text-light);
+    color: var(--color-primary-dark);
+    //transform: translate(10px, -70px);
     padding: 20px 24px;
-    background-image: url(../login/img/grass-texture.jpg);
 
     
     // Sombra com uma leve borda dourada para dar um toque de troféu
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); // Sombra mais proeminente
+    //box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); // Sombra mais proeminente
     //border-bottom: 4px solid var(--color-accent); // Linha dourada mais grossa e destacada
     
     .title h1 {
         margin: 0;
         font-size: 2.2rem; // Aumentei para mais destaque
         font-weight: 800; // Mais negrito
+        font-size: 3.1rem;
         // Efeito de texto dourado/brilhante
-        text-shadow: 0 0 5px var(--color-accent), 0 0 10px rgba(255, 255, 255, 0.8);
         letter-spacing: 1px;
     }
 }
 
-.title-login-card {
-    background-color: transparent !important; /* Torna o fundo transparente */
-    box-shadow: none !important; /* Remove qualquer sombra */
-    max-width: 400px; /* Garante que ele tenha a mesma largura máxima do login-card */
+.app-logo {
+    /* Garante que a imagem do logo se ajuste dentro do mat-card */
+    max-width: 80%;
+    max-height: 90%;
+    height: auto;
+    object-fit: contain; /* Garante que a imagem caiba sem cortar */
+    background-image: url(./img/logo.png);
+}
+
+.logo{
+    background-image: url(./img/logo.png);
+}
+
+.login-title-card{
+    background-color: var(--color-text-light);
+    background-image: url(./img/logo.png);
+    display: flex;
+    justify-content: center;
+    text-align: center;
     width: 100%;
-    
-    // Novo: Garante que o título interno seja um bloco para centralização
-    display: block; 
-    
-    mat-card-title {
-        text-align: center;
-        margin: 0;
-        font-size: 3rem; 
-        font-weight: 900;
-        color: var(--color-accent); 
-        text-shadow: 2px 2px 5px var(--color-primary-dark); 
-    }
+    max-width: 400px;
+    height: 90px;
+
+    transform: translate(0, -20px);
 }
 
 .login-container {
-    min-height: calc(100vh - 40px);
-    background-image: url(./img/grass-texture.jpg);
-
-    background-size: auto, cover;
+    height: 100vh;
+    background-image: url(../img/close-up-ambiente-desportivo-com-uma-bola-de-futebol_compressed.webp);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    
     display: flex;
     justify-content: center;
     align-items: center;

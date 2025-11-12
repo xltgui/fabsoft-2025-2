@@ -1,9 +1,10 @@
+
+
 .app-header {
     // Gradiente de verde para dar profundidade (Gramado do campo)
     background: linear-gradient(to right, var(--color-primary-dark), var(--color-primary));
     color: var(--color-text-light);
     padding: 20px 24px;
-    background-image: url(../login/img/grass-texture.jpg);
 
     
     // Sombra com uma leve borda dourada para dar um toque de troféu
@@ -19,16 +20,24 @@
     }
 }
 
+
 .cadastro-container {
-    min-height: calc(100vh - 100px);
+    //min-height: 100vh;
+    height: 100vh;
+    //flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background-image: url(../login/img/grass-texture.jpg);
+    background-attachment: fixed;
+    background-image: url(../img/close-up-ambiente-desportivo-com-uma-bola-de-futebol_compressed.webp);
 
-    background-size: auto, cover;
-    background-color: var(--color-background-app); // Dá um fundo sutil à página
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    //background-color: var(--color-background-app); // Dá um fundo sutil à página
 }
 
 .cadastro-card {
