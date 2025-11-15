@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MatchDetailsInterface } from '../match-details/MatchDetailsInterface';
-import { PixSetDetails } from '../match-details/PixSetInterface';
+import { MatchDetailsInterface } from '../match-details/matchDetailsInterface';
+import { PixSetDetails } from '../match-details/pixSetInterface';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,5 @@
-import { PixSetDetails } from "./PixSetInterface";
-import { Player } from "./PlayerInterface";
+import { PixSetDetails } from "./pixSetInterface";
+import { Player } from "./playerInterface";
 
 export interface MatchDetailsInterface {
   id: number;

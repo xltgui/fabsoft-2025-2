@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatchDetailsInterface } from './MatchDetailsInterface';
+import { MatchDetailsInterface } from './matchDetailsInterface';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Player } from './PlayerInterface';
+import { Player } from './playerInterface';
 import { MatchDetailsService } from '../service/match-details-service';
 import { UserService } from '../service/user-service';
 import { MaterialSharedModule } from '../material-shared-module';
 import { CommonModule } from '@angular/common';
-import { PixSetDetails } from './PixSetInterface';
+import { PixSetDetails } from './pixSetInterface';
 import { NgForm } from '@angular/forms';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
