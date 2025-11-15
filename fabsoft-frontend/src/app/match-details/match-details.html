@@ -273,6 +273,7 @@
         mat-raised-button 
         type="submit"
         (click)="generateQrCode()"
+        [disabled]="!arePixFieldsFilled() || !amount || loadingQrCode"
       >
         <span *ngIf="!loadingQrCode">Gerar QR Code</span>
         <mat-spinner *ngIf="loadingQrCode"  color="primary" diameter="15"></mat-spinner>

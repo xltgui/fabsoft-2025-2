@@ -3,7 +3,6 @@
     background: linear-gradient(to right, var(--color-primary-dark), var(--color-primary));
     color: var(--color-text-light);
     padding: 20px 24px;
-    background-image: url(../login/img/grass-texture.jpg);
     
     /* Sombra com uma leve borda dourada para dar um toque de troféu */
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); 
@@ -22,14 +21,17 @@
  * 2. Padrão do Container e Card (Herdado)
  * -------------------------------------- */
 .match-creation-container {
-    min-height: calc(100vh - 100px);
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background-image: url(../login/img/grass-texture.jpg);
 
-    background-size: auto, cover;
+    background-image: url(../img/close-up-ambiente-desportivo-com-uma-bola-de-futebol_compressed.webp);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
     background-color: var(--color-background-app);
 }
 

@@ -6,7 +6,6 @@ import { Confirmation } from './confirmation/confirmation';
 import { Match } from './match/match';
 import { MatchDetails } from './match-details/match-details';
 import { MatchJoin } from './match-join/match-join';
-import { AuxMatchDetails } from './aux-match-details/aux-match-details';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'users/login', pathMatch: 'full'},
@@ -20,6 +19,4 @@ export const routes: Routes = [
     {path: 'match/:matchCode', component: MatchDetails},
     {path: 'match/showAll', component: Match},
     {path: 'match/find', component: Match},
-
-    {path: 'auxMatch', component: AuxMatchDetails}
 ];

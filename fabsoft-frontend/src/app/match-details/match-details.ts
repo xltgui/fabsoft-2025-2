@@ -13,14 +13,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { KeyTypeOption } from './KeyTypeOption';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog-component/confirmation-dialog-component';
-import { AuxMatchDetails } from '../aux-match-details/aux-match-details';
 
 @Component({
   selector: 'app-match-details',
   imports: [
     MaterialSharedModule,
-    CommonModule,
-    AuxMatchDetails
+    CommonModule
   ],
   templateUrl: './match-details.html',
   styleUrl: './match-details.scss'
@@ -177,6 +175,20 @@ export class MatchDetails implements OnInit, OnDestroy{
       }
     });
   }
+
+  arePixFieldsFilled(): boolean {
+  if (!this.matchData?.pixKeyDetails) {
+    return false;
+  }
+  
+  const pixDetails = this.matchData.pixKeyDetails;
+  return !!(
+    pixDetails.keyType &&
+    pixDetails.keyValue && 
+    pixDetails.recipientName &&
+    pixDetails.recipientCity
+  );
+}
 
   enablePixEditing() {
         this.isEditingPixDetails = true;
