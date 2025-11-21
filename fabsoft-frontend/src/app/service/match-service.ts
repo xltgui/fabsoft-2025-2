@@ -8,7 +8,7 @@ import { MatchItem } from '../lobby/MatchItem';
   providedIn: 'root'
 })
 export class MatchService {
-  apiURL = 'http://localhost:8080/match'
+  apiURL = '/match'
 
   constructor(private http:HttpClient){
 

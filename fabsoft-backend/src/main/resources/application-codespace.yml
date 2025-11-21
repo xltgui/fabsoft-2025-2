@@ -1,0 +1,39 @@
+spring:
+  # --- Configuração do Banco de Dados ---
+  datasource:
+    # A URL aponta para o nome do serviço 'db' no docker-compose.yml e a porta padrão 5432
+    url: jdbc:postgresql://db:5432/pagfut
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  # --- Configuração de E-mail (Lida das variáveis de ambiente) ---
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${SPRING_MAIL_USERNAME} # Lida de containerEnv no devcontainer.json
+    password: ${SPRING_MAIL_PASSWORD} # Lida de containerEnv no devcontainer.json
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+            
+# --- Configuração da API e Frontend ---
+api:
+  security:
+    token:
+      secret: ${API_SECURITY_TOKEN_SECRET} # Lida de containerEnv no devcontainer.json
+
+app:
+  frontend:
+    base-url: https://vigilant-xylophone-gjp7qjjqw992w5rp-4200.preview.app.github.dev/
+  backend:
+    base-url: https://vigilant-xylophone-gjp7qjjqw992w5rp-8080.app.github.dev/

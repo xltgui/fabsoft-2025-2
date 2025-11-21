@@ -8,7 +8,7 @@ import { PixSetDetails } from '../match-details/pixSetInterface';
   providedIn: 'root'
 })
 export class MatchDetailsService {
-  private apiUrl = 'http://localhost:8080/match'
+  private apiUrl = '/match'
 
   constructor(private http: HttpClient){}
 

@@ -43,6 +43,7 @@ public class SecurityConfiguration {
 					// 2. Permite caminhos de registro específicos
 					authorize.requestMatchers("/users/register").permitAll();
 					authorize.requestMatchers("/users/confirm").permitAll();
+                    authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 
 					// 3. Permite OPTIONS (CORS pre-flight) em todos os lugares
 
@@ -73,9 +74,8 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // 1. Defina a(s) origem(ns) permitida(s). Use a URL exata do seu Angular.
-        // **IMPORTANTE:** Não use "*" se estiver usando Basic Auth (credenciais).
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        //configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
 
         // 2. Permite os métodos HTTP que você usará. OPTIONS é essencial para o CORS.
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));

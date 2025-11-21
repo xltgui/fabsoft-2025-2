@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # 1. Serviço do PostgreSQL (db)
+  db:
+    image: postgres:15-alpine # Imagem leve e estável
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: pagfut
+    # Mapeamos a porta padrão do container (5432) para uma porta que pode ser acessada
+    # por um cliente externo (5433), se necessário. O Spring acessará internamente.
+    ports:
+      - "5433:5432"
+    volumes:
+      # Garante que os dados do banco persistam
+      - postgres_data:/var/lib/postgresql/data/
+
+  # 2. Serviço principal do Codespace (app)
+  app:
+    # Use a mesma imagem base do seu devcontainer.json original
+    image: mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm
+    # Mapeia sua pasta de código para dentro do container
+    volumes:
+      - ..:/workspaces/fabsoft-2025-2
+    # É crucial para o Spring Boot esperar o banco de dados
+    depends_on:
+      - db
+    # Mantém o container principal em execução
+    command: sleep infinity
+
+volumes:
+  postgres_data:

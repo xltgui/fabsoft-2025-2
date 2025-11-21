@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserModel } from '../model/user-model';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { C } from '@angular/cdk/keycodes';
+import { environment } from '../environments/environment';
 
 const TOKEN_KEY = 'jwtToken';
 const CURRENT_USER_KEY = "currentUser";
@@ -11,10 +12,9 @@ const CURRENT_USER_KEY = "currentUser";
   providedIn: 'root'
 })
 export class UserService {
-  usersUrl = 'http://localhost:8080/users'
-  authUrl = 'http://localhost:8080/auth'
-
   
+  usersUrl = `/users`;
+  authUrl = `/auth`;
   
   private currentUserSubject = new BehaviorSubject<UserModel | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();

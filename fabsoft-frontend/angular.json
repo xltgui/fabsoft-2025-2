@@ -64,7 +64,8 @@
               "buildTarget": "fabsoft-frontend-aux:build:production"
             },
             "development": {
-              "buildTarget": "fabsoft-frontend-aux:build:development"
+              "buildTarget": "fabsoft-frontend-aux:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
