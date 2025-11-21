@@ -34,6 +34,6 @@ api:
 
 app:
   frontend:
-    base-url: https://vigilant-xylophone-gjp7qjjqw992w5rp-4200.preview.app.github.dev/
+    base-url: https://vigilant-xylophone-gjp7qjjqw992w5rp-4200.app.github.dev/
   backend:
     base-url: https://vigilant-xylophone-gjp7qjjqw992w5rp-8080.app.github.dev/
