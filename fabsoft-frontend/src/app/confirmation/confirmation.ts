@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MaterialSharedModule } from '../material-shared-module';
 import { Router } from '@angular/router';
 
@@ -8,11 +8,15 @@ import { Router } from '@angular/router';
   templateUrl: './confirmation.html',
   styleUrl: './confirmation.scss'
 })
-export class Confirmation {
+export class Confirmation implements OnInit{
 
   constructor(
     private router: Router
   ){}
+
+  ngOnInit(): void {
+    console.log("CONFIRMAÇÃO CARREGADA")
+  }
 
   navigateToLogin(){
     this.router.navigate(['users/login']);

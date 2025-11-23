@@ -11,7 +11,7 @@ export const routes: Routes = [
     {path: '', redirectTo: 'users/login', pathMatch: 'full'},
 
     {path: 'users/register', component: Register},
-    {path: 'users/register/confirmation-success', component: Confirmation},
+    {path: 'email-confirmed', component: Confirmation},
     {path: 'users/login', component: Login},
     {path: 'lobby', component: Lobby},
     {path: 'match/create', component: Match},
