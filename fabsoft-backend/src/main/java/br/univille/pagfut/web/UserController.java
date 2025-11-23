@@ -39,7 +39,7 @@ public class UserController {
     public ResponseEntity<Void> confirmRegistration(@RequestParam("token") String token){
         userService.confirmUser(token);
 
-        URI redirectUri = URI.create(frontendBaseUrl + "users/register/confirmation-success");
+        URI redirectUri = URI.create(frontendBaseUrl + "email-confirmed");
 
         return ResponseEntity.status(HttpStatus.SEE_OTHER)
                 .location(redirectUri)
